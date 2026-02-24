@@ -12,7 +12,7 @@ const appFeedbackSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Please add a message'],
         },
-        // We optionally link it to a User. If a guest submits a bug report, this remains null.
+        // Optionally linked to a User. If a guest submits a bug report, this remains null.
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
