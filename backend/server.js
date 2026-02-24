@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
+import avatarRoutes from "./routes/avatar.routes.js";
 import connectToDatabase from "./config/db.js";
 import config from "./config/index.js";
 
@@ -21,6 +22,9 @@ app.get("/", (req, res) => {
 
 // Mount the user routes
 app.use("/api/users", userRoutes);
+
+// Mount the AI avatar routes
+app.use("/api/avatar", avatarRoutes);
 
 // Start listening for requests
 app.listen(port, () => {
