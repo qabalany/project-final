@@ -3,5 +3,24 @@
   "version": "1.0.0",
   "scripts": {
     "postinstall": "npm install --prefix backend"
+  },
+  "description": "Replace this readme with your own information about your project.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qabalany/project-final.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qabalany/project-final/issues"
+  },
+  "homepage": "https://github.com/qabalany/project-final#readme",
+  "dependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/node": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
   }
 }
