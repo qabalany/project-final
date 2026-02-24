@@ -1,4 +1,5 @@
 import config from '../config/index.js';
+import Session from '../models/Session.model.js';
 import { extractProfession } from '../utils/openaiHelper.js';
 import { createLiveAvatarContext } from '../utils/liveAvatarHelper.js';
 
@@ -93,5 +94,61 @@ export const createSession = async (req, res) => {
     } catch (error) {
         console.error('❌ Create session error:', error.message);
         res.status(500).json({ error: 'Failed to create avatar session', details: error.message });
+    }
+};
+
+// POST /api/avatar/stop-session
+// This endpoint is hit when the user clicks "End Call" on the frontend.
+// It gracefully terminates the LiveAvatar stream and permanently logs the session to MongoDB.
+export const stopSession = async (req, res) => {
+    try {
+        const { sessionToken, userId, avatarId, durationInSeconds } = req.body;
+
+        // 1. Validate the required security token
+        if (!sessionToken) {
+            return res.status(400).json({ error: 'Session token is required to stop the stream.' });
+        }
+
+        console.log('⏹️ Telling LiveAvatar to terminate the stream...');
+
+        // 2. Send the stop command to the LiveAvatar servers
+        const stopRes = await fetch(`${LIVEAVATAR_API}/sessions/stop`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${sessionToken}`,
+                accept: 'application/json',
+            },
+        });
+
+        if (!stopRes.ok) {
+            const errBody = await stopRes.text();
+            console.error('Session stop failed:', stopRes.status, errBody);
+            throw new Error(`Failed to stop session: ${stopRes.status}`);
+        }
+
+        const data = await stopRes.json();
+        console.log('✅ Session successfully stopped and video stream terminated.');
+
+        // 3. Log the history to our database for analytics later
+        // We use a try/catch here because even if the database logging fails, 
+        // the video stream was successfully stopped, and we shouldn't throw a fatal 500 error to the user.
+        try {
+            if (userId && avatarId) {
+                const sessionDoc = await Session.create({
+                    user: userId,
+                    avatarId: avatarId,
+                    durationInSeconds: durationInSeconds || 0,
+                    liveAvatarSessionId: "frontend_controlled", // Usually, the frontend parses the actual ID and sends it
+                });
+                console.log('📊 Session successfully logged to MongoDB:', sessionDoc._id);
+            }
+        } catch (logErr) {
+            console.error('⚠️ Warning: Failed to log session history to MongoDB (non-fatal):', logErr.message);
+        }
+
+        res.json(data);
+    } catch (error) {
+        console.error('❌ Stop session fatal error:', error.message);
+        res.status(500).json({ error: 'Failed to explicitly stop avatar session', details: error.message });
     }
 };
