@@ -223,3 +223,91 @@ export const sendOutro = async (req, res) => {
         res.status(500).json({ error: 'Failed to send outro', details: error.message });
     }
 };
+
+// POST /api/avatar/analyze-session
+// This endpoint is called immediately after a session stops.
+// It sends the full conversation transcript to OpenAI to assess the user's CEFR level
+// and compile a list of their grammatical mistakes with corrections.
+export const analyzeSession = async (req, res) => {
+    try {
+        const { transcripts, userId } = req.body;
+
+        if (!transcripts || !Array.isArray(transcripts) || transcripts.length === 0) {
+            return res.status(400).json({ error: 'Transcripts are required for analysis.' });
+        }
+
+        // 1. Format transcripts for GPT 
+        // We join the array into a single readable string like "user: Hello \n avatar: Hi there"
+        const conversationText = transcripts.map(t => `${t.role}: ${t.text}`).join('\n');
+
+        // 2. Define the strict assessment rubric
+        const systemPrompt = `You are an expert English language assessor. Review the following conversation between a user and an AI English coach.
+Your task is to:
+1. Determine the user's English proficiency level (A1, A2, B1, B2, C1, or C2) based on their responses.
+2. Identify specific language mistakes the user made. Provide the exact error and a correction.
+3. Give brief overall feedback on their performance in Arabic.
+
+You MUST respond ONLY in valid JSON format matching this exact structure:
+{
+  "level": "B1",
+  "feedback": "نصائح عامة عن أداء المستخدم...",
+  "mistakes": [
+    { "error": "what the user said incorrectly", "correction": "how to correctly say it" }
+  ]
+}`;
+
+        console.log('🤖 Analyzing session with GPT...');
+        const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${config.openaiApiKey}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                // Forcing the model to return specifically formatted JSON instead of raw text
+                response_format: { type: "json_object" },
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: `Here is the conversation:\n\n${conversationText}` }
+                ],
+                // Low temperature ensures the JSON structure remains perfectly strictly formatted
+                temperature: 0.2,
+            }),
+        });
+
+        if (!gptRes.ok) {
+            const errBody = await gptRes.text();
+            console.error('GPT analysis failed:', gptRes.status, errBody);
+            throw new Error('Failed to analyze session with AI');
+        }
+
+        const gptData = await gptRes.json();
+        const analysisString = gptData.choices[0].message.content;
+
+        // 3. Parse the JSON result returned by OpenAI
+        const analysisResult = JSON.parse(analysisString);
+        console.log('✅ Session analysis complete:', analysisResult.level);
+
+        // 4. Update the most recent session document for this user with their graded CEFR level
+        if (userId && analysisResult.level) {
+            try {
+                // Find the latest session and update it with the grade
+                await Session.findOneAndUpdate(
+                    { user: userId },
+                    { cefrLevel: analysisResult.level },
+                    { sort: { createdAt: -1 } }
+                );
+                console.log('📊 Session CEFR level updated:', analysisResult.level);
+            } catch (updateErr) {
+                console.error('⚠️ Failed to update session CEFR (non-blocking):', updateErr.message);
+            }
+        }
+
+        // Return the detailed analysis back to the frontend to display on the results screen
+        res.json(analysisResult);
+    } catch (error) {
+        console.error('❌ Analyze session error:', error.message);
+        res.status(500).json({ error: 'Failed to analyze session', details: error.message });
+    }
+};

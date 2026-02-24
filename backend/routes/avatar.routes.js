@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSession, stopSession, sendOutro } from '../controllers/avatar.controller.js';
+import { createSession, stopSession, sendOutro, analyzeSession } from '../controllers/avatar.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
@@ -15,5 +15,9 @@ router.post('/stop-session', protect, stopSession);
 // The frontend makes a POST request here automatically 10 seconds before the 5-minute timer ends.
 // It interrupts the avatar and forces it to say a polite goodbye.
 router.post('/send-outro', protect, sendOutro);
+
+// The frontend makes a POST request here after the session has fully ended.
+// It sends the entire transcript to OpenAI to assess the user's English level.
+router.post('/analyze-session', protect, analyzeSession);
 
 export default router;
