@@ -2,9 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
-import User from "./models/User.model.js";
-import { registerUser, loginUser } from "./controllers/user.controller.js";
+import userRoutes from "./routes/user.routes.js";
 
 // load environment variables so mongo URL stays secret
 dotenv.config();
@@ -36,12 +34,8 @@ app.get("/", (req, res) => {
   res.send("Hello World! My backend is running.");
 });
 
-// User Registration Endpoint
-// The logic for these endpoints has been extracted into controllers/user.controller.js for better organization.
-app.post("/api/users/register", registerUser);
-
-// --- User Login Endpoint ---
-app.post("/api/users/login", loginUser);
+// Mount the user routes
+app.use("/api/users", userRoutes);
 
 // Start listening for requests
 app.listen(port, () => {
