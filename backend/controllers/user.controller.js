@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
 import config from "../config/index.js";
+import { OAuth2Client } from "google-auth-library";
 
 // @desc    Register a new user
 // @route   POST /api/users/register
@@ -97,5 +98,61 @@ export const getUserProfile = async (req, res) => {
         });
     } else {
         res.status(404).json({ message: "User not found" });
+    }
+};
+
+// @desc    Authenticate user via Google Login
+// @route   POST /api/users/google-login
+// @access  Public
+export const googleLogin = async (req, res) => {
+    const { credential, clientId } = req.body;
+
+    try {
+        // 1. Verify the Google token using the Google Auth Library
+        const client = new OAuth2Client(clientId);
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: clientId,
+        });
+
+        const payload = ticket.getPayload();
+        const { email, name, sub: googleId } = payload;
+
+        // 2. Check if the user already exists in our database
+        let user = await User.findOne({ email });
+
+        if (user) {
+            // 3a. If they exist but don't have a googleId, link it now
+            if (!user.googleId) {
+                user.googleId = googleId;
+                await user.save();
+            }
+        } else {
+            // 3b. If they don't exist, automatically register them
+            user = await User.create({
+                name,
+                email,
+                googleId,
+                // Since they used Google, we generate a random dummy password to satisfy the model
+                password: Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8),
+            });
+        }
+
+        // 4. Generate our own JWT for session management
+        const token = jwt.sign({ id: user._id }, config.jwtSecret, {
+            expiresIn: "30d",
+        });
+
+        // 5. Return success response
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: token,
+        });
+    } catch (error) {
+        console.error("Google login error:", error);
+        res.status(401).json({ message: "Invalid Google token" });
     }
 };
