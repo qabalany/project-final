@@ -1,17 +1,13 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import userRoutes from "./routes/user.routes.js";
 import connectToDatabase from "./config/db.js";
-
-// load environment variables so mongo URL stays secret
-dotenv.config();
+import config from "./config/index.js";
 
 // Call connection function
 connectToDatabase();
 
-const port = process.env.PORT || 8080;
+const port = config.port;
 const app = express();
 
 // Set up basic middleware for JSON and CORS

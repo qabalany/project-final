@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
+import config from "../config/index.js";
 
 // Middleware to protect routes by verifying the JSON Web Token (JWT)
 export const protect = async (req, res, next) => {
@@ -17,7 +18,7 @@ export const protect = async (req, res, next) => {
             // Verify the token using the secret key
             const decoded = jwt.verify(
                 token,
-                process.env.JWT_SECRET || "fallback_secret"
+                config.jwtSecret
             );
 
             // Fetch the user from the database and attach it to the request object (excluding the password)

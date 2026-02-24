@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import config from "./index.js";
 
 // Establish connection to the MongoDB database
 const connectToDatabase = async () => {
     try {
-        const connection = await mongoose.connect(process.env.MONGO_URI);
+        const connection = await mongoose.connect(config.mongoUri);
         console.log(`Database connected: ${connection.connection.host}`);
     } catch (error) {
         console.error(`Database connection failed: ${error.message}`);

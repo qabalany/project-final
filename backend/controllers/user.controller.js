@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
+import config from "../config/index.js";
 
 // @desc    Register a new user
 // @route   POST /api/users/register
@@ -25,7 +26,7 @@ export const registerUser = async (req, res) => {
 
         if (user) {
             // 3. Generate a JWT token for the session
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'fallback_secret', {
+            const token = jwt.sign({ id: user._id }, config.jwtSecret, {
                 expiresIn: "30d",
             });
 
@@ -59,7 +60,7 @@ export const loginUser = async (req, res) => {
         // 2. Verify user exists and password is correct
         if (user && (await user.matchPassword(password))) {
             // 3. Generate JWT token
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'fallback_secret', {
+            const token = jwt.sign({ id: user._id }, config.jwtSecret, {
                 expiresIn: "30d",
             });
 
