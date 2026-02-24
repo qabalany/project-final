@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSession, stopSession } from '../controllers/avatar.controller.js';
+import { createSession, stopSession, sendOutro } from '../controllers/avatar.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
@@ -11,5 +11,9 @@ router.post('/create-session', protect, createSession);
 // The frontend makes a POST request here when the user clicks 'End Call'
 // This forcefully stops the LiveAvatar billing cycle for this session and saves the duration.
 router.post('/stop-session', protect, stopSession);
+
+// The frontend makes a POST request here automatically 10 seconds before the 5-minute timer ends.
+// It interrupts the avatar and forces it to say a polite goodbye.
+router.post('/send-outro', protect, sendOutro);
 
 export default router;
