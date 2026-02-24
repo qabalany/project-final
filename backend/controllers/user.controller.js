@@ -79,3 +79,22 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ message: "Server error during login" });
     }
 };
+
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+export const getUserProfile = async (req, res) => {
+    // req.user is supplied by the auth middleware
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        });
+    } else {
+        res.status(404).json({ message: "User not found" });
+    }
+};
