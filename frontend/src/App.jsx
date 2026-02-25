@@ -4,11 +4,11 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import OnboardingRoute from './components/OnboardingRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
+import Login from './pages/Login.jsx';
 import './App.css';
 
 // Placeholder Pages for routing layout
 const Home = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Logah Frontend is running!</h1><p>Home Dashboard (Protected)</p></div>;
-const Login = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Login</h1></div>;
 const MotherTongue = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Mother Tongue Setup</h1></div>;
 const AdminDashboard = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Admin Dashboard</h1></div>;
 
