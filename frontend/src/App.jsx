@@ -1,10 +1,61 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
+import OnboardingRoute from './components/OnboardingRoute.jsx';
+import AdminRoute from './components/AdminRoute.jsx';
+import './App.css';
+
+// Placeholder Pages for routing layout
+const Home = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Logah Frontend is running!</h1><p>Home Dashboard (Protected)</p></div>;
+const Login = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Login</h1></div>;
+const MotherTongue = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Mother Tongue Setup</h1></div>;
+const AdminDashboard = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Admin Dashboard</h1></div>;
+
 function App() {
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>Logah Frontend is running!</h1>
-      <p>This is the clean React boilerplate.</p>
-    </div>
-  )
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Public / Auth Routes */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Onboarding Routes */}
+          <Route
+            path="/mother-tongue"
+            element={
+              <OnboardingRoute>
+                <MotherTongue />
+              </OnboardingRoute>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+
+          {/* Protected Main Routes */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
