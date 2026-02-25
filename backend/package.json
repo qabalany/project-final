@@ -4,7 +4,8 @@
   "description": "Server part of final project",
   "scripts": {
     "start": "babel-node server.js",
-    "dev": "nodemon server.js --exec babel-node"
+    "dev": "nodemon server.js --exec babel-node",
+    "seed:feedback": "babel-node scripts/seedFeedback.js"
   },
   "author": "",
   "license": "ISC",
