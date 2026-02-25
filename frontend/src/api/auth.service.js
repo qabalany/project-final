@@ -1,6 +1,6 @@
 import client from "./client";
 
-// Centralized authentication service
+export const API_URL = 'http://localhost:8080/api';
 // Extracts axios calls from components for reuse
 
 // Send registration data to backend

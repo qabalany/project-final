@@ -7,11 +7,10 @@ import AdminRoute from './components/AdminRoute.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import GoogleAuthCallback from './pages/GoogleAuthCallback.jsx';
-import './App.css';
+import MotherTongue from './pages/MotherTongue.jsx';
 
 // Placeholder Pages for routing layout
 const Home = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Logah Frontend is running!</h1><p>Home Dashboard (Protected)</p></div>;
-const MotherTongue = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Mother Tongue Setup</h1></div>;
 const AdminDashboard = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Admin Dashboard</h1></div>;
 
 function App() {

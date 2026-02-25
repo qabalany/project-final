@@ -1,9 +1,17 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import authService from "../api/auth.service";
 import client from "../api/client";
 
-// Create the context so other components can access authentication data
 export const AuthContext = createContext();
+
+// Custom hook to use the auth context
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};
 
 // This component wraps our app and provides the auth state to everything inside it
 export const AuthProvider = ({ children }) => {
