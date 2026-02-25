@@ -5,6 +5,7 @@ import PrivateRoute from './components/PrivateRoute.jsx';
 import OnboardingRoute from './components/OnboardingRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
 import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
 import './App.css';
 
 // Placeholder Pages for routing layout
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           {/* Public / Auth Routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Onboarding Routes */}
           <Route
