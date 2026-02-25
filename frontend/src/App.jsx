@@ -6,6 +6,7 @@ import OnboardingRoute from './components/OnboardingRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
+import GoogleAuthCallback from './pages/GoogleAuthCallback.jsx';
 import './App.css';
 
 // Placeholder Pages for routing layout
@@ -21,6 +22,9 @@ function App() {
           {/* Public / Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          {/* OAuth Callback */}
+          <Route path="/api/users/google/callback" element={<GoogleAuthCallback />} />
 
           {/* Onboarding Routes */}
           <Route

@@ -18,7 +18,8 @@ const Register = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    // Carousel auto-advance
+    // 2. CAROUSEL STATE
+    // useCallback prevents this slide timer from being destroyed and recreated every re-render
     const startAutoAdvance = useCallback(() => {
         if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
         autoAdvanceRef.current = setInterval(() => {
@@ -59,6 +60,7 @@ const Register = () => {
             newErrors.password = 'كلمة السر يجب أن تكون 6 أحرف على الأقل';
         }
 
+        // IMPORTANT: We block submission if the terms and conditions checkbox isn't checked
         if (!termsAccepted) {
             newErrors.terms = 'يجب الموافقة على الشروط والأحكام';
         }
@@ -68,6 +70,7 @@ const Register = () => {
             return;
         }
 
+        // If validation passed, let's call the Express backend
         setLoading(true);
         try {
             const userData = await registerService({ name: formData.email.split('@')[0], ...formData });
@@ -132,20 +135,23 @@ const Register = () => {
                 </div>
             </section>
 
-            {/* Form Section */}
+            {/* --- FORM SECTION --- */}
             <section className="flex-1 flex flex-col items-start justify-center p-5 sm:p-[40px_20px] lg:p-[40px_60px] w-full max-w-[450px] lg:max-w-[512px] mx-auto gap-[35px]">
                 <div className="flex flex-col gap-[2px]">
                     <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0" dir="rtl">إنشاء حساب</h1>
                     <p className="text-[#858597] font-normal text-[15px] m-0">أدخل بياناتك أدناه وأنشئ حسابًا مجانًا</p>
                 </div>
 
+                {/* Global errors (like "Email already in use") appear here */}
                 {errors.general && <div role="alert" className="bg-[#fee] text-[#c33] p-3 rounded-lg text-center border border-[#fcc] w-full text-[14px]">
                     {errors.general}
                 </div>}
 
+                {/* noValidate turns off default browser popups so we can use our custom Arabic error alerts */}
                 <form onSubmit={handleSubmit} noValidate className="flex flex-col items-center gap-10 w-full">
                     <div className="flex flex-col gap-6 w-full">
-                        {/* Email */}
+
+                        {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
                             <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
                                 البريد الألكتروني
@@ -202,7 +208,7 @@ const Register = () => {
                         </div>
                     </div>
 
-                    {/* Actions */}
+                    {/* --- ACTIONS & SUBMISSIONS --- */}
                     <div className="flex flex-col items-center gap-4 w-full">
                         <button
                             type="submit"
@@ -215,9 +221,12 @@ const Register = () => {
                             </span>
                         </button>
 
-                        {/* Terms */}
+                        {/* --- TERMS AND CONDITIONS CHECKBOX --- */}
                         <div className="flex items-center justify-start w-full">
+                            {/* The <label> explicitly wraps the checkbox AND the text, making the ENTIRE row clickable */}
                             <label className="flex items-center gap-[12px] cursor-pointer select-none group" htmlFor="terms-cb">
+                                {/* The actual <input> is hidden using Tailwind `absolute opacity-0 w-0 h-0` 
+                                    BUT it is not "display: none". This means it still exists mathematically for screen readers and tab-targeting! */}
                                 <input
                                     type="checkbox"
                                     id="terms-cb"
@@ -230,6 +239,8 @@ const Register = () => {
                                     aria-invalid={errors.terms ? 'true' : 'false'}
                                     aria-describedby={errors.terms ? "termsError" : undefined}
                                 />
+
+                                {/* This div acts as the "visual fake" checkbox that we style perfectly with Tailwind */}
                                 <div className={`w-[22px] h-[22px] border-2 rounded-[6px] flex items-center justify-center transition-all duration-200 ease shrink-0 group-hover:border-[#2F80ED] ${termsAccepted ? 'bg-[#2F80ED] border-[#2F80ED]' : 'bg-transparent border-[#b8b8d2]'}`} aria-hidden="true">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={`w-[14px] h-[14px] text-white transition-all duration-200 ${termsAccepted ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
                                         <polyline points="20 6 9 17 4 12"></polyline>

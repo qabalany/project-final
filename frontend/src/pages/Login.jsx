@@ -8,21 +8,35 @@ const DEMO_PASSWORD = 'Logah2030';
 const API_URL = 'http://localhost:8080/api'; // Or use your config
 
 const Login = () => {
+    // 1. STATE MANAGEMENT
+    // We use useState to hold the form input values. We group them into one object.
     const [formData, setFormData] = useState({ email: '', password: '' });
+    // This state holds any validation errors (like "Email is required")
     const [errors, setErrors] = useState({});
+    // Disables buttons and shows a loading spinner while the API is talking to the backend
     const [loading, setLoading] = useState(false);
+    // Toggles whether the password input type is "password" (hidden) or "text" (visible)
     const [showPassword, setShowPassword] = useState(false);
+
+    // 2. CAROUSEL STATE
+    // Tracks which image is currently showing (0, 1, or 2)
     const [currentSlide, setCurrentSlide] = useState(0);
     const totalSlides = 3;
+    // useRef allows us to store the timer ID without causing the component to re-render
     const autoAdvanceRef = useRef(null);
 
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    // Carousel auto-advance
+    // Carousel auto-advance logic
+    // useCallback prevents this function from being recreated every single time the component re-renders
     const startAutoAdvance = useCallback(() => {
+        // Clear any existing timer before starting a new one to prevent double-speed sliding
         if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
+
+        // Set a timer to change the slide every 5000ms (5 seconds)
         autoAdvanceRef.current = setInterval(() => {
+            // (prev + 1) % totalSlides ensures it loops back to 0 after hitting 2
             setCurrentSlide((prev) => (prev + 1) % totalSlides);
         }, 5000);
     }, [totalSlides]);
@@ -32,13 +46,17 @@ const Login = () => {
         return () => clearInterval(autoAdvanceRef.current);
     }, [startAutoAdvance]);
 
+    // When the user clicks a specific dot, stop the auto-timer, move to that slide, and restart the timer
     const goToSlide = (index) => {
         setCurrentSlide(index);
         startAutoAdvance();
     };
 
+    // 3. EVENT HANDLERS
+    // This function automatically updates formData whenever the user types in an input field
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        // If they start typing, automatically clear the error for that specific field
         if (errors[e.target.name]) {
             setErrors({ ...errors, [e.target.name]: '' });
         }
@@ -67,22 +85,31 @@ const Login = () => {
             return;
         }
 
+        // If no errors, prevent multiple clicks and send the API request
         setLoading(true);
         try {
+            // Send the request to our Express backend
             const userData = await loginService(formData);
+
+            // Save the token and user data to localStorage (handled inside AuthContext)
             login(userData);
+
+            // 5. ROLE-BASED REDIRECTION
             // Admin users → admin dashboard
             if (userData.role === 'admin') {
                 navigate('/admin/dashboard');
-                // Demo users and new users → start onboarding
+                // Demo users and new users who haven't finished setup → start onboarding
             } else if (userData.onboardingCompleted === false) {
                 navigate('/mother-tongue');
+                // Returning regular users → main app
             } else {
                 navigate('/');
             }
         } catch (err) {
+            // If the backend sends an error (like "Invalid password"), display it globally
             setErrors({ general: err.response?.data?.message || 'حدث خطأ أثناء تسجيل الدخول' });
         } finally {
+            // Always turn off the loading spinner, even if it failed
             setLoading(false);
         }
     };
@@ -121,11 +148,16 @@ const Login = () => {
     ];
 
     return (
+        // <main> is a semantic HTML tag. It helps screen readers identify the primary purpose of this page.
+        // Tailwind Notes: 'flex-col lg:flex-row' makes it stack vertically on phones, but side-by-side on desktops (lg screens).
         <main className="flex w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
-            {/* Carousel Section */}
+
+            {/* --- CAROUSEL SECTION --- */}
+            {/* aria-label ensures screen readers hear "ميزات التطبيق" when focusing on this section */}
             <section aria-label="ميزات التطبيق" className="hidden lg:block w-full max-w-[500px] xl:max-w-[616px] h-[700px] xl:h-[816px] lg:mt-16 lg:mr-[60px] xl:mr-[104px] rounded-[30px] overflow-hidden relative shrink-0">
                 <div className="w-full h-full overflow-hidden relative">
                     <div
+                        // transition-transform makes the slides glide smoothly instead of snapping instantly
                         className="flex w-[300%] h-full transition-transform duration-500 ease-in-out"
                         style={{ transform: `translateX(${currentSlide * (100 / totalSlides)}%)` }}
                     >
@@ -154,21 +186,27 @@ const Login = () => {
                 </div>
             </section>
 
-            {/* Form Section */}
+            {/* --- FORM SECTION --- */}
             <section className="flex-1 flex flex-col items-start justify-center p-5 sm:p-[40px_20px] lg:p-[40px_60px] w-full max-w-[450px] lg:max-w-[512px] mx-auto gap-[35px]">
                 <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0" dir="rtl">تسجيل الدخول</h1>
 
+                {/* LIGHTHOUSE ACCESSIBILITY: role="alert" guarantees the screen reader will interrupt its reading to announce this error. */}
                 {errors.general && <div role="alert" className="bg-[#fee] text-[#c33] p-3 rounded-lg text-center border border-[#fcc] w-full text-[14px]">
                     {errors.general}
                 </div>}
 
+                {/* noValidate turns off default browser popups so we can show our own custom Arabic error text */}
                 <form onSubmit={handleSubmit} noValidate className="flex flex-col items-center gap-10 w-full">
                     <div className="flex flex-col gap-6 w-full">
-                        {/* Email */}
+
+                        {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
+                            {/* LIGHTHOUSE ACCESSIBILITY: htmlFor literally binds this text to the input with id="emailInput" */}
                             <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
                                 البريد الألكتروني
                             </label>
+
+                            {/* Tailwind Notes: focus-within colors the entire border blue if the user clicks *anywhere* inside this div */}
                             <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border focus-within:border-[#2994f9] ${errors.email ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
                                 <input
                                     id="emailInput"
@@ -179,14 +217,17 @@ const Login = () => {
                                     placeholder="example@email.com"
                                     className="flex-1 border-none bg-transparent h-full px-4 font-sans font-normal text-[#1b0444] text-[14px] outline-none text-right placeholder-gray-400"
                                     dir="ltr"
+                                    // LIGHTHOUSE ACCESSIBILITY: Tells the screen reader the input is currently rejected
                                     aria-invalid={errors.email ? 'true' : 'false'}
+                                    // LIGHTHOUSE ACCESSIBILITY: Tells the screen reader to also read the text inside id="emailError"
                                     aria-describedby={errors.email ? "emailError" : undefined}
                                 />
                             </div>
+                            {/* This is the span targeted by aria-describedby above */}
                             {errors.email && <span id="emailError" className="text-[12px] text-[#ff4444] min-h-[18px]" dir="rtl" role="alert">{errors.email}</span>}
                         </div>
 
-                        {/* Password */}
+                        {/* --- PASSWORD INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
                             <label htmlFor="passwordInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
                                 كلمة السر
@@ -194,6 +235,7 @@ const Login = () => {
                             <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
                                 <input
                                     id="passwordInput"
+                                    // Dynamically toggle between hidden dots or plain text
                                     type={showPassword ? 'text' : 'password'}
                                     name="password"
                                     value={formData.password}
@@ -204,12 +246,16 @@ const Login = () => {
                                     aria-invalid={errors.password ? 'true' : 'false'}
                                     aria-describedby={errors.password ? "passwordError" : undefined}
                                 />
+
+                                {/* LIGHTHOUSE ACCESSIBILITY: Screen readers would just say "button" without this aria-label because there is no text inside it! */}
                                 <button
                                     type="button"
                                     className="bg-transparent border-none cursor-pointer p-1 flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
                                     onClick={() => setShowPassword(!showPassword)}
+                                    // Dynamic ARIA label based on state
                                     aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
                                 >
+                                    {/* aria-hidden="true" tells the screen reader to completely ignore this graphic */}
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                                         <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="#858597" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                         <circle cx="10" cy="10" r="2.5" stroke="#858597" strokeWidth="1.5" />
