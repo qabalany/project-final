@@ -402,13 +402,17 @@ const AvatarSession = () => {
                             <div className="px-5 py-4 border-b border-white/10 text-[14px] font-semibold text-white/60 uppercase tracking-wide bg-[#0a0f1c]/50">
                                 <span>المحادثة</span>
                             </div>
-                            <div className="px-5 py-4 overflow-y-auto flex-1 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                            <div className="px-5 py-4 overflow-y-auto flex-1 flex flex-col gap-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent pr-2 sm:pr-3">
                                 {transcripts.map((t, i) => (
-                                    <div key={i} className="flex flex-col gap-2 bg-white/5 px-4 py-3 rounded-xl border border-white/5 relative">
+                                    <div
+                                        key={i}
+                                        className={`flex flex-col gap-2 rounded-2xl border relative ${t.role === 'user' ? 'bg-[#31d4ed]/10 border-[#31d4ed]/20' : 'bg-white/5 border-white/10'}`}
+                                        style={{ padding: '16px 20px' }}
+                                    >
                                         <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
                                             {t.role === 'user' ? 'أنت' : avatarName}
                                         </span>
-                                        <p className="text-[15px] leading-relaxed text-white/90 m-0" dir="ltr">{t.text}</p>
+                                        <p className="text-[15px] sm:text-[16px] leading-relaxed text-white/95 m-0" dir="ltr">{t.text}</p>
                                     </div>
                                 ))}
                                 <div ref={transcriptsEndRef} />
