@@ -318,32 +318,6 @@ const AvatarSession = () => {
     }, [timeLeft, status, sessionData, handleEndCall, triggerOutro]);
 
     // -- Renders --
-    if (status === 'error') {
-        return (
-            <div className="w-full h-screen bg-[#0a0f1c] flex flex-col items-center justify-center font-sans" dir="rtl">
-                <div className="bg-red-500/10 p-8 rounded-3xl border border-red-500/20 max-w-md text-center">
-                    <h2 className="text-red-400 text-xl font-bold mb-4">{errorMsg}</h2>
-                    <button onClick={() => navigate('/')} className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl transition-colors font-medium border border-white/10">العودة للرئيسية</button>
-                </div>
-            </div>
-        );
-    }
-
-    if (status === 'connecting') {
-        return (
-            <div className="w-full h-screen bg-[#0a0f1c] flex flex-col items-center justify-center font-sans" dir="rtl">
-                <div className="w-24 h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-                        <path d="M21 3v5h-5" />
-                    </svg>
-                </div>
-                <h2 className="text-white/90 text-2xl font-bold mb-2 tracking-wide">جاري تهيئة الجلسة...</h2>
-                <p className="text-white/50 text-lg">يرجى الانتظار بينما نقوم بتحضير المعلم الذكي الخاص بك</p>
-            </div>
-        );
-    }
-
     return (
         <div className="w-full h-screen bg-[#0a0f1c] flex flex-col font-sans" dir="rtl">
             {/* Top Bar */}
@@ -370,7 +344,43 @@ const AvatarSession = () => {
                 <div className="w-full max-w-6xl h-full bg-[#131b2f] rounded-[24px] sm:rounded-[32px] border border-white/5 shadow-2xl overflow-hidden relative flex flex-col items-center justify-center">
 
                     {/* The Video Element */}
-                    <video ref={videoRef} className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoConnected ? 'opacity-100' : 'opacity-0 absolute'}`} autoPlay playsInline muted />
+                    <video ref={videoRef} className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoConnected && status === 'active' ? 'opacity-100' : 'opacity-0 absolute'}`} autoPlay playsInline muted />
+
+                    {/* Overlays */}
+                    {status === 'connecting' && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0f1c]/90 backdrop-blur-sm z-40">
+                            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                                    <path d="M21 3v5h-5" />
+                                </svg>
+                            </div>
+                            <h2 className="text-white/90 text-xl sm:text-2xl font-bold mb-2 tracking-wide">جاري تهيئة الجلسة...</h2>
+                            <p className="text-white/50 text-sm sm:text-base px-6 text-center">يرجى الانتظار بينما نقوم بتحضير المعلم الذكي الخاص بك</p>
+                        </div>
+                    )}
+
+                    {status === 'error' && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0f1c]/95 backdrop-blur-md z-40">
+                            <div className="bg-red-500/10 p-6 sm:p-8 rounded-3xl border border-red-500/20 max-w-sm w-full mx-4 text-center shadow-2xl">
+                                <h2 className="text-red-400 text-xl font-bold mb-4">{errorMsg}</h2>
+                                <button onClick={() => navigate('/')} className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl transition-colors font-medium border border-white/10 w-full">العودة للرئيسية</button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Waiting for Video Stream Overlay */}
+                    {!isVideoConnected && status === 'active' && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0f1c]/60 backdrop-blur-sm z-30">
+                            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4z" />
+                                    <rect x="3" y="6" width="12" height="12" rx="2" stroke="rgba(255,255,255,0.3)" />
+                                </svg>
+                            </div>
+                            <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">في انتظار بث الفيديو الذكي...</p>
+                        </div>
+                    )}
 
                     {/* Avatar name badge */}
                     {avatarName && status === 'active' && (
@@ -387,18 +397,6 @@ const AvatarSession = () => {
                         </div>
                     )}
 
-                    {!isVideoConnected && (
-                        <>
-                            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
-                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4z" />
-                                    <rect x="3" y="6" width="12" height="12" rx="2" stroke="rgba(255,255,255,0.3)" />
-                                </svg>
-                            </div>
-                            <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">في انتظار بث الفيديو الذكي...</p>
-                        </>
-                    )}
-
                     {transcripts.length > 0 && (
                         <div className="absolute top-16 sm:top-20 right-4 sm:right-6 md:auto md:left-6 md:right-auto md:w-[380px] max-h-[200px] md:max-h-[280px] bg-[#1b0444]/85 backdrop-blur-xl border border-[#31d4ed]/20 rounded-2xl overflow-hidden z-25 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                             <div className="px-5 py-4 border-b border-white/10 text-[14px] font-semibold text-white/60 uppercase tracking-wide bg-[#0a0f1c]/50">
@@ -406,7 +404,7 @@ const AvatarSession = () => {
                             </div>
                             <div className="px-5 py-4 overflow-y-auto flex-1 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
                                 {transcripts.map((t, i) => (
-                                    <div key={i} className="flex flex-col gap-1.5 bg-white/5 p-3.5 rounded-xl border border-white/5">
+                                    <div key={i} className="flex flex-col gap-2 bg-white/5 px-4 py-3 rounded-xl border border-white/5 relative">
                                         <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
                                             {t.role === 'user' ? 'أنت' : avatarName}
                                         </span>
