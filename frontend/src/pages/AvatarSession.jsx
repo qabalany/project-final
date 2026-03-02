@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const AvatarSession = () => {
     const navigate = useNavigate();
     const [isMuted, setIsMuted] = useState(false);
-    const [isCameraOn, setIsCameraOn] = useState(false);
+    const [chatMessage, setChatMessage] = useState('');
 
     const handleEndCall = () => {
         // Placeholder for ending the call
@@ -46,25 +46,27 @@ const AvatarSession = () => {
                     </div>
                     <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">في انتظار بث الفيديو الذكي...</p>
 
-                    {/* PiP Local Camera Placeholder */}
-                    <div className="absolute top-4 left-4 sm:top-6 sm:left-6 w-[130px] h-[180px] sm:w-[160px] sm:h-[220px] md:w-[200px] md:h-[280px] bg-[#0a0f1c] rounded-2xl border border-white/10 shadow-xl overflow-hidden flex flex-col items-center justify-center z-20">
-                        {isCameraOn ? (
-                            <div className="text-[#2994f9]/50 text-xs font-medium px-4 text-center flex flex-col items-center gap-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-pulse">
-                                    <path d="M23 7l-7 5 7 5V7z"></path>
-                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                                </svg>
-                                <span>يتم التحميل...</span>
-                            </div>
-                        ) : (
-                            <div className="text-white/30 text-xs font-medium px-4 text-center flex flex-col items-center gap-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10"></path>
-                                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                                </svg>
-                                <span>الكاميرا مغلقة</span>
-                            </div>
-                        )}
+                    {/* Conversation Transcript Panel (Bottom Left) */}
+                    <div className="absolute bottom-6 sm:bottom-8 left-4 sm:left-6 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] h-[320px] bg-[#0a0f1c]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 z-20 flex flex-col gap-4 overflow-y-auto hidden sm:flex scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+
+                        {/* Placeholder Message: AI */}
+                        <div className="flex flex-col gap-1 w-full bg-white/10 rounded-2xl border border-white/5" style={{ padding: '12px 16px' }}>
+                            <span className="text-[11px] text-[#31d4ed] font-bold mb-1">المعلم الذكي</span>
+                            <p className="text-white/90 text-[14px] leading-relaxed">
+                                مرحباً بك! أنا هنا لمساعدتك في تعلم اللغة الإنجليزية. هل نستند إلى موضوع معين اليوم؟
+                            </p>
+                        </div>
+
+                        {/* Placeholder Message: User */}
+                        <div className="flex flex-col gap-1 w-full bg-[#2994f9]/15 rounded-2xl border border-[#2994f9]/30" style={{ padding: '12px 16px' }}>
+                            <span className="text-[11px] text-[#2994f9] font-bold mb-1">أنت</span>
+                            <p className="text-white/90 text-[14px] leading-relaxed">
+                                نعم، أريد التدرب على مقابلة عمل.
+                            </p>
+                        </div>
+
+                        {/* Empty space at bottom to ensure scrolling looks nice */}
+                        <div className="shrink-0 h-2"></div>
                     </div>
 
                     {/* Control Dock */}
@@ -82,18 +84,7 @@ const AvatarSession = () => {
                             )}
                         </button>
 
-                        {/* Camera Toggle */}
-                        <button
-                            onClick={() => setIsCameraOn(!isCameraOn)}
-                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all ${!isCameraOn ? 'bg-red-500/20 text-red-500 border border-red-500/30' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                            title={!isCameraOn ? "تشغيل الكاميرا" : "إيقاف الكاميرا"}
-                        >
-                            {!isCameraOn ? (
-                                <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                            ) : (
-                                <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                            )}
-                        </button>
+
 
                         {/* End Call */}
                         <button
