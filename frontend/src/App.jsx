@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import OnboardingRoute from './components/OnboardingRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
+import ProtectedLayout from './components/ProtectedLayout.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import GoogleAuthCallback from './pages/GoogleAuthCallback.jsx';
@@ -14,9 +15,9 @@ import Personalised from './pages/Personalised.jsx';
 import AvatarSession from './pages/AvatarSession.jsx';
 import SessionReview from './pages/SessionReview.jsx';
 import Feedback from './pages/Feedback.jsx';
+import Home from './pages/Home.jsx';
 
 // Placeholder Pages for routing layout
-const Home = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Logah Frontend is running!</h1><p>Home Dashboard (Protected)</p></div>;
 const AdminDashboard = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Admin Dashboard</h1></div>;
 
 function App() {
@@ -100,14 +101,10 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
+
+          <Route element={<PrivateRoute><ProtectedLayout /></PrivateRoute>}>
+            <Route path="/" element={<Home />} />
+          </Route>
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" />} />

@@ -106,65 +106,75 @@ const SessionReview = () => {
 
     return (
         <div className="flex flex-col items-center w-full min-h-screen bg-[#f3f4f8] text-[#1b0444] pb-12 font-sans tracking-tight relative" dir="rtl">
-            <header className="flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 border-b border-[#f3f4f8] shadow-sm sticky top-0 z-50">
-                <div className="flex items-center gap-4 w-1/3"></div>
+            <header className="flex w-full pt-6 pb-2 bg-transparent items-center justify-between shrink-0 sticky top-0 z-50 px-6">
+                <div className="flex items-center gap-2 w-1/3 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
+                    <img src="/favicon.svg" alt="Logah" className="w-[30px] h-[30px]" />
+                    <span className="font-bold text-lg text-[#232360] font-sans">Logah</span>
+                </div>
 
-                <div className="flex flex-col items-center justify-center w-1/3 gap-1">
-                    <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                        <img src="/favicon.svg" alt="Logah Icon" className="w-[24px] h-[24px]" aria-hidden="true" />
-                        <span className="font-bold text-[20px] text-[#1b0444]">Logah</span>
-                    </div>
-                    <div className="w-full max-w-[150px] h-1.5 bg-[#f3f4f8] rounded-full overflow-hidden mt-1">
+                <div className="flex flex-col items-center justify-center w-full max-w-[200px] mx-auto">
+                    <span className="text-sm font-bold text-[#858597] mb-2">جاري استخراج النتيجة...</span>
+                    <div className="w-full h-2 bg-white rounded-full overflow-hidden shadow-sm border border-[#e5e7eb]">
                         <div className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] transition-all duration-500" style={{ width: '50%' }}></div>
                     </div>
                 </div>
 
                 <div className="flex items-center justify-end w-1/3">
-                    <button className="bg-transparent border-none text-[#858597] text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
+                    <button className="flex items-center gap-2 bg-transparent border-none text-[#858597] text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
                         إغلاق
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                     </button>
                 </div>
             </header>
 
-            <main className="flex-1 flex flex-col items-center w-full max-w-[800px] mx-auto mt-12 px-4 sm:px-6 md:px-8">
-                <h1 className="text-[2rem] font-extrabold mb-10 text-[#1b0444] tracking-wide text-center w-full">تقرير مستوى التحدث</h1>
+            <main className="flex-1 flex flex-col items-center w-full max-w-[800px] mx-auto mt-6 px-4 sm:px-6 md:px-8">
+                <h1 className="text-[2rem] font-extrabold mb-3 text-[#1b0444] tracking-wide text-center w-full">تقرير مستوى التحدث</h1>
 
-                <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full justify-center">
-                    <div className="bg-gradient-to-br from-[#31d4ed] to-[#2994f9] rounded-3xl p-8 text-white text-center shadow-[0_8px_30px_rgba(41,148,249,0.15)] flex flex-col items-center justify-center shrink-0 sm:w-[280px]">
+                <div className="flex flex-col sm:flex-row gap-4 mb-2 w-full justify-center">
+                    <div className="bg-gradient-to-br from-[#31d4ed] to-[#2994f9] rounded-3xl p-6 text-white text-center shadow-[0_8px_30px_rgba(41,148,249,0.15)] flex flex-col items-center justify-center shrink-0 sm:w-[280px]">
                         <div className="bg-white/20 border-2 border-white/30 backdrop-blur-md w-24 h-24 rounded-full flex items-center justify-center text-4xl font-extrabold mb-5 shadow-inner">{result.level}</div>
                         <h3 className="text-lg text-white/90 mb-2 font-medium">مستواك المتوقع</h3>
                         <p className="text-2xl font-bold tracking-wide">{levelTitle}</p>
                     </div>
 
-                    <div className="bg-white rounded-[30px] p-6 sm:p-8 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] flex flex-col justify-center flex-1 relative">
-                        <h3 className="text-xl text-[#1b0444] font-bold mb-4 flex items-center gap-2 before:content-['💡']">التقييم العام</h3>
+                    <div className="bg-white rounded-[30px] p-6 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] flex flex-col justify-center flex-1 relative gap-4">
+                        <div className="flex items-center gap-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></svg>
+                            <h3 className="text-xl text-[#1b0444] font-bold m-0">التقييم العام</h3>
+                        </div>
                         <p className="text-[#858597] leading-relaxed text-[17px] tracking-wide text-center sm:text-right">{result.feedback}</p>
                     </div>
                 </div>
 
                 {result.level === "-" ? (
-                    <div className="bg-white rounded-[30px] py-12 px-6 sm:px-8 text-center shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] mt-8 w-full relative">
-                        <span className="text-6xl block mb-6">🤐</span>
+                    <div className="bg-white rounded-[30px] py-6 px-6 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] mt-4 w-full relative flex flex-col items-center justify-center">
+                        <div className="w-[80px] h-[80px] rounded-full bg-[#f4f3fd] flex items-center justify-center mb-6 text-[#858597]">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="2" y1="2" x2="22" y2="22" /><path d="M18.89 13.23A7.12 7.12 0 0 0 19 12v-2" /><path d="M5 10v2a7 7 0 0 0 12 5l-1.5 1.5a5 5 0 0 1-9-5v-2" /><path d="M16 16l1.5-1.5C18.4 13.5 19 12.8 19 12v-2c0-1.5-.5-2.6-1.3-3.3" /><line x1="12" y1="19" x2="12" y2="22" /><line x1="8" y1="22" x2="16" y2="22" /><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /></svg>
+                        </div>
                         <h3 className="text-2xl text-[#1b0444] font-bold mb-3 tracking-wide">لم نستمع لحديثك!</h3>
                         <p className="text-[#858597] text-lg leading-relaxed max-w-xl mx-auto tracking-wide">يبدو أنك لم تتحدث خلال هذه الجلسة، لذلك لا توجد كلمات أو أخطاء لتقييمها. حاول التحدث أكثر في المرة القادمة!</p>
                     </div>
                 ) : result.mistakes && result.mistakes.length > 0 ? (
-                    <div className="mt-8 w-full">
-                        <h2 className="text-2xl font-bold text-[#1b0444] mb-8 tracking-wider text-center">أخطاء يمكنك تحسينها</h2>
-                        <div className="flex flex-col gap-6 w-full">
+                    <div className="mt-4 w-full">
+                        <h2 className="text-2xl font-bold text-[#1b0444] mb-6 tracking-wider text-center">أخطاء يمكنك تحسينها</h2>
+                        <div className="flex flex-col gap-4 w-full">
                             {result.mistakes.map((mistake, idx) => (
-                                <div key={idx} className="bg-white rounded-[30px] p-6 sm:p-8 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] relative overflow-hidden w-full">
+                                <div key={idx} className="bg-white rounded-[30px] p-6 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] relative overflow-hidden w-full">
                                     <div className="absolute top-0 right-0 w-1.5 h-full bg-gradient-to-b from-[#ff6b6b] to-[#ff8e8e]"></div>
                                     <div className="flex items-start gap-4">
-                                        <span className="bg-red-50 text-red-500 rounded-2xl w-12 h-12 flex items-center justify-center shrink-0 text-xl shadow-sm border border-red-100">❌</span>
+                                        <span className="bg-red-50 text-red-500 rounded-full w-12 h-12 flex items-center justify-center shrink-0 shadow-sm border border-red-100">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        </span>
                                         <div className="flex-1 pt-1 overflow-hidden">
                                             <span className="text-red-500 font-bold text-[15px] mb-2 block tracking-wider">قلت:</span>
                                             <p className="text-xl text-[#1b0444] font-medium leading-relaxed break-words" dir="ltr">{mistake.error}</p>
                                         </div>
                                     </div>
-                                    <div className="h-[1px] bg-[#f3f4f8] my-6 ml-0 mr-16"></div>
+                                    <div className="h-[1px] bg-[#f3f4f8] my-4 ml-0 mr-16"></div>
                                     <div className="flex items-start gap-4">
-                                        <span className="bg-emerald-50 text-emerald-500 rounded-2xl w-12 h-12 flex items-center justify-center shrink-0 text-xl shadow-sm border border-emerald-100">✅</span>
+                                        <span className="bg-emerald-50 text-emerald-500 rounded-full w-12 h-12 flex items-center justify-center shrink-0 shadow-sm border border-emerald-100">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        </span>
                                         <div className="flex-1 pt-1 overflow-hidden">
                                             <span className="text-emerald-500 font-bold text-[15px] mb-2 block tracking-wider">الأفضل أن تقول:</span>
                                             <p className="text-xl text-[#1b0444] font-medium leading-relaxed break-words" dir="ltr">{mistake.correction}</p>
@@ -175,15 +185,17 @@ const SessionReview = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-[30px] py-12 px-6 sm:px-8 text-center shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] mt-8 w-full relative">
-                        <span className="text-6xl block mb-6">🌟</span>
+                    <div className="bg-white rounded-[30px] py-6 px-6 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] mt-4 w-full relative flex flex-col items-center justify-center">
+                        <div className="w-[80px] h-[80px] rounded-full bg-yellow-50 flex items-center justify-center mb-6 text-yellow-500 border border-yellow-100">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                        </div>
                         <h3 className="text-2xl text-[#1b0444] font-bold mb-3 tracking-wide">عمل رائع!</h3>
                         <p className="text-[#858597] text-lg">لم يتم رصد أخطاء مؤثرة في حديثك خلال هذه الجلسة.</p>
                     </div>
                 )}
 
-                <div className="mt-12 w-full flex justify-center">
-                    <button className="bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white border-none rounded-2xl py-4 flex items-center justify-center gap-3 px-10 text-[1.1rem] font-bold cursor-pointer transition-all duration-300 shadow-[0_8px_20px_rgba(41,148,249,0.3)] hover:shadow-[0_12px_25px_rgba(41,148,249,0.4)] hover:-translate-y-1 w-full max-w-[300px]" onClick={() => navigate('/feedback')}>
+                <div className="mt-4 w-full flex justify-center">
+                    <button className="bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white border-none rounded-2xl py-4 flex items-center justify-center gap-3 px-10 text-[1.1rem] font-bold cursor-pointer transition-all duration-300 shadow-[0_8px_20px_rgba(41,148,249,0.3)] hover:shadow-[0_12px_25px_rgba(41,148,249,0.4)] hover:-translate-y-1 w-full" onClick={() => navigate('/feedback')}>
                         التالي لتقييم المنصة
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotate-180"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </button>
