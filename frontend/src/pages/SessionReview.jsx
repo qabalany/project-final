@@ -172,15 +172,9 @@ const SessionReview = () => {
                 )}
 
                 <div className="mt-12 flex justify-center">
-                    {isOnboarding ? (
-                        <button className="bg-[#2994f9] text-white border-none rounded-2xl py-4 px-10 text-lg font-bold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(41,148,249,0.3)] hover:bg-[#2482DB] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(41,148,249,0.3)] w-full max-w-md" onClick={() => navigate('/feedback')}>
-                            التالي لتقييم المنصة
-                        </button>
-                    ) : (
-                        <button className="bg-[#2994f9] text-white border-none rounded-2xl py-4 px-10 text-lg font-bold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(41,148,249,0.3)] hover:bg-[#2482DB] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(41,148,249,0.3)] w-full max-w-md" onClick={() => navigate('/')}>
-                            العودة للرئيسية
-                        </button>
-                    )}
+                    <button className="bg-[#2994f9] text-white border-none rounded-2xl py-4 px-10 text-lg font-bold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(41,148,249,0.3)] hover:bg-[#2482DB] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(41,148,249,0.3)] w-full max-w-md" onClick={() => navigate('/feedback')}>
+                        التالي لتقييم المنصة
+                    </button>
                 </div>
             </main>
         </div>

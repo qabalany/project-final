@@ -13,6 +13,7 @@ import Avatar from './pages/Avatar.jsx';
 import Personalised from './pages/Personalised.jsx';
 import AvatarSession from './pages/AvatarSession.jsx';
 import SessionReview from './pages/SessionReview.jsx';
+import Feedback from './pages/Feedback.jsx';
 
 // Placeholder Pages for routing layout
 const Home = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Logah Frontend is running!</h1><p>Home Dashboard (Protected)</p></div>;
@@ -88,6 +89,14 @@ function App() {
             element={
               <PrivateRoute>
                 <SessionReview />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <PrivateRoute>
+                <Feedback />
               </PrivateRoute>
             }
           />
