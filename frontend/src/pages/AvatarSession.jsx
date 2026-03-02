@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LiveKitRoom, RoomAudioRenderer, useLocalParticipant } from '@livekit/components-react';
 
-const AvatarSession = () => {
-    const navigate = useNavigate();
-    const [isMuted, setIsMuted] = useState(false);
-    const [chatMessage, setChatMessage] = useState('');
+const SessionUI = ({ handleEndCall }) => {
+    // The useLocalParticipant hook must be used inside the LiveKitRoom context
+    const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
 
-    const handleEndCall = () => {
-        // Placeholder for ending the call
-        navigate('/');
+    const toggleMic = () => {
+        if (localParticipant) {
+            localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled);
+        } else {
+            console.warn("LiveKit not connected to a room yet.");
+        }
     };
 
     return (
@@ -73,18 +76,16 @@ const AvatarSession = () => {
                     <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-6 bg-[#0a0f1c]/80 backdrop-blur-xl px-5 py-3 sm:px-8 sm:py-4 rounded-[20px] sm:rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] z-30">
                         {/* Mic Toggle */}
                         <button
-                            onClick={() => setIsMuted(!isMuted)}
-                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all ${isMuted ? 'bg-red-500/20 text-red-500 border border-red-500/30' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                            title={isMuted ? "إلغاء كتم الصوت" : "كتم الصوت"}
+                            onClick={toggleMic}
+                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all ${!isMicrophoneEnabled ? 'bg-red-500/20 text-red-500 border border-red-500/30' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                            title={!isMicrophoneEnabled ? "إلغاء كتم الصوت" : "كتم الصوت"}
                         >
-                            {isMuted ? (
+                            {!isMicrophoneEnabled ? (
                                 <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
                             ) : (
                                 <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
                             )}
                         </button>
-
-
 
                         {/* End Call */}
                         <button
@@ -99,6 +100,31 @@ const AvatarSession = () => {
                 </div>
             </div>
         </div>
+    );
+};
+
+const AvatarSession = () => {
+    const navigate = useNavigate();
+
+    // We will get these from backend later
+    const serverUrl = "wss://placeholder.livekit.cloud";
+    const token = "";
+
+    const handleEndCall = () => {
+        navigate('/');
+    };
+
+    return (
+        <LiveKitRoom
+            video={false}
+            audio={true}
+            token={token}
+            serverUrl={serverUrl}
+            connect={false} // don't connect yet since token is dummy
+        >
+            <SessionUI handleEndCall={handleEndCall} />
+            <RoomAudioRenderer />
+        </LiveKitRoom>
     );
 };
 
