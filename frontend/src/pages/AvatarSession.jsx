@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LiveKitRoom, RoomAudioRenderer, useLocalParticipant, useTracks, VideoTrack } from '@livekit/components-react';
 import { Track } from 'livekit-client';
+import avatarService from '../api/avatar.service';
+import { AuthContext } from '../context/AuthContext';
 
 const SessionUI = ({ handleEndCall }) => {
     // The useLocalParticipant hook must be used inside the LiveKitRoom context
@@ -11,17 +13,26 @@ const SessionUI = ({ handleEndCall }) => {
     const initialTime = 60; // 1 minute for testing purposes
     const [timeLeft, setTimeLeft] = useState(initialTime);
     const [isClosing, setIsClosing] = useState(false);
+    const sessionTokenRef = useRef(null); // to avoid passing token everywhere
 
     useEffect(() => {
+        // If the token is available from the parent, store it in ref
+        const currentToken = localStorage.getItem('active_session_token');
+        if (currentToken) sessionTokenRef.current = currentToken;
+
         if (timeLeft <= 0) {
-            handleEndCall();
+            handleEndCall(sessionTokenRef.current, initialTime - timeLeft);
             return;
         }
 
         if (timeLeft === 10 && !isClosing) {
             setIsClosing(true);
-            // In Commit 46, we will trigger the backend /send-outro here
             console.log("Triggering auto-outro as we have 10 seconds left...");
+            if (sessionTokenRef.current) {
+                avatarService.sendOutro(sessionTokenRef.current).catch(err => {
+                    console.error("Failed to send outro:", err);
+                });
+            }
         }
 
         const timer = setInterval(() => {
@@ -69,16 +80,16 @@ const SessionUI = ({ handleEndCall }) => {
 
                 {/* Dynamic Timer Pill */}
                 <div className={`flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-sm border transition-colors ${isClosing ? 'bg-red-500/20 border-red-500/50' :
-                        timeLeft <= 30 ? 'bg-orange-500/20 border-orange-500/50' :
-                            'bg-white/5 border-white/10'
+                    timeLeft <= 30 ? 'bg-orange-500/20 border-orange-500/50' :
+                        'bg-white/5 border-white/10'
                     }`}>
                     <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isClosing ? 'bg-red-500' :
-                            timeLeft <= 30 ? 'bg-orange-500' :
-                                'bg-emerald-500'
+                        timeLeft <= 30 ? 'bg-orange-500' :
+                            'bg-emerald-500'
                         }`}></div>
                     <span className={`text-sm font-medium tabular-nums tracking-wider ${isClosing ? 'text-red-400' :
-                            timeLeft <= 30 ? 'text-orange-400' :
-                                'text-white/90'
+                        timeLeft <= 30 ? 'text-orange-400' :
+                            'text-white/90'
                         }`}>
                         {formatTime(timeLeft)}
                     </span>
@@ -166,24 +177,98 @@ const SessionUI = ({ handleEndCall }) => {
 
 const AvatarSession = () => {
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
 
-    // We will get these from backend later
-    const serverUrl = "wss://placeholder.livekit.cloud";
-    const token = "";
+    const [sessionData, setSessionData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const handleEndCall = () => {
+    // Initialization Effect
+    useEffect(() => {
+        const initializeSession = async () => {
+            try {
+                // Get the user's choices from onboarding
+                const avatarId = localStorage.getItem('selectedAvatar') || 'ula';
+                const profession = localStorage.getItem('userProfession') || 'General Conversation';
+
+                const data = await avatarService.createSession(avatarId, profession);
+
+                // Save the token to local storage so the child component can grab it easily for the outro
+                localStorage.setItem('active_session_token', data.session_token);
+                setSessionData(data);
+                setIsLoading(false);
+            } catch (err) {
+                console.error("Failed to initialize session:", err);
+                setError("عذراً، حدث خطأ أثناء الاتصال بالمعلم الذكي. يرجى المحاولة مرة أخرى.");
+                setIsLoading(false);
+            }
+        };
+
+        initializeSession();
+    }, []);
+
+    const handleEndCall = async (tokenOverride = null, durationInSeconds = 0) => {
+        // We use the passed token from the timer, or grab it from state if manually clicked
+        const activeToken = tokenOverride || (sessionData ? sessionData.session_token : null);
+        const avatarId = localStorage.getItem('selectedAvatar') || 'ula';
+        const userId = user ? user._id : null;
+
+        if (activeToken) {
+            try {
+                console.log("Telling backend to stop the session...");
+                await avatarService.stopSession(activeToken, userId, avatarId, durationInSeconds);
+            } catch (err) {
+                console.error("Failed to gracefully stop session:", err);
+            }
+        }
+
+        localStorage.removeItem('active_session_token');
         navigate('/');
     };
+
+    if (isLoading) {
+        return (
+            <div className="w-full h-screen bg-[#0a0f1c] flex flex-col items-center justify-center font-sans" dir="rtl">
+                <div className="w-24 h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                        <path d="M21 3v5h-5" />
+                    </svg>
+                </div>
+                <h2 className="text-white/90 text-2xl font-bold mb-2 tracking-wide">جاري تهيئة الجلسة...</h2>
+                <p className="text-white/50 text-lg">يرجى الانتظار بينما نقوم بتحضير المعلم الذكي الخاص بك</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="w-full h-screen bg-[#0a0f1c] flex flex-col items-center justify-center font-sans" dir="rtl">
+                <div className="bg-red-500/10 p-8 rounded-3xl border border-red-500/20 max-w-md text-center">
+                    <h2 className="text-red-400 text-xl font-bold mb-4">{error}</h2>
+                    <button
+                        onClick={() => navigate('/')}
+                        className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl transition-colors font-medium border border-white/10"
+                    >
+                        العودة للرئيسية
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // The backend ALWAYS dictates to use wss://ws.liveavatar.com
+    const serverUrl = "wss://ws.liveavatar.com";
 
     return (
         <LiveKitRoom
             video={false}
             audio={true}
-            token={token}
+            token={sessionData.session_token}
             serverUrl={serverUrl}
-            connect={false} // don't connect yet since token is dummy
+            connect={true}
         >
-            <SessionUI handleEndCall={handleEndCall} />
+            <SessionUI handleEndCall={() => handleEndCall(sessionData.session_token, 60)} />
             <RoomAudioRenderer />
         </LiveKitRoom>
     );
