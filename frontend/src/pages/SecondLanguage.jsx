@@ -42,7 +42,7 @@ const SecondLanguage = () => {
     return (
         // The <main> landmark signals the primary content area to screen readers
         <main className="w-full min-h-screen flex flex-col bg-white font-cairo" dir="rtl">
-            <OnboardingHeader />
+            <OnboardingHeader currentStep={2} />
 
             {/* The <section> groups the target language selection area.
                 aria-labelledby links the section to the h1 for contextual screen reader announcements */}

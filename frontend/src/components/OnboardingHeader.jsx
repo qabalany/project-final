@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const OnboardingHeader = ({ step = 1, totalSteps = 4, onBack }) => {
+const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack }) => {
     const [showModal, setShowModal] = useState(false);
     const { user, completeOnboarding } = useAuth();
     const navigate = useNavigate();
 
     // Calculate progress percentage for the bar
-    const progressPercentage = (step / totalSteps) * 100;
+    const progressPercentage = (currentStep / totalSteps) * 100;
 
     const handleSkip = async () => {
         // If they are a demo user testing the app, just mock the onboarding completion
@@ -64,7 +64,7 @@ const OnboardingHeader = ({ step = 1, totalSteps = 4, onBack }) => {
                         aria-valuenow={progressPercentage}
                         aria-valuemin="0"
                         aria-valuemax="100"
-                        aria-label={`الخطوة ${step} من ${totalSteps}`}
+                        aria-label={`الخطوة ${currentStep} من ${totalSteps}`}
                     >
                         <div
                             className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] rounded-full transition-all duration-500 ease-out"
