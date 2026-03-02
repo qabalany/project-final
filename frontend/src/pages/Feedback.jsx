@@ -48,11 +48,20 @@ const Feedback = () => {
     if (submitted) {
         return (
             <div className="flex flex-col min-h-screen bg-[#f3f4f8] font-sans" dir="rtl">
-                <header className="absolute top-0 flex w-full h-[60px] bg-white items-center px-4 shrink-0 border-b border-[#f3f4f8]">
-                    <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                        <img src="/favicon.svg" alt="Logah Icon" className="w-[28px] h-[28px]" aria-hidden="true" />
-                        <span className="font-bold text-[22px] text-[#1b0444]">Logah</span>
+                <header className="absolute top-0 flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 border-b border-[#f3f4f8]">
+                    {/* Left side */}
+                    <div className="flex items-center gap-4 w-1/3"></div>
+
+                    {/* Center: Logo */}
+                    <div className="flex flex-col items-center justify-center w-1/3 gap-1">
+                        <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
+                            <img src="/favicon.svg" alt="Logah Icon" className="w-[24px] h-[24px]" aria-hidden="true" />
+                            <span className="font-bold text-[20px] text-[#1b0444]">Logah</span>
+                        </div>
                     </div>
+
+                    {/* Right side */}
+                    <div className="flex items-center justify-end w-1/3"></div>
                 </header>
                 <div className="flex-1 flex items-center justify-center w-full mt-[60px]">
                     <div className="bg-white p-10 rounded-3xl shadow-[0_20px_40px_rgba(49,212,237,0.08)] w-full max-w-[400px] text-center border-t-4 border-[#31d4ed] relative mx-4">
@@ -67,11 +76,20 @@ const Feedback = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-[#f3f4f8] font-sans items-center justify-center relative" dir="rtl">
-            <header className="absolute top-0 flex w-full h-[60px] bg-white items-center px-4 shrink-0 shadow-sm border-b border-[#f3f4f8]">
-                <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                    <img src="/favicon.svg" alt="Logah Icon" className="w-[28px] h-[28px]" aria-hidden="true" />
-                    <span className="font-bold text-[22px] text-[#1b0444]">Logah</span>
+            <header className="absolute top-0 flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 shadow-sm border-b border-[#f3f4f8]">
+                {/* Left side (empty spacer) */}
+                <div className="flex items-center gap-4 w-1/3"></div>
+
+                {/* Center: Logo */}
+                <div className="flex flex-col items-center justify-center w-1/3 gap-1">
+                    <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
+                        <img src="/favicon.svg" alt="Logah Icon" className="w-[24px] h-[24px]" aria-hidden="true" />
+                        <span className="font-bold text-[20px] text-[#1b0444]">Logah</span>
+                    </div>
                 </div>
+
+                {/* Right side (empty spacer) */}
+                <div className="flex items-center justify-end w-1/3"></div>
             </header>
 
             <main className="w-full max-w-[600px] mx-auto px-4 mt-[80px] mb-8 z-10 flex flex-col items-center">

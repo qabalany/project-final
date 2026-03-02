@@ -1,0 +1,53 @@
+
+> project-final-backend@1.0.0 dev
+> nodemon server.js --exec babel-node
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `babel-node server.js`[39m
+[dotenv@17.3.1] injecting env (16) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Server is up and running on http://localhost:8080
+Database connected: localhost
+Login error: Error: Illegal arguments: undefined, string
+    at _async (C:\Users\qabal\Documents\GitHub\project-final\backend\node_modules\bcryptjs\umd\index.js:305:15)
+    at C:\Users\qabal\Documents\GitHub\project-final\backend\node_modules\bcryptjs\umd\index.js:335:11
+    at new Promise (<anonymous>)
+    at Object.compare (C:\Users\qabal\Documents\GitHub\project-final\backend\node_modules\bcryptjs\umd\index.js:334:16)
+    at model.call (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:74:25)
+    at Generator._invoke (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at Generator.next (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at asyncGeneratorStep (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at _next (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1
+    at new Promise (<anonymous>)
+    at model.apply (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at model.matchPassword (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:75:2)
+    at call (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:62:33)
+    at Generator._invoke (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at Generator.next (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at asyncGeneratorStep (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at _next (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Login error: Error: Illegal arguments: undefined, string
+    at _async (C:\Users\qabal\Documents\GitHub\project-final\backend\node_modules\bcryptjs\umd\index.js:305:15)
+    at C:\Users\qabal\Documents\GitHub\project-final\backend\node_modules\bcryptjs\umd\index.js:335:11
+    at new Promise (<anonymous>)
+    at Object.compare (C:\Users\qabal\Documents\GitHub\project-final\backend\node_modules\bcryptjs\umd\index.js:334:16)
+    at model.call (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:74:25)
+    at Generator._invoke (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at Generator.next (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at asyncGeneratorStep (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at _next (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1
+    at new Promise (<anonymous>)
+    at model.apply (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:2:1)
+    at model.matchPassword (C:\Users\qabal\Documents\GitHub\project-final\backend\models\/User.model.js:75:2)
+    at call (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:62:33)
+    at Generator._invoke (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at Generator.next (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at asyncGeneratorStep (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at _next (C:\Users\qabal\Documents\GitHub\project-final\backend\controllers\/user.controller.js:2:1)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m

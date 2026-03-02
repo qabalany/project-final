@@ -105,59 +105,69 @@ const SessionReview = () => {
     const levelTitle = levelLabels[result.level] || result.level;
 
     return (
-        <div className="min-h-screen bg-[#f3f4f8] text-[#1b0444] pb-12 font-sans tracking-tight" dir="rtl">
-            <header className="bg-white text-[#1b0444] h-20 flex justify-between items-center px-[5%] shadow-sm border-b border-gray-100 sticky top-0 z-10">
-                <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                    <img src="/favicon.svg" alt="Logah Icon" className="w-[28px] h-[28px]" aria-hidden="true" />
-                    <span className="font-bold text-[22px] text-[#1b0444]">Logah</span>
+        <div className="flex flex-col items-center w-full min-h-screen bg-[#f3f4f8] text-[#1b0444] pb-12 font-sans tracking-tight relative" dir="rtl">
+            <header className="flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 border-b border-[#f3f4f8] shadow-sm sticky top-0 z-50">
+                <div className="flex items-center gap-4 w-1/3"></div>
+
+                <div className="flex flex-col items-center justify-center w-1/3 gap-1">
+                    <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
+                        <img src="/favicon.svg" alt="Logah Icon" className="w-[24px] h-[24px]" aria-hidden="true" />
+                        <span className="font-bold text-[20px] text-[#1b0444]">Logah</span>
+                    </div>
+                    <div className="w-full max-w-[150px] h-1.5 bg-[#f3f4f8] rounded-full overflow-hidden mt-1">
+                        <div className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] transition-all duration-500" style={{ width: '50%' }}></div>
+                    </div>
                 </div>
-                <button className="bg-transparent border-none text-[#858597] text-sm font-semibold cursor-pointer transition-colors duration-300 hover:text-red-500" onClick={() => navigate('/')}>
-                    إغلاق المراجعة
-                </button>
+
+                <div className="flex items-center justify-end w-1/3">
+                    <button className="bg-transparent border-none text-[#858597] text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
+                        إغلاق
+                    </button>
+                </div>
             </header>
 
-            <main className="max-w-4xl mx-auto mt-12 px-6">
-                <h1 className="text-3xl font-extrabold mb-10 text-[#1b0444] tracking-wider text-center">تقرير مستوى التحدث</h1>
+            <main className="flex-1 flex flex-col items-center w-full max-w-[800px] mx-auto mt-12 px-4 sm:px-6 md:px-8">
+                <h1 className="text-[2rem] font-extrabold mb-10 text-[#1b0444] tracking-wide text-center w-full">تقرير مستوى التحدث</h1>
 
-                <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6 mb-10">
-                    <div className="bg-gradient-to-br from-[#31d4ed] to-[#2994f9] rounded-3xl p-8 text-white text-center shadow-[0_8px_30px_rgba(41,148,249,0.15)] flex flex-col items-center justify-center">
+                <div className="flex flex-col sm:flex-row gap-6 mb-10 w-full justify-center">
+                    <div className="bg-gradient-to-br from-[#31d4ed] to-[#2994f9] rounded-3xl p-8 text-white text-center shadow-[0_8px_30px_rgba(41,148,249,0.15)] flex flex-col items-center justify-center shrink-0 sm:w-[280px]">
                         <div className="bg-white/20 border-2 border-white/30 backdrop-blur-md w-24 h-24 rounded-full flex items-center justify-center text-4xl font-extrabold mb-5 shadow-inner">{result.level}</div>
                         <h3 className="text-lg text-white/90 mb-2 font-medium">مستواك المتوقع</h3>
                         <p className="text-2xl font-bold tracking-wide">{levelTitle}</p>
                     </div>
 
-                    <div className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center">
+                    <div className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center flex-1">
                         <h3 className="text-xl text-[#1b0444] font-bold mb-4 flex items-center gap-2 before:content-['💡']">التقييم العام</h3>
-                        <p className="text-[#858597] leading-relaxed text-lg tracking-wide">{result.feedback}</p>
+                        <p className="text-[#858597] leading-relaxed text-[17px] tracking-wide text-center sm:text-right">{result.feedback}</p>
                     </div>
                 </div>
 
                 {result.level === "-" ? (
-                    <div className="bg-white rounded-3xl py-12 px-8 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mt-8">
+                    <div className="bg-white rounded-3xl py-12 px-8 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mt-8 w-full">
                         <span className="text-6xl block mb-6">🤐</span>
                         <h3 className="text-2xl text-[#1b0444] font-bold mb-3 tracking-wide">لم نستمع لحديثك!</h3>
                         <p className="text-[#858597] text-lg leading-relaxed max-w-xl mx-auto tracking-wide">يبدو أنك لم تتحدث خلال هذه الجلسة، لذلك لا توجد كلمات أو أخطاء لتقييمها. حاول التحدث أكثر في المرة القادمة!</p>
                     </div>
                 ) : result.mistakes && result.mistakes.length > 0 ? (
-                    <div className="mt-12">
-                        <h2 className="text-2xl font-bold text-[#1b0444] mb-6 tracking-wider">أخطاء يمكنك تحسينها</h2>
-                        <div className="flex flex-col gap-6">
+                    <div className="mt-8 w-full">
+                        <h2 className="text-2xl font-bold text-[#1b0444] mb-8 tracking-wider text-center">أخطاء يمكنك تحسينها</h2>
+                        <div className="flex flex-col gap-6 w-full">
                             {result.mistakes.map((mistake, idx) => (
-                                <div key={idx} className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden">
+                                <div key={idx} className="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden w-full">
                                     <div className="absolute top-0 right-0 w-1.5 h-full bg-gradient-to-b from-[#ff6b6b] to-[#ff8e8e]"></div>
                                     <div className="flex items-start gap-4">
                                         <span className="bg-red-50 text-red-500 rounded-2xl w-12 h-12 flex items-center justify-center shrink-0 text-xl shadow-sm border border-red-100">❌</span>
-                                        <div className="flex-1 pt-1">
-                                            <span className="text-red-500 font-bold text-sm mb-1 block tracking-wider">قلت:</span>
-                                            <p className="text-xl text-[#1b0444] font-medium leading-relaxed" dir="ltr">{mistake.error}</p>
+                                        <div className="flex-1 pt-1 overflow-hidden">
+                                            <span className="text-red-500 font-bold text-[15px] mb-2 block tracking-wider">قلت:</span>
+                                            <p className="text-xl text-[#1b0444] font-medium leading-relaxed break-words" dir="ltr">{mistake.error}</p>
                                         </div>
                                     </div>
-                                    <div className="h-[1px] bg-gray-100 my-5 ml-0 mr-16"></div>
+                                    <div className="h-[1px] bg-[#f3f4f8] my-6 ml-0 mr-16"></div>
                                     <div className="flex items-start gap-4">
                                         <span className="bg-emerald-50 text-emerald-500 rounded-2xl w-12 h-12 flex items-center justify-center shrink-0 text-xl shadow-sm border border-emerald-100">✅</span>
-                                        <div className="flex-1 pt-1">
-                                            <span className="text-emerald-500 font-bold text-sm mb-1 block tracking-wider">الأفضل أن تقول:</span>
-                                            <p className="text-xl text-[#1b0444] font-medium leading-relaxed" dir="ltr">{mistake.correction}</p>
+                                        <div className="flex-1 pt-1 overflow-hidden">
+                                            <span className="text-emerald-500 font-bold text-[15px] mb-2 block tracking-wider">الأفضل أن تقول:</span>
+                                            <p className="text-xl text-[#1b0444] font-medium leading-relaxed break-words" dir="ltr">{mistake.correction}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -165,15 +175,15 @@ const SessionReview = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-3xl py-12 px-8 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mt-8">
+                    <div className="bg-white rounded-3xl py-12 px-8 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mt-8 w-full">
                         <span className="text-6xl block mb-6">🌟</span>
                         <h3 className="text-2xl text-[#1b0444] font-bold mb-3 tracking-wide">عمل رائع!</h3>
                         <p className="text-[#858597] text-lg">لم يتم رصد أخطاء مؤثرة في حديثك خلال هذه الجلسة.</p>
                     </div>
                 )}
 
-                <div className="mt-12 flex justify-center">
-                    <button className="bg-[#2994f9] text-white border-none rounded-2xl py-4 flex items-center justify-center gap-2 px-10 text-lg font-bold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(41,148,249,0.3)] hover:bg-[#2482DB] hover:-translate-y-1 w-full max-w-md" onClick={() => navigate('/feedback')}>
+                <div className="mt-12 w-full flex justify-center">
+                    <button className="bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white border-none rounded-2xl py-4 flex items-center justify-center gap-3 px-10 text-[1.1rem] font-bold cursor-pointer transition-all duration-300 shadow-[0_8px_20px_rgba(41,148,249,0.3)] hover:shadow-[0_12px_25px_rgba(41,148,249,0.4)] hover:-translate-y-1 w-full max-w-[300px]" onClick={() => navigate('/feedback')}>
                         التالي لتقييم المنصة
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotate-180"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </button>
