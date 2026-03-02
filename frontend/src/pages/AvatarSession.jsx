@@ -223,7 +223,7 @@ const AvatarSession = () => {
         }
 
         localStorage.removeItem('active_session_token');
-        navigate('/');
+        navigate('/review', { state: { transcripts: [] } });
     };
 
     if (isLoading) {
