@@ -47,7 +47,7 @@ const Feedback = () => {
 
     if (submitted) {
         return (
-            <div className="flex flex-col min-h-screen bg-[#f3f4f8] font-sans" dir="rtl">
+            <div className="flex flex-col items-center min-h-screen bg-[#f3f4f8] font-sans" dir="rtl">
                 <header className="absolute top-0 flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 border-b border-[#f3f4f8]">
                     {/* Left side */}
                     <div className="flex items-center gap-4 w-1/3"></div>
@@ -75,8 +75,8 @@ const Feedback = () => {
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-[#f3f4f8] font-sans items-center justify-center relative" dir="rtl">
-            <header className="absolute top-0 flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 shadow-sm border-b border-[#f3f4f8]">
+        <div className="flex flex-col items-center min-h-screen bg-[#f3f4f8] font-sans relative" dir="rtl">
+            <header className="sticky top-0 z-50 flex w-full h-[70px] bg-white items-center justify-between px-6 lg:px-10 shrink-0 shadow-sm border-b border-[#f3f4f8]">
                 {/* Left side (empty spacer) */}
                 <div className="flex items-center gap-4 w-1/3"></div>
 
@@ -86,19 +86,22 @@ const Feedback = () => {
                         <img src="/favicon.svg" alt="Logah Icon" className="w-[24px] h-[24px]" aria-hidden="true" />
                         <span className="font-bold text-[20px] text-[#1b0444]">Logah</span>
                     </div>
+                    <div className="w-full max-w-[150px] h-1.5 bg-[#f3f4f8] rounded-full overflow-hidden mt-1">
+                        <div className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] transition-all duration-500 ease-out" style={{ width: `${(step / 7) * 100}%` }}></div>
+                    </div>
                 </div>
 
                 {/* Right side (empty spacer) */}
                 <div className="flex items-center justify-end w-1/3"></div>
             </header>
 
-            <main className="w-full max-w-[600px] mx-auto px-4 mt-[80px] mb-8 z-10 flex flex-col items-center">
+            <main className="flex-1 w-full max-w-[600px] mx-auto px-4 py-[60px] flex flex-col items-center">
                 <h1 className="text-[2rem] font-extrabold text-[#1b0444] mb-2 text-center tracking-wide">شاركنا رأيك</h1>
                 <p className="text-[#858597] mb-8 text-center text-lg">نحن مهتمون بمعرفة تجربتك لكي نطور من المنصة بشكل مستمر.</p>
 
-                <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] w-full border border-gray-100 relative overflow-hidden">
+                <div className="bg-white p-6 sm:p-10 rounded-[30px] shadow-[0_8px_20px_rgba(184,184,210,0.27)] w-full border border-[#f3f4f8] relative">
                     {step === 1 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#0a0f1c] mb-6 font-bold">1. لنتعرف عليك، ما هو الاسم؟</h3>
                             <input
                                 type="text"
@@ -111,13 +114,13 @@ const Feedback = () => {
                     )}
 
                     {step === 2 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#0a0f1c] mb-6 font-bold">2. ما مدى سهولة استخدام الواجهة؟</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {['سهل جداً', 'سهل لحد ما', 'محايد', 'صعب'].map(opt => (
                                     <button
                                         key={opt}
-                                        className={`p-4 rounded-xl text-base transition-all duration-200 text-right ${formData.easeOfUse === opt ? 'bg-[#f0f9ff] border-2 border-[#31D4ED] text-[#0a0f1c] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] border-2 border-[#d0c4eb] text-[#4b5563] font-semibold hover:bg-[#f8fcff] hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.easeOfUse === opt ? 'bg-[#f0f9ff] border-2 border-[#31D4ED] text-[#0a0f1c] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] border-2 border-[#d0c4eb] text-[#4b5563] font-semibold hover:bg-[#f8fcff] hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
                                         onClick={() => handleChange('easeOfUse', opt)}
                                     >
                                         {opt}
@@ -128,7 +131,7 @@ const Feedback = () => {
                     )}
 
                     {step === 3 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#0a0f1c] mb-6 font-bold">3. تقييمك لجودة وتصميم الموقع بشكل عام؟</h3>
                             <div className="w-full text-center" dir="ltr">
                                 <div className="flex justify-center gap-2 flex-row-reverse">
@@ -149,13 +152,13 @@ const Feedback = () => {
                     )}
 
                     {step === 4 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#0a0f1c] mb-6 font-bold">4. كيف تصف جودة جلسة المحادثة مع المدرب (السرعة والأداء)؟</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {['ممتازة', 'جيدة جداً', 'مقبولة', 'سيئة'].map(opt => (
                                     <button
                                         key={opt}
-                                        className={`p-4 rounded-xl text-base transition-all duration-200 text-right ${formData.sessionQuality === opt ? 'bg-[#f0f9ff] border-2 border-[#31D4ED] text-[#0a0f1c] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] border-2 border-[#d0c4eb] text-[#4b5563] font-semibold hover:bg-[#f8fcff] hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.sessionQuality === opt ? 'bg-[#f0f9ff] border-2 border-[#31D4ED] text-[#0a0f1c] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] border-2 border-[#d0c4eb] text-[#4b5563] font-semibold hover:bg-[#f8fcff] hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
                                         onClick={() => handleChange('sessionQuality', opt)}
                                     >
                                         {opt}
@@ -166,13 +169,13 @@ const Feedback = () => {
                     )}
 
                     {step === 5 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#0a0f1c] mb-6 font-bold">5. هل شعرت بالاستفادة من التقييم والمراجعة بعد الجلسة؟</h3>
                             <div className="grid grid-cols-1 gap-4">
                                 {['نعم، مفيد جداً', 'نعم، نوعاً ما', 'لا، لم استفد كثيراً'].map(opt => (
                                     <button
                                         key={opt}
-                                        className={`p-4 rounded-xl text-base transition-all duration-200 text-right ${formData.usefulness === opt ? 'bg-[#f0f9ff] border-2 border-[#31D4ED] text-[#0a0f1c] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] border-2 border-[#d0c4eb] text-[#4b5563] font-semibold hover:bg-[#f8fcff] hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.usefulness === opt ? 'bg-[#f0f9ff] border-2 border-[#31D4ED] text-[#0a0f1c] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] border-2 border-[#d0c4eb] text-[#4b5563] font-semibold hover:bg-[#f8fcff] hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
                                         onClick={() => handleChange('usefulness', opt)}
                                     >
                                         {opt}
@@ -183,13 +186,13 @@ const Feedback = () => {
                     )}
 
                     {step === 6 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#1b0444] mb-6 font-bold">6. هل ستقترح المنصة لأصدقائك لتعلم الإنجليزية؟</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {['بالتأكيد 🤩', 'ربما 🤔', 'لا اعتقد 😕'].map(opt => (
                                     <button
                                         key={opt}
-                                        className={`p-4 rounded-xl text-base transition-all duration-200 text-right ${formData.recommendation === opt ? 'bg-[#31d4ed]/10 border-2 border-[#31d4ed] text-[#1b0444] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f3f4f8] border-2 border-transparent text-[#858597] font-semibold hover:bg-[#eef2f6] hover:border-[#31d4ed]/50 hover:-translate-y-[2px]'}`}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.recommendation === opt ? 'bg-[#31d4ed]/10 border-2 border-[#31d4ed] text-[#1b0444] font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f3f4f8] border-2 border-transparent text-[#858597] font-semibold hover:bg-[#eef2f6] hover:border-[#31d4ed]/50 hover:-translate-y-[2px]'}`}
                                         onClick={() => handleChange('recommendation', opt)}
                                     >
                                         {opt}
@@ -200,7 +203,7 @@ const Feedback = () => {
                     )}
 
                     {step === 7 && (
-                        <div className="animate-[fade-in-up_0.4s_ease-out]">
+                        <div>
                             <h3 className="text-xl text-[#0a0f1c] mb-6 font-bold">7. هل لديك أي ملاحظات إضافية لتطوير المنصة؟</h3>
                             <textarea
                                 className="w-full h-[120px] p-4 border-2 border-[#d0c4eb] rounded-xl text-base outline-none transition-all duration-300 focus:border-[#31D4ED] focus:shadow-[0_0_0_4px_rgba(49,212,237,0.15)] resize-y bg-white text-[#0a0f1c]"
@@ -211,7 +214,7 @@ const Feedback = () => {
                         </div>
                     )}
 
-                    <div className="flex gap-4 mt-8 pt-6 border-t border-gray-100">
+                    <div className="flex gap-4 mt-8 pt-6 border-t border-gray-100 relative z-10">
                         {step > 1 && (
                             <button className="bg-[#f3f4f8] text-[#858597] border-none px-6 py-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#e2e4e9]" onClick={handlePrev}>السابق</button>
                         )}
@@ -235,25 +238,8 @@ const Feedback = () => {
                             </button>
                         )}
                     </div>
-
-                    <div className="absolute bottom-0 left-0 w-full h-1.5 bg-[#f3f4f8]">
-                        <div className="h-full bg-gradient-to-r from-[#31d4ed] to-[#2994f9] transition-all duration-500 ease" style={{ width: `${(step / 7) * 100}%` }}></div>
-                    </div>
                 </div>
             </main>
-
-            <style jsx>{`
-                @keyframes fade-in-up {
-                    from {
-                        opacity: 0;
-                        transform: translateY(10px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `}</style>
         </div>
     );
 };

@@ -129,21 +129,21 @@ const SessionReview = () => {
             <main className="flex-1 flex flex-col items-center w-full max-w-[800px] mx-auto mt-12 px-4 sm:px-6 md:px-8">
                 <h1 className="text-[2rem] font-extrabold mb-10 text-[#1b0444] tracking-wide text-center w-full">تقرير مستوى التحدث</h1>
 
-                <div className="flex flex-col sm:flex-row gap-6 mb-10 w-full justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full justify-center">
                     <div className="bg-gradient-to-br from-[#31d4ed] to-[#2994f9] rounded-3xl p-8 text-white text-center shadow-[0_8px_30px_rgba(41,148,249,0.15)] flex flex-col items-center justify-center shrink-0 sm:w-[280px]">
                         <div className="bg-white/20 border-2 border-white/30 backdrop-blur-md w-24 h-24 rounded-full flex items-center justify-center text-4xl font-extrabold mb-5 shadow-inner">{result.level}</div>
                         <h3 className="text-lg text-white/90 mb-2 font-medium">مستواك المتوقع</h3>
                         <p className="text-2xl font-bold tracking-wide">{levelTitle}</p>
                     </div>
 
-                    <div className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center flex-1">
+                    <div className="bg-white rounded-[30px] p-6 sm:p-8 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] flex flex-col justify-center flex-1 relative">
                         <h3 className="text-xl text-[#1b0444] font-bold mb-4 flex items-center gap-2 before:content-['💡']">التقييم العام</h3>
                         <p className="text-[#858597] leading-relaxed text-[17px] tracking-wide text-center sm:text-right">{result.feedback}</p>
                     </div>
                 </div>
 
                 {result.level === "-" ? (
-                    <div className="bg-white rounded-3xl py-12 px-8 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mt-8 w-full">
+                    <div className="bg-white rounded-[30px] py-12 px-6 sm:px-8 text-center shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] mt-8 w-full relative">
                         <span className="text-6xl block mb-6">🤐</span>
                         <h3 className="text-2xl text-[#1b0444] font-bold mb-3 tracking-wide">لم نستمع لحديثك!</h3>
                         <p className="text-[#858597] text-lg leading-relaxed max-w-xl mx-auto tracking-wide">يبدو أنك لم تتحدث خلال هذه الجلسة، لذلك لا توجد كلمات أو أخطاء لتقييمها. حاول التحدث أكثر في المرة القادمة!</p>
@@ -153,7 +153,7 @@ const SessionReview = () => {
                         <h2 className="text-2xl font-bold text-[#1b0444] mb-8 tracking-wider text-center">أخطاء يمكنك تحسينها</h2>
                         <div className="flex flex-col gap-6 w-full">
                             {result.mistakes.map((mistake, idx) => (
-                                <div key={idx} className="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden w-full">
+                                <div key={idx} className="bg-white rounded-[30px] p-6 sm:p-8 shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] relative overflow-hidden w-full">
                                     <div className="absolute top-0 right-0 w-1.5 h-full bg-gradient-to-b from-[#ff6b6b] to-[#ff8e8e]"></div>
                                     <div className="flex items-start gap-4">
                                         <span className="bg-red-50 text-red-500 rounded-2xl w-12 h-12 flex items-center justify-center shrink-0 text-xl shadow-sm border border-red-100">❌</span>
@@ -175,7 +175,7 @@ const SessionReview = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-3xl py-12 px-8 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 mt-8 w-full">
+                    <div className="bg-white rounded-[30px] py-12 px-6 sm:px-8 text-center shadow-[0_8px_20px_rgba(184,184,210,0.27)] border border-[#f3f4f8] mt-8 w-full relative">
                         <span className="text-6xl block mb-6">🌟</span>
                         <h3 className="text-2xl text-[#1b0444] font-bold mb-3 tracking-wide">عمل رائع!</h3>
                         <p className="text-[#858597] text-lg">لم يتم رصد أخطاء مؤثرة في حديثك خلال هذه الجلسة.</p>
