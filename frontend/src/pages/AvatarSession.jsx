@@ -13,6 +13,8 @@ const AvatarSession = () => {
     const [status, setStatus] = useState('connecting'); // connecting | active | error
     const [errorMsg, setErrorMsg] = useState('');
     const [transcripts, setTranscripts] = useState([]);
+    const [isOutro, setIsOutro] = useState(false);
+    const [avatarName, setAvatarName] = useState('المدرب');
 
     // Auto-scroll transcripts
     const transcriptsEndRef = useRef(null);
@@ -36,6 +38,11 @@ const AvatarSession = () => {
     const roomRef = useRef(null);
     const timerRef = useRef(null);
     const outroTriggeredRef = useRef(false);
+    const hasStartedRef = useRef(false);
+    const sessionIdRef = useRef(null);
+    const outroTimeoutRef = useRef(null);
+    const outroSpeakSentRef = useRef(false);
+    const outroAvatarStartedSpeakingRef = useRef(false);
 
     // Ending the call
     const handleEndCall = useCallback(async (tokenOverride = null, durationInSeconds = 0) => {
@@ -62,7 +69,7 @@ const AvatarSession = () => {
         }
         localStorage.removeItem('active_session_token');
         navigate('/review', { state: { transcripts } });
-    }, [sessionData, navigate, user]);
+    }, [sessionData, navigate, user, transcripts]);
 
     // Format MM:SS
     const formatTime = (seconds) => {
@@ -70,6 +77,62 @@ const AvatarSession = () => {
         const s = (seconds % 60).toString().padStart(2, '0');
         return `${m}:${s}`;
     };
+
+    // Trigger outro via DataChannel
+    const triggerOutro = useCallback(async (room) => {
+        console.log('🎬 Triggering outro...');
+        setIsOutro(true);
+        setIsClosing(true);
+
+        // Stop the countdown timer
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+
+        // Mute mic
+        try {
+            if (isMicrophoneEnabled) {
+                room.localParticipant.setMicrophoneEnabled(false);
+                setIsMicrophoneEnabled(false);
+            }
+        } catch (e) { }
+
+        const encoder = new TextEncoder();
+        const sid = sessionIdRef.current;
+
+        // Interrupt current speech
+        try {
+            const interruptCmd = encoder.encode(JSON.stringify({
+                event_type: 'avatar.interrupt',
+                session_id: sid,
+            }));
+            room.localParticipant.publishData(interruptCmd, { reliable: true, topic: 'agent-control' });
+            console.log('🛑 Interrupt command sent');
+        } catch (e) { }
+
+        // Wait a moment for pipeline to clear
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Send Outro Speech
+        try {
+            const speakCmd = encoder.encode(JSON.stringify({
+                event_type: 'avatar.speak_text',
+                session_id: sid,
+                text: "Great chatting with you! We'd love your quick feedback before you go. See you next time, bye!",
+            }));
+            room.localParticipant.publishData(speakCmd, { reliable: true, topic: 'agent-control' });
+            outroSpeakSentRef.current = true;
+            console.log('✅ Sent speak_text command via DataChannel');
+        } catch (e) {
+            outroSpeakSentRef.current = true;
+        }
+
+        // Fallback timeout
+        outroTimeoutRef.current = setTimeout(() => {
+            handleEndCall();
+        }, 12000);
+    }, [handleEndCall, isMicrophoneEnabled]);
 
     // Toggle Mic
     const toggleMic = () => {
@@ -91,6 +154,8 @@ const AvatarSession = () => {
                 const data = await avatarService.createSession(avatarId, profession);
                 localStorage.setItem('active_session_token', data.session_token);
                 setSessionData(data);
+                sessionIdRef.current = data.session_id || null;
+                if (data.avatar_name) setAvatarName(data.avatar_name);
 
                 // Start Session Engine
                 const startData = await avatarService.startSession(data.session_token);
@@ -133,6 +198,35 @@ const AvatarSession = () => {
                         const text = new TextDecoder().decode(payload);
                         const data = JSON.parse(text);
 
+                        // During outro: ignore stale AI responses, only listen for outro confirmation
+                        if (outroTriggeredRef.current) {
+                            if (outroSpeakSentRef.current) {
+                                const isSpeakingState = data.event_type === 'avatar.speaking' || data.state === 'speaking';
+
+                                if (data.event_type === 'avatar.transcription' && data.text) {
+                                    const lower = data.text.toLowerCase();
+                                    // Check if this transcription matches the outro text
+                                    if (lower.includes("great") || lower.includes("feedback") || lower.includes("bye") || lower.includes("chatting")) {
+                                        outroAvatarStartedSpeakingRef.current = true;
+                                        setTranscripts((prev) => {
+                                            if (prev.length > 0 && prev[prev.length - 1].text === data.text) return prev;
+                                            return [...prev, { role: 'avatar', text: data.text, time: Date.now() }];
+                                        });
+                                    }
+                                } else if (isSpeakingState) {
+                                    outroAvatarStartedSpeakingRef.current = true;
+                                }
+
+                                const isListeningState = data.event_type === 'avatar.listening' || data.event_type === 'avatar.stop_speaking' || data.state === 'listening';
+                                if (isListeningState && outroAvatarStartedSpeakingRef.current) {
+                                    if (outroTimeoutRef.current) clearTimeout(outroTimeoutRef.current);
+                                    setTimeout(() => handleEndCall(), 1000);
+                                }
+                            }
+                            return;
+                        }
+
+                        // Normal mode
                         if (data.event_type === 'user.transcription' && data.text) {
                             setTranscripts((prev) => {
                                 // Prevent duplicates
@@ -169,14 +263,18 @@ const AvatarSession = () => {
             }
         };
 
-        let isMounted = true;
-        if (isMounted) {
+        if (!hasStartedRef.current) {
+            hasStartedRef.current = true;
             startSession();
         }
 
         return () => {
-            isMounted = false;
-            // Note: intentionally avoided cleaning up room strictly here to prevent fast remount disconnect bugs
+            if (timerRef.current) clearInterval(timerRef.current);
+            if (roomRef.current) {
+                try {
+                    roomRef.current.disconnect();
+                } catch (e) { }
+            }
         };
     }, []);
 
@@ -191,10 +289,8 @@ const AvatarSession = () => {
 
         if (timeLeft <= 10 && !outroTriggeredRef.current) {
             outroTriggeredRef.current = true;
-            setIsClosing(true);
-            console.log("Triggering auto-outro...");
-            if (sessionData?.session_token) {
-                avatarService.sendOutro(sessionData.session_token).catch(e => console.error(e));
+            if (roomRef.current) {
+                triggerOutro(roomRef.current);
             }
         }
 
@@ -262,6 +358,21 @@ const AvatarSession = () => {
                     {/* The Video Element */}
                     <video ref={videoRef} className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoConnected ? 'opacity-100' : 'opacity-0 absolute'}`} autoPlay playsInline />
 
+                    {/* Avatar name badge */}
+                    {avatarName && status === 'active' && (
+                        <div className="absolute top-4 sm:top-6 left-4 sm:left-6 flex items-center gap-2.5 px-3.5 py-2 sm:px-[18px] sm:py-[10px] bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[13px] sm:text-[15px] font-semibold text-white z-10 shadow-lg">
+                            <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isOutro ? 'bg-orange-500' : 'bg-emerald-500'}`} />
+                            <span>{avatarName}</span>
+                        </div>
+                    )}
+
+                    {/* Outro banner */}
+                    {isOutro && status === 'active' && (
+                        <div className="absolute bottom-[90px] sm:bottom-[100px] left-1/2 -translate-x-1/2 px-5 py-2.5 sm:px-7 sm:py-3 bg-orange-500/15 backdrop-blur-md border border-orange-500/30 rounded-full text-[12px] sm:text-sm font-semibold text-orange-500 z-[15] whitespace-nowrap shadow-lg">
+                            <span>🎬 Session ending — {avatarName} is wrapping up...</span>
+                        </div>
+                    )}
+
                     {!isVideoConnected && (
                         <>
                             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
@@ -283,7 +394,7 @@ const AvatarSession = () => {
                                 {transcripts.map((t, i) => (
                                     <div key={i} className="flex flex-col gap-1.5">
                                         <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
-                                            {t.role === 'user' ? 'أنت' : 'المدرب'}
+                                            {t.role === 'user' ? 'أنت' : avatarName}
                                         </span>
                                         <p className="text-[15px] leading-relaxed text-white/90 m-0" dir="ltr">{t.text}</p>
                                     </div>
