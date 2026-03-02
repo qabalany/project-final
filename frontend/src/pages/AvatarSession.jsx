@@ -134,15 +134,17 @@ const AvatarSession = () => {
                         const data = JSON.parse(text);
 
                         if (data.event_type === 'user.transcription' && data.text) {
-                            setTranscripts((prev) => [
-                                ...prev,
-                                { role: 'user', text: data.text, time: Date.now() },
-                            ]);
+                            setTranscripts((prev) => {
+                                // Prevent duplicates
+                                if (prev.length > 0 && prev[prev.length - 1].text === data.text) return prev;
+                                return [...prev, { role: 'user', text: data.text, time: Date.now() }];
+                            });
                         } else if (data.event_type === 'avatar.transcription' && data.text) {
-                            setTranscripts((prev) => [
-                                ...prev,
-                                { role: 'avatar', text: data.text, time: Date.now() },
-                            ]);
+                            setTranscripts((prev) => {
+                                // Prevent duplicates
+                                if (prev.length > 0 && prev[prev.length - 1].text === data.text) return prev;
+                                return [...prev, { role: 'avatar', text: data.text, time: Date.now() }];
+                            });
                         } else if (data.event_type === 'session.stopped') {
                             handleEndCall();
                         }
@@ -273,10 +275,13 @@ const AvatarSession = () => {
                     )}
 
                     {transcripts.length > 0 && (
-                        <div className="absolute top-20 sm:top-24 left-4 sm:left-6 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[420px] max-h-[400px] bg-[#0a0f1c]/70 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 z-20 flex flex-col gap-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-                            <div className="flex flex-col gap-3">
+                        <div className="absolute top-16 sm:top-20 right-4 sm:right-6 md:auto md:left-6 md:right-auto md:w-[380px] max-h-[200px] md:max-h-[280px] bg-[#1b0444]/85 backdrop-blur-xl border border-[#31d4ed]/20 rounded-2xl overflow-hidden z-25 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                            <div className="px-5 py-4 border-b border-white/10 text-[14px] font-semibold text-white/60 uppercase tracking-wide bg-[#0a0f1c]/50">
+                                <span>المحادثة</span>
+                            </div>
+                            <div className="px-5 py-4 overflow-y-auto flex-1 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
                                 {transcripts.map((t, i) => (
-                                    <div key={i} className="flex flex-col gap-1">
+                                    <div key={i} className="flex flex-col gap-1.5">
                                         <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
                                             {t.role === 'user' ? 'أنت' : 'المدرب'}
                                         </span>
