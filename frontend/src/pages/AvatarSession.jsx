@@ -229,13 +229,27 @@ const AvatarSession = () => {
                         // Normal mode
                         if (data.event_type === 'user.transcription' && data.text) {
                             setTranscripts((prev) => {
-                                // Prevent duplicates
+                                if (prev.length > 0 && prev[prev.length - 1].role === 'user') {
+                                    const lastText = prev[prev.length - 1].text;
+                                    if (data.text.startsWith(lastText) || lastText.startsWith(data.text)) {
+                                        const newList = [...prev];
+                                        newList[newList.length - 1] = { role: 'user', text: data.text, time: Date.now() };
+                                        return newList;
+                                    }
+                                }
                                 if (prev.length > 0 && prev[prev.length - 1].text === data.text) return prev;
                                 return [...prev, { role: 'user', text: data.text, time: Date.now() }];
                             });
                         } else if (data.event_type === 'avatar.transcription' && data.text) {
                             setTranscripts((prev) => {
-                                // Prevent duplicates
+                                if (prev.length > 0 && prev[prev.length - 1].role === 'avatar') {
+                                    const lastText = prev[prev.length - 1].text;
+                                    if (data.text.startsWith(lastText) || lastText.startsWith(data.text)) {
+                                        const newList = [...prev];
+                                        newList[newList.length - 1] = { role: 'avatar', text: data.text, time: Date.now() };
+                                        return newList;
+                                    }
+                                }
                                 if (prev.length > 0 && prev[prev.length - 1].text === data.text) return prev;
                                 return [...prev, { role: 'avatar', text: data.text, time: Date.now() }];
                             });
@@ -278,9 +292,9 @@ const AvatarSession = () => {
         };
     }, []);
 
-    // Timer Logic - starts only when video is connected
+    // Timer Logic - starts when active
     useEffect(() => {
-        if (!isVideoConnected || status !== 'active') return;
+        if (status !== 'active') return;
 
         if (timeLeft <= 0) {
             handleEndCall(sessionData?.session_token, initialTime - timeLeft);
@@ -301,7 +315,7 @@ const AvatarSession = () => {
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         };
-    }, [timeLeft, isVideoConnected, status, sessionData, handleEndCall]);
+    }, [timeLeft, status, sessionData, handleEndCall, triggerOutro]);
 
     // -- Renders --
     if (status === 'error') {
@@ -356,7 +370,7 @@ const AvatarSession = () => {
                 <div className="w-full max-w-6xl h-full bg-[#131b2f] rounded-[24px] sm:rounded-[32px] border border-white/5 shadow-2xl overflow-hidden relative flex flex-col items-center justify-center">
 
                     {/* The Video Element */}
-                    <video ref={videoRef} className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoConnected ? 'opacity-100' : 'opacity-0 absolute'}`} autoPlay playsInline />
+                    <video ref={videoRef} className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoConnected ? 'opacity-100' : 'opacity-0 absolute'}`} autoPlay playsInline muted />
 
                     {/* Avatar name badge */}
                     {avatarName && status === 'active' && (
@@ -392,7 +406,7 @@ const AvatarSession = () => {
                             </div>
                             <div className="px-5 py-4 overflow-y-auto flex-1 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
                                 {transcripts.map((t, i) => (
-                                    <div key={i} className="flex flex-col gap-1.5">
+                                    <div key={i} className="flex flex-col gap-1.5 bg-white/5 p-3.5 rounded-xl border border-white/5">
                                         <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
                                             {t.role === 'user' ? 'أنت' : avatarName}
                                         </span>
