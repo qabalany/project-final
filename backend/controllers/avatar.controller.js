@@ -97,6 +97,43 @@ export const createSession = async (req, res) => {
     }
 };
 
+// POST /api/avatar/start-session
+// This endpoint actually starts the LiveKit room/stream and returns the LiveKit URL and token.
+export const startSession = async (req, res) => {
+    try {
+        const { sessionToken } = req.body;
+
+        if (!sessionToken) {
+            return res.status(400).json({ error: 'Session token is required.' });
+        }
+
+        console.log('▶️ Starting session streaming engine...');
+        const startRes = await fetch(`${LIVEAVATAR_API}/sessions/start`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${sessionToken}`,
+                accept: 'application/json',
+            },
+        });
+
+        if (!startRes.ok) {
+            const errBody = await startRes.text();
+            console.error('Session start failed:', startRes.status, errBody);
+            throw new Error(`Failed to start session: ${startRes.status}`);
+        }
+
+        const data = await startRes.json();
+        console.log('✅ Session started successfully!', data.data || data);
+
+        // LiveAvatar API response wrapper
+        const responseData = data.data || data;
+        res.json(responseData);
+    } catch (error) {
+        console.error('❌ Start session error:', error.message);
+        res.status(500).json({ error: 'Failed to start avatar session', details: error.message });
+    }
+};
+
 // POST /api/avatar/stop-session
 // This endpoint is hit when the user clicks "End Call" on the frontend.
 // It gracefully terminates the LiveAvatar stream and permanently logs the session to MongoDB.

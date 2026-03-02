@@ -7,6 +7,12 @@ export const createSession = async (avatarId, profession) => {
     return response.data;
 };
 
+// Starts the LiveAvatar streaming engine and returns LiveKit socket details.
+export const startSession = async (sessionToken) => {
+    const response = await client.post("/avatar/start-session", { sessionToken });
+    return response.data;
+};
+
 // Forces the AI to interrupt itself and say the closing outro message.
 export const sendOutro = async (sessionToken) => {
     const response = await client.post("/avatar/send-outro", { sessionToken });
@@ -34,6 +40,7 @@ export const analyzeSession = async (transcripts) => {
 
 export default {
     createSession,
+    startSession,
     sendOutro,
     stopSession,
     analyzeSession,
