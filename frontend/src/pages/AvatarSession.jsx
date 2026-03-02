@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LiveKitRoom, RoomAudioRenderer, useLocalParticipant } from '@livekit/components-react';
+import { LiveKitRoom, RoomAudioRenderer, useLocalParticipant, useTracks, VideoTrack } from '@livekit/components-react';
+import { Track } from 'livekit-client';
 
 const SessionUI = ({ handleEndCall }) => {
     // The useLocalParticipant hook must be used inside the LiveKitRoom context
     const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
+
+    // Listen for incoming camera tracks (the AI Avatar)
+    const tracks = useTracks([Track.Source.Camera], { onlySubscribed: true });
+    // In our 1-on-1 session, the first camera track is the AI
+    const aiVideoTrack = tracks[0];
 
     const toggleMic = () => {
         if (localParticipant) {
@@ -40,14 +46,24 @@ const SessionUI = ({ handleEndCall }) => {
                 {/* AI Video Feed Placeholder Container */}
                 <div className="w-full max-w-6xl h-full bg-[#131b2f] rounded-[24px] sm:rounded-[32px] border border-white/5 shadow-2xl overflow-hidden relative flex flex-col items-center justify-center">
 
-                    {/* Placeholder content for when video is loading/not started */}
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4z" />
-                            <rect x="3" y="6" width="12" height="12" rx="2" stroke="rgba(255,255,255,0.3)" />
-                        </svg>
-                    </div>
-                    <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">في انتظار بث الفيديو الذكي...</p>
+                    {aiVideoTrack ? (
+                        /* Render the actual AI Video Stream */
+                        <VideoTrack
+                            trackRef={aiVideoTrack}
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        /* Placeholder content for when video is loading/not started */
+                        <>
+                            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#1a243d] flex items-center justify-center mb-6 animate-pulse border border-white/5 shadow-inner">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4z" />
+                                    <rect x="3" y="6" width="12" height="12" rx="2" stroke="rgba(255,255,255,0.3)" />
+                                </svg>
+                            </div>
+                            <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">في انتظار بث الفيديو الذكي...</p>
+                        </>
+                    )}
 
                     {/* Conversation Transcript Panel (Bottom Left) */}
                     <div className="absolute bottom-6 sm:bottom-8 left-4 sm:left-6 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] h-[320px] bg-[#0a0f1c]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 z-20 flex flex-col gap-4 overflow-y-auto hidden sm:flex scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
