@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LiveKitRoom, RoomAudioRenderer, useLocalParticipant, useTracks, VideoTrack } from '@livekit/components-react';
 import { Track } from 'livekit-client';
@@ -6,6 +6,38 @@ import { Track } from 'livekit-client';
 const SessionUI = ({ handleEndCall }) => {
     // The useLocalParticipant hook must be used inside the LiveKitRoom context
     const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
+
+    // --- Timer Logic ---
+    const initialTime = 60; // 1 minute for testing purposes
+    const [timeLeft, setTimeLeft] = useState(initialTime);
+    const [isClosing, setIsClosing] = useState(false);
+
+    useEffect(() => {
+        if (timeLeft <= 0) {
+            handleEndCall();
+            return;
+        }
+
+        if (timeLeft === 10 && !isClosing) {
+            setIsClosing(true);
+            // In Commit 46, we will trigger the backend /send-outro here
+            console.log("Triggering auto-outro as we have 10 seconds left...");
+        }
+
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => prev - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft, isClosing, handleEndCall]);
+
+    // Format seconds to MM:SS
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    };
+    // -------------------
 
     // Listen for incoming camera tracks (the AI Avatar)
     const tracks = useTracks([Track.Source.Camera], { onlySubscribed: true });
@@ -34,9 +66,22 @@ const SessionUI = ({ handleEndCall }) => {
                     </svg>
                     <span className="hidden sm:inline">إنهاء الجلسة</span>
                 </button>
-                <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10">
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></div>
-                    <span className="text-white/90 text-sm font-medium">جاري الاتصال...</span>
+
+                {/* Dynamic Timer Pill */}
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-sm border transition-colors ${isClosing ? 'bg-red-500/20 border-red-500/50' :
+                        timeLeft <= 30 ? 'bg-orange-500/20 border-orange-500/50' :
+                            'bg-white/5 border-white/10'
+                    }`}>
+                    <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isClosing ? 'bg-red-500' :
+                            timeLeft <= 30 ? 'bg-orange-500' :
+                                'bg-emerald-500'
+                        }`}></div>
+                    <span className={`text-sm font-medium tabular-nums tracking-wider ${isClosing ? 'text-red-400' :
+                            timeLeft <= 30 ? 'text-orange-400' :
+                                'text-white/90'
+                        }`}>
+                        {formatTime(timeLeft)}
+                    </span>
                 </div>
             </div>
 
