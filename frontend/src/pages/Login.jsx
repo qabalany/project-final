@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { login as loginService } from '../api/auth.service';
+import { login as loginService, API_URL } from '../api/auth.service';
 import { useAuth } from '../context/AuthContext';
 
 const DEMO_EMAIL = 'test@logah.mvp';
 const DEMO_PASSWORD = 'Logah2030';
-const API_URL = 'http://localhost:8080/api'; // Or use your config
 
 const Login = () => {
     // 1. STATE MANAGEMENT
@@ -150,7 +149,7 @@ const Login = () => {
     return (
         // <main> is a semantic HTML tag. It helps screen readers identify the primary purpose of this page.
         // Tailwind Notes: 'flex-col lg:flex-row' makes it stack vertically on phones, but side-by-side on desktops (lg screens).
-        <main className="flex w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
+        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
 
             {/* --- CAROUSEL SECTION --- */}
             {/* aria-label ensures screen readers hear "ميزات التطبيق" when focusing on this section */}
@@ -322,7 +321,7 @@ const Login = () => {
                         {/* Demo Account */}
                         <button
                             type="button"
-                            className="flex-1 h-12 flex items-center justify-center gap-[10px] rounded-lg bg-[rgba(41,148,249,0.1)] border-[1.5px] border-[rgba(41,148,249,0.4)] cursor-pointer transition-all duration-250 ease relative overflow-hidden group hover:border-transparent active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none !text-transparent"
+                            className="flex-1 h-12 flex items-center justify-center gap-[10px] rounded-lg bg-[rgba(41,148,249,0.1)] border-[1.5px] border-[rgba(41,148,249,0.4)] cursor-pointer transition-all duration-250 ease relative overflow-hidden group hover:border-transparent active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                             style={{ background: 'linear-gradient(135deg, rgba(41, 148, 249, 0.1) 0%, rgba(49, 212, 237, 0.1) 100%)' }}
                             onClick={handleDemoLogin}
                             disabled={loading}

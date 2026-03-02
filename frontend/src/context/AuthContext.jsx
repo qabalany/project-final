@@ -61,13 +61,11 @@ export const AuthProvider = ({ children }) => {
         return data;
     };
 
-    // Login wrapper
-    const login = async (userData) => {
-        const data = await authService.login(userData);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data));
-        setUser(data);
-        return data;
+    // Login wrapper — receives already-fetched user data from Login.jsx and saves it
+    const login = (userData) => {
+        localStorage.setItem("token", userData.token);
+        localStorage.setItem("user", JSON.stringify(userData));
+        setUser(userData);
     };
 
     // Google Login wrapper

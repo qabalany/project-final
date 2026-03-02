@@ -8,6 +8,8 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import GoogleAuthCallback from './pages/GoogleAuthCallback.jsx';
 import MotherTongue from './pages/MotherTongue.jsx';
+import SecondLanguage from './pages/SecondLanguage.jsx';
+import Avatar from './pages/Avatar.jsx';
 
 // Placeholder Pages for routing layout
 const Home = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Logah Frontend is running!</h1><p>Home Dashboard (Protected)</p></div>;
@@ -31,6 +33,22 @@ function App() {
             element={
               <OnboardingRoute>
                 <MotherTongue />
+              </OnboardingRoute>
+            }
+          />
+          <Route
+            path="/second-language"
+            element={
+              <OnboardingRoute>
+                <SecondLanguage />
+              </OnboardingRoute>
+            }
+          />
+          <Route
+            path="/avatar"
+            element={
+              <OnboardingRoute>
+                <Avatar />
               </OnboardingRoute>
             }
           />

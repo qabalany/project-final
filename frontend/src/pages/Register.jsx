@@ -102,7 +102,7 @@ const Register = () => {
     ];
 
     return (
-        <main className="flex w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
+        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
             {/* Carousel Section */}
             <section aria-label="ميزات التطبيق" className="hidden lg:block w-full max-w-[500px] xl:max-w-[616px] h-[700px] xl:h-[816px] lg:mt-16 lg:mr-[60px] xl:mr-[104px] rounded-[30px] overflow-hidden relative shrink-0">
                 <div className="w-full h-full overflow-hidden relative">
