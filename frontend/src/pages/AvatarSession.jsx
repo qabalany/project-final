@@ -12,6 +12,15 @@ const AvatarSession = () => {
     const [sessionData, setSessionData] = useState(null);
     const [status, setStatus] = useState('connecting'); // connecting | active | error
     const [errorMsg, setErrorMsg] = useState('');
+    const [transcripts, setTranscripts] = useState([]);
+
+    // Auto-scroll transcripts
+    const transcriptsEndRef = useRef(null);
+    useEffect(() => {
+        if (transcriptsEndRef.current) {
+            transcriptsEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [transcripts]);
 
     // Timer States
     const initialTime = 60; // 1 minute
@@ -52,7 +61,7 @@ const AvatarSession = () => {
             } catch (err) { }
         }
         localStorage.removeItem('active_session_token');
-        navigate('/review', { state: { transcripts: [] } });
+        navigate('/review', { state: { transcripts } });
     }, [sessionData, navigate, user]);
 
     // Format MM:SS
@@ -115,6 +124,30 @@ const AvatarSession = () => {
                         track.attach(audioEl);
                         document.body.appendChild(audioEl);
                         audioEl.play().catch(e => console.warn('Audio blocked:', e));
+                    }
+                });
+
+                // Listen for data messages (transcriptions from LiveAvatar)
+                room.on(RoomEvent.DataReceived, (payload) => {
+                    try {
+                        const text = new TextDecoder().decode(payload);
+                        const data = JSON.parse(text);
+
+                        if (data.event_type === 'user.transcription' && data.text) {
+                            setTranscripts((prev) => [
+                                ...prev,
+                                { role: 'user', text: data.text, time: Date.now() },
+                            ]);
+                        } else if (data.event_type === 'avatar.transcription' && data.text) {
+                            setTranscripts((prev) => [
+                                ...prev,
+                                { role: 'avatar', text: data.text, time: Date.now() },
+                            ]);
+                        } else if (data.event_type === 'session.stopped') {
+                            handleEndCall();
+                        }
+                    } catch (e) {
+                        // ignore malformed JSON
                     }
                 });
 
@@ -239,9 +272,21 @@ const AvatarSession = () => {
                         </>
                     )}
 
-                    <div className="absolute bottom-6 sm:bottom-8 left-4 sm:left-6 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] h-[320px] bg-[#0a0f1c]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 z-20 flex flex-col gap-4 overflow-y-auto hidden sm:flex scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-                        <div className="shrink-0 h-2"></div>
-                    </div>
+                    {transcripts.length > 0 && (
+                        <div className="absolute top-20 sm:top-24 left-4 sm:left-6 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[420px] max-h-[400px] bg-[#0a0f1c]/70 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 z-20 flex flex-col gap-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                            <div className="flex flex-col gap-3">
+                                {transcripts.map((t, i) => (
+                                    <div key={i} className="flex flex-col gap-1">
+                                        <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
+                                            {t.role === 'user' ? 'أنت' : 'المدرب'}
+                                        </span>
+                                        <p className="text-[15px] leading-relaxed text-white/90 m-0" dir="ltr">{t.text}</p>
+                                    </div>
+                                ))}
+                                <div ref={transcriptsEndRef} />
+                            </div>
+                        </div>
+                    )}
 
                     <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-6 bg-[#0a0f1c]/80 backdrop-blur-xl px-5 py-3 sm:px-8 sm:py-4 rounded-[20px] sm:rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] z-30">
                         <button
