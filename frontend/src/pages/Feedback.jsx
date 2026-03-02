@@ -50,7 +50,8 @@ const Feedback = () => {
             <div className="flex flex-col min-h-screen bg-[#f3f4f8] font-sans" dir="rtl">
                 <header className="absolute top-0 flex w-full h-[60px] bg-white items-center px-4 shrink-0 border-b border-[#f3f4f8]">
                     <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                        <img src="/logah-logo.png" alt="Logah" className="h-8 w-auto object-contain" onError={(e) => { e.target.onerror = null; e.target.src = '/vite.svg' }} />
+                        <img src="/favicon.svg" alt="Logah Icon" className="w-[28px] h-[28px]" aria-hidden="true" />
+                        <span className="font-bold text-[22px] text-[#1b0444]">Logah</span>
                     </div>
                 </header>
                 <div className="flex-1 flex items-center justify-center w-full mt-[60px]">
@@ -68,11 +69,12 @@ const Feedback = () => {
         <div className="flex flex-col min-h-screen bg-[#f3f4f8] font-sans items-center justify-center relative" dir="rtl">
             <header className="absolute top-0 flex w-full h-[60px] bg-white items-center px-4 shrink-0 shadow-sm border-b border-[#f3f4f8]">
                 <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                    <img src="/logah-logo.png" alt="Logah" className="h-8 w-auto object-contain" onError={(e) => { e.target.onerror = null; e.target.src = '/vite.svg' }} />
+                    <img src="/favicon.svg" alt="Logah Icon" className="w-[28px] h-[28px]" aria-hidden="true" />
+                    <span className="font-bold text-[22px] text-[#1b0444]">Logah</span>
                 </div>
             </header>
 
-            <main className="w-full max-w-[600px] px-4 mt-[80px] mb-8 z-10">
+            <main className="w-full max-w-[600px] mx-auto px-4 mt-[80px] mb-8 z-10 flex flex-col items-center">
                 <h1 className="text-[2rem] font-extrabold text-[#1b0444] mb-2 text-center tracking-wide">شاركنا رأيك</h1>
                 <p className="text-[#858597] mb-8 text-center text-lg">نحن مهتمون بمعرفة تجربتك لكي نطور من المنصة بشكل مستمر.</p>
 

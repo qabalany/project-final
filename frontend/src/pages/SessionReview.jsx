@@ -107,8 +107,9 @@ const SessionReview = () => {
     return (
         <div className="min-h-screen bg-[#f3f4f8] text-[#1b0444] pb-12 font-sans tracking-tight" dir="rtl">
             <header className="bg-white text-[#1b0444] h-20 flex justify-between items-center px-[5%] shadow-sm border-b border-gray-100 sticky top-0 z-10">
-                <div className="flex items-center gap-3 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                    <img src="/logah-logo.png" alt="Logah" className="w-[120px] h-auto object-contain" onError={(e) => { e.target.onerror = null; e.target.src = '/vite.svg' }} />
+                <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
+                    <img src="/favicon.svg" alt="Logah Icon" className="w-[28px] h-[28px]" aria-hidden="true" />
+                    <span className="font-bold text-[22px] text-[#1b0444]">Logah</span>
                 </div>
                 <button className="bg-transparent border-none text-[#858597] text-sm font-semibold cursor-pointer transition-colors duration-300 hover:text-red-500" onClick={() => navigate('/')}>
                     إغلاق المراجعة
