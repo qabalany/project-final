@@ -17,9 +17,7 @@ import SessionReview from './pages/SessionReview.jsx';
 import Feedback from './pages/Feedback.jsx';
 import Home from './pages/Home.jsx';
 import Settings from './pages/Settings.jsx';
-
-// Placeholder Pages for routing layout
-const AdminDashboard = () => <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Admin Dashboard</h1></div>;
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 function App() {
   return (
