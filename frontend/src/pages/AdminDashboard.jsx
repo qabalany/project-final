@@ -255,13 +255,188 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
-                {/* Feedback Tab — content added in next commit */}
-                {activeTab === 'feedback' && (
-                    <div>{/* stats, filters, charts, and cards coming in commit 54 */}</div>
-                )}
+                {/* Feedback Tab */}
+                {activeTab === 'feedback' && (<>
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+                            <div className="flex items-center gap-10 mb-2">
+                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] leading-none">{totalFeedbacks}</span>
+                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#eef4ff] shrink-0"><IconChart /></div>
+                            </div>
+                            <span className="text-[0.95rem] text-[#858597] font-semibold mt-1">إجمالي التقييمات</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+                            <div className="flex items-center gap-10 mb-2">
+                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] leading-none">{avgDesignRating}</span>
+                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#fff9e6] shrink-0"><IconStar /></div>
+                            </div>
+                            <span className="text-[0.95rem] text-[#858597] font-semibold mt-1">متوسط تقييم التصميم</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+                            <div className="flex items-center gap-10 mb-2">
+                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] leading-none">{recommendPercent}%</span>
+                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#e8fff0] shrink-0"><IconHeart /></div>
+                            </div>
+                            <span className="text-[0.95rem] text-[#858597] font-semibold mt-1">يوصون بالمنصة</span>
+                        </div>
+                    </div>
+
+                    {/* Filter Bar */}
+                    <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 md:px-6 md:py-4 bg-white rounded-2xl border border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] mb-6 flex-wrap">
+                        <div className="flex items-center gap-1.5 text-[#1b0444] font-bold text-sm shrink-0">
+                            <span className="flex items-center text-[#2994f9]"><IconFilter /></span>
+                            <span>تصفية</span>
+                        </div>
+                        <div className="flex flex-col md:flex-row md:items-center gap-3 flex-1 flex-wrap">
+                            <div className="relative flex items-center flex-1 w-full md:min-w-[160px] md:max-w-[240px]">
+                                <span className="absolute right-3 flex items-center text-[#b0b0c8] pointer-events-none"><IconSearch /></span>
+                                <input
+                                    type="text"
+                                    className="w-full py-2 pl-3 pr-10 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10 placeholder:text-[#b0b0c8]"
+                                    placeholder="بحث بالاسم..."
+                                    value={searchName}
+                                    onChange={(e) => setSearchName(e.target.value)}
+                                />
+                            </div>
+                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRating} onChange={(e) => setFilterRating(e.target.value)}>
+                                <option value="">التقييم: الكل</option>
+                                <option value="5">5 نجوم</option>
+                                <option value="4">4 نجوم</option>
+                                <option value="3">3 نجوم</option>
+                                <option value="2">نجمتان</option>
+                                <option value="1">نجمة واحدة</option>
+                            </select>
+                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRecommend} onChange={(e) => setFilterRecommend(e.target.value)}>
+                                <option value="">التوصية: الكل</option>
+                                <option value="بالتأكيد">بالتأكيد</option>
+                                <option value="ربما">ربما</option>
+                                <option value="لا">لا اعتقد</option>
+                            </select>
+                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterEase} onChange={(e) => setFilterEase(e.target.value)}>
+                                <option value="">سهولة الاستخدام: الكل</option>
+                                <option value="سهل جداً">سهل جداً</option>
+                                <option value="سهل لحد ما">سهل لحد ما</option>
+                                <option value="محايد">محايد</option>
+                                <option value="صعب">صعب</option>
+                            </select>
+                            {hasActiveFilters && (
+                                <button className="py-[0.45rem] px-4 bg-[#fff5f5] border-[1.5px] border-[#fecaca] rounded-xl text-[#dc2626] font-cairo text-[0.8rem] font-semibold cursor-pointer transition-all duration-200 whitespace-nowrap hover:bg-[#fee2e2] hover:border-[#f5a5a5]" onClick={clearFilters}>
+                                    مسح الفلاتر
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Toggle Charts Button */}
+                    <div className="flex justify-start mb-6 w-full max-w-[500px]">
+                        <button
+                            onClick={() => setShowCharts(!showCharts)}
+                            className="flex items-center gap-2 px-5 py-3 w-full bg-white border border-[#e8eaf3] rounded-2xl shadow-sm text-[#4a4a68] font-cairo font-bold text-[0.95rem] hover:bg-[#f8f9fc] hover:border-[#2994f9]/50 hover:text-[#2994f9] transition-all duration-200"
+                        >
+                            <span className={`w-8 h-8 rounded-full flex flex-shrink-0 items-center justify-center transition-colors duration-200 ${showCharts ? 'bg-[#2994f9]/10 text-[#2994f9]' : 'bg-[#f0f0f5] text-[#858597]'}`}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="20" x2="18" y2="10" />
+                                    <line x1="12" y1="20" x2="12" y2="4" />
+                                    <line x1="6" y1="20" x2="6" y2="14" />
+                                </svg>
+                            </span>
+                            <span className="flex-1 text-right">
+                                {showCharts ? 'إخفاء التحليلات والرسومات البيانية' : 'عرض التحليلات والرسومات البيانية 📊'}
+                            </span>
+                            <svg className={`w-5 h-5 text-[#858597] transition-transform duration-300 ${showCharts ? 'rotate-180' : 'rotate-0'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {/* Collapsible Charts */}
+                    <div className={`transition-all duration-500 origin-top overflow-hidden w-full ${showCharts ? 'opacity-100 max-h-[3000px] mb-6' : 'opacity-0 max-h-0 mb-0'}`}>
+                        <FeedbackCharts feedbacks={feedbacks} />
+                    </div>
+
+                    {/* Error State */}
+                    {error && (
+                        <div className="flex items-center gap-2 py-4 px-5 bg-[#fff5f5] border border-[#fecaca] rounded-xl text-[#b91c1c] font-semibold mb-6">
+                            <IconAlert /> {error}
+                        </div>
+                    )}
+
+                    {/* Feedback Cards Grid */}
+                    {filteredFeedbacks.length === 0 ? (
+                        <div className="bg-white rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] py-16 px-8 text-center flex flex-col items-center">
+                            <div className="mb-4"><IconInbox /></div>
+                            <h3 className="text-xl font-bold text-[#1b0444] mb-2">{hasActiveFilters ? 'لا توجد نتائج مطابقة' : 'لا يوجد تقييمات بعد'}</h3>
+                            <p className="text-[#858597] text-[0.9rem]">
+                                {hasActiveFilters ? 'جرب تعديل الفلاتر أو مسحها للعرض الكامل.' : 'ستظهر التقييمات هنا بعد أن يقوم المستخدمون بتقديمها.'}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {filteredFeedbacks.map((item) => (
+                                <div key={item._id} className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
+                                    <div className="flex items-center gap-3 mb-5">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
+                                            {item.name?.charAt(0) || '؟'}
+                                        </div>
+                                        <div className="flex flex-col overflow-hidden">
+                                            <span className="font-extrabold text-[#1b0444] text-[1rem] truncate">{item.name}</span>
+                                            <span className="text-[0.75rem] text-[#858597]">{formatDate(item.createdAt)}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-4 mb-5 flex-grow">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-[0.8rem] text-[#858597] font-bold">تقييم التصميم:</span>
+                                            {renderStars(item.websiteDesign)}
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-3 py-1 bg-[#ecfdf5] text-[#059669] text-[0.7rem] font-bold rounded-full border border-[#d1fae5]">{item.easeOfUse || 'سهل جداً'}</span>
+                                            <span className="px-3 py-1 bg-[#eef4ff] text-[#2994f9] text-[0.7rem] font-bold rounded-full border border-[#dceaff]">{item.sessionQuality || 'ممتازة'}</span>
+                                            <div className="flex items-center gap-1.5 px-3 py-1 bg-white border border-[#e0e0e8]/60 rounded-full text-[0.72rem] font-bold text-[#059669] shadow-sm">
+                                                <span>{getRecommendContent(item.recommendation).emoji}</span>
+                                                <span>{getRecommendContent(item.recommendation).text}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-1.5">
+                                            <span className="text-[0.8rem] text-[#858597] font-bold">الاستفادة:</span>
+                                            <p className="text-[0.85rem] font-bold text-[#1b0444] leading-relaxed bg-[#f8f9fc] p-2.5 rounded-xl">
+                                                "{item.usefulness || 'نعم، مفيد جداً'}"
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="pt-4 border-t border-[#f0f0f5]">
+                                        <span className="text-[0.8rem] text-[#858597] font-bold block mb-2">الملاحظات:</span>
+                                        <div className="bg-[#fff9f9]/50 rounded-xl p-3 border border-[#fff0f0]">
+                                            <p className="text-[0.85rem] text-[#4a4a68] leading-relaxed italic line-clamp-4">
+                                                {item.additionalComments ? `"${item.additionalComments}"` : '— لا توجد ملاحظات إضافية —'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </>)}
             </main>
         </div>
     );
 };
 
 export default AdminDashboard;
+
+function getPillClass(value) {
+    if (!value) return '';
+    if (value.includes('ممتاز') || value.includes('سهل جداً')) return 'bg-[#ecfdf5] text-[#059669]';
+    if (value.includes('جيد') || value.includes('سهل لحد')) return 'bg-[#eef4ff] text-[#2994f9]';
+    if (value.includes('محايد') || value.includes('مقبول')) return 'bg-[#fffbeb] text-[#b45309]';
+    if (value.includes('صعب') || value.includes('سيئ')) return 'bg-[#fff5f5] text-[#dc2626]';
+    return 'bg-[#eef4ff] text-[#2994f9]';
+}
+
+function getRecommendContent(value) {
+    if (!value) return { class: 'bg-white border-[#e0e0e8] text-[#858597]', text: '—', emoji: '' };
+    if (value.includes('بالتأكيد')) return { class: 'bg-[#ecfdf5] text-[#059669]', text: 'بالتأكيد', emoji: '🤩' };
+    if (value.includes('ربما')) return { class: 'bg-[#fffbeb] text-[#b45309]', text: 'ربما', emoji: '🤔' };
+    if (value.includes('لا')) return { class: 'bg-[#fff5f5] text-[#dc2626]', text: 'لا أعتقد', emoji: '😞' };
+    return { class: 'bg-[#eef4ff] text-[#2994f9]', text: value, emoji: 'ℹ️' };
+}
