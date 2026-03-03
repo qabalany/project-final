@@ -41,7 +41,7 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                 className={`
                     fixed lg:static top-0 right-0 h-full
                     w-[274px] bg-white dark:bg-gray-800 lg:rounded-l-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.3)]
-                    flex flex-col pt-10 pb-0 transition-transform duration-300 z-50 overflow-y-auto lg:overflow-visible shrink-0
+                    flex flex-col pt-5 pb-0 transition-transform duration-300 z-50 overflow-y-auto lg:overflow-visible shrink-0
                     ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
                 `}
                 dir={dir}
@@ -59,14 +59,14 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                 </button>
 
                 {/* Logo */}
-                <div className="flex flex-col items-center justify-center gap-1 mb-10 w-full">
+                <div className="flex flex-col items-center justify-center gap-1 mb-5 w-full">
                     <button
                         onClick={() => navigate('/')}
                         aria-label="Logah — الصفحة الرئيسية"
-                        className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 bg-transparent border-none"
+                        className="flex items-center gap-3 cursor-pointer transition-opacity hover:opacity-80 bg-transparent border-none"
                     >
-                        <img src="/favicon.svg" alt="" className="w-[30px] h-[30px]" aria-hidden="true" />
-                        <span className="font-bold text-[24px] text-[#1b0444] dark:text-gray-100">Logah</span>
+                        <img src="/favicon.svg" alt="" className="w-[56px] h-[56px]" aria-hidden="true" />
+                        <span className="font-bold text-[42px] text-[#1b0444] dark:text-gray-100">Logah</span>
                     </button>
                 </div>
 
@@ -105,9 +105,9 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                                 onError={(e) => e.target.style.display = 'none'}
                             />
 
-                            <div className="relative z-10 flex flex-col gap-1.5 mb-4 pl-[70px]">
-                                <h3 className="text-white font-cairo font-extrabold text-[1.1rem] leading-tight text-right m-0">{t('sidebar.ctaTitle')}</h3>
-                                <p className="text-white/80 font-cairo text-[0.75rem] font-semibold text-right m-0 leading-snug">
+                            <div className="relative z-10 flex flex-col gap-1.5 mb-4 pl-[70px]" dir={dir}>
+                                <h3 className="text-white font-cairo font-extrabold text-[1.1rem] leading-tight text-start m-0">{t('sidebar.ctaTitle')}</h3>
+                                <p className="text-white/80 font-cairo text-[0.75rem] font-semibold text-start m-0 leading-snug">
                                     {t('sidebar.ctaDesc')}
                                 </p>
                             </div>

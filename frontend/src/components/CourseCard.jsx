@@ -5,7 +5,7 @@ const CourseCard = ({ course, index }) => {
     const { t } = useLanguage();
     return (
         <div
-            className="flex-1 min-w-[200px] h-[267px] flex flex-col items-center justify-between p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md animate-[slideUpFade_0.4s_ease-out_both]"
+            className="w-full xl:flex-1 xl:min-w-[200px] h-[267px] flex flex-col items-center justify-between p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md animate-[slideUpFade_0.4s_ease-out_both]"
             style={{ animationDelay: `${index * 100}ms` }}
         >
             <h3 className="font-cairo font-bold text-[#1b0444] dark:text-gray-100 text-base">{course.title}</h3>
@@ -30,9 +30,10 @@ const CourseCard = ({ course, index }) => {
                         </linearGradient>
                     </defs>
                 </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
-                    <span className="font-cairo font-bold text-[#1b0444] dark:text-gray-100 text-lg">{course.completed} {t('home.courseCompletedLabel')}</span>
-                    <span className="font-cairo font-normal text-[#858597] dark:text-gray-400 text-xs">/{course.total} {t('home.courseTotalLabel')}</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-0">
+                    <span className="font-cairo font-bold text-[#1b0444] dark:text-gray-100 text-2xl leading-none">{course.completed}</span>
+                    <span className="font-cairo font-semibold text-[#1b0444] dark:text-gray-100 text-[10px] leading-tight">{t('home.courseCompletedLabel')}</span>
+                    <span className="font-cairo font-normal text-[#858597] dark:text-gray-400 text-[10px] leading-tight">/{course.total} {t('home.courseTotalLabel')}</span>
                 </div>
             </div>
 

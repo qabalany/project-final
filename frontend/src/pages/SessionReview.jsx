@@ -13,8 +13,9 @@ const SessionReview = () => {
 
     useEffect(() => {
         let currentTranscripts = location.state?.transcripts;
+        const hasFreshTranscripts = !!(currentTranscripts && currentTranscripts.length > 0);
 
-        if (!currentTranscripts || currentTranscripts.length === 0) {
+        if (!hasFreshTranscripts) {
             const savedTranscripts = sessionStorage.getItem('logah_session_transcripts');
             if (savedTranscripts) {
                 try {
@@ -22,6 +23,8 @@ const SessionReview = () => {
                 } catch (e) { }
             }
         } else {
+            // New session just ended — clear any stale cached result so we re-analyse
+            sessionStorage.removeItem('logah_review_result');
             sessionStorage.setItem('logah_session_transcripts', JSON.stringify(currentTranscripts));
         }
 
@@ -37,14 +40,17 @@ const SessionReview = () => {
             return;
         }
 
-        const savedResult = sessionStorage.getItem('logah_review_result');
-        if (savedResult) {
-            try {
-                const parsedResult = JSON.parse(savedResult);
-                setResult(parsedResult);
-                setLoading(false);
-                return;
-            } catch (e) { }
+        // Only use cached result when there are NO fresh transcripts (i.e. page was refreshed)
+        if (!hasFreshTranscripts) {
+            const savedResult = sessionStorage.getItem('logah_review_result');
+            if (savedResult) {
+                try {
+                    const parsedResult = JSON.parse(savedResult);
+                    setResult(parsedResult);
+                    setLoading(false);
+                    return;
+                } catch (e) { }
+            }
         }
 
         const fetchAnalysis = async () => {
