@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import HeroBanner from '../components/HeroBanner';
 import FeatureList from '../components/FeatureList';
 import CourseCard from '../components/CourseCard';
@@ -8,6 +9,7 @@ import Leaderboard from '../components/Leaderboard';
 
 const Home = () => {
     const { user } = useAuth();
+    const { t } = useLanguage();
 
     const getAvatarSrc = () => {
         const avatarSelection = user?.selectedAvatar || localStorage.getItem('onboarding_avatar');
@@ -16,26 +18,22 @@ const Home = () => {
         return user?.selectedAvatar || '/favicon.svg';
     };
 
-    const userName = user?.name || 'مستخدم';
+    const userName = user?.name || (t('heroBanner.greeting') === 'Welcome' ? 'User' : 'مستخدم');
     const avatarUrl = getAvatarSrc();
 
-    const featureCards = [
-        { title: 'تحدث أمام جمهور مدعوم بالذكاء الاصطناعي', desc: 'قدّم واعرِض أفكارك أمام جمهورنا المدعوم بالذكاء الاصطناعي.' },
-        { title: 'تعلّم المحادثة اليومية', desc: 'تدرّب على محادثات واقعية لتتحدث بثقة في حياتك اليومية.' },
-        { title: 'اختبارات تفاعلية ذكية', desc: 'اختبر مستواك مع تقييمات مخصصة تتكيف مع تقدمك.' },
-    ];
+    const featureCards = t('home.features');
 
-    const courseCards = [
-        { title: 'اساسيات اللغة', completed: 4, total: 16 },
-        { title: 'المحادثة المتقدمة', completed: 2, total: 12 },
-        { title: 'كتابة الأعمال', completed: 6, total: 20 },
-    ];
+    const courseCards = t('home.courses').map((c, i) => ({
+        ...c,
+        completed: [4, 2, 6][i],
+        total: [16, 12, 20][i],
+    }));
 
     const leaderboard = [
-        { name: 'هدي المفتي', level: 'B2', points: '1,000,000', avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162.svg' },
-        { name: 'سارة أحمد', level: 'B1', points: '850,000', avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162-1.svg' },
-        { name: 'محمد علي', level: 'A2', points: '720,000', avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162-2.svg' },
-        { name: 'نورة سعيد', level: 'B2', points: '680,000', avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162-3.svg' },
+        { ...t('home.leaderboard')[0], avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162.svg' },
+        { ...t('home.leaderboard')[1], avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162-1.svg' },
+        { ...t('home.leaderboard')[2], avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162-2.svg' },
+        { ...t('home.leaderboard')[3], avatar: 'https://c.animaapp.com/SW9wcD58/img/frame-1000004162-3.svg' },
     ];
 
     return (

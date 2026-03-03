@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const CourseCard = ({ course, index }) => {
+    const { t } = useLanguage();
     return (
         <div
             className="flex-1 min-w-[200px] h-[267px] flex flex-col items-center justify-between p-6 bg-white rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md animate-[slideUpFade_0.4s_ease-out_both]"
@@ -29,19 +31,19 @@ const CourseCard = ({ course, index }) => {
                     </defs>
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
-                    <span className="font-cairo font-bold text-[#1b0444] text-lg">{course.completed} دروس</span>
-                    <span className="font-cairo font-normal text-[#858597] text-xs">/{course.total} درس</span>
+                    <span className="font-cairo font-bold text-[#1b0444] text-lg">{course.completed} {t('home.courseCompletedLabel')}</span>
+                    <span className="font-cairo font-normal text-[#858597] text-xs">/{course.total} {t('home.courseTotalLabel')}</span>
                 </div>
             </div>
 
             <div className="flex items-center gap-7">
                 <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-gradient-to-br from-[#31d4ed] to-[#2994f9]"></span>
-                    <span className="font-cairo font-light text-[#858597] text-[13px]">ما تم انجازة</span>
+                    <span className="font-cairo font-light text-[#858597] text-[13px]">{t('home.courseCompletedLegend')}</span>
                 </div>
                 <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-[#f4f3fd]"></span>
-                    <span className="font-cairo font-light text-[#858597] text-[13px]">الوحدة</span>
+                    <span className="font-cairo font-light text-[#858597] text-[13px]">{t('home.courseUnitLegend')}</span>
                 </div>
             </div>
         </div>

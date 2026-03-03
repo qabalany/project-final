@@ -1,10 +1,12 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const Sidebar = ({ activePage, isOpen, onClose }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const { t, dir, toggle, lang } = useLanguage();
 
     const handleLogout = () => {
         logout();
@@ -12,11 +14,11 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
     };
 
     const navItems = [
-        { id: 'home', path: '/', label: 'الصفحة الرئيسية', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> },
-        { id: 'path', path: '/path', label: 'المسار', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> },
-        { id: 'messages', path: '/messages', label: 'الرسائل', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> },
-        { id: 'settings', path: '/settings', label: 'الحساب', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
-        { id: 'app-feedback', path: '/app-feedback', label: 'ارسال شكوى/اقتراح', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> },
+        { id: 'home', path: '/', label: t('sidebar.home'), icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> },
+        { id: 'path', path: '/path', label: t('sidebar.path'), icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> },
+        { id: 'messages', path: '/messages', label: t('sidebar.messages'), icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> },
+        { id: 'settings', path: '/settings', label: t('sidebar.account'), icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
+        { id: 'app-feedback', path: '/app-feedback', label: t('sidebar.appFeedback'), icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> },
     ];
 
     const handleNavigation = (path) => {
@@ -40,6 +42,7 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                     flex flex-col pt-10 pb-0 transition-transform duration-300 z-50 overflow-y-auto lg:overflow-visible shrink-0
                     ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
                 `}
+                dir={dir}
             >
                 {/* Close Button (Mobile Only) */}
                 <button
@@ -95,9 +98,9 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                             />
 
                             <div className="relative z-10 flex flex-col gap-1.5 mb-4 pl-[70px]">
-                                <h3 className="text-white font-cairo font-extrabold text-[1.1rem] leading-tight text-right m-0">تحدث مع الذكاء الاصطناعي!</h3>
+                                <h3 className="text-white font-cairo font-extrabold text-[1.1rem] leading-tight text-right m-0">{t('sidebar.ctaTitle')}</h3>
                                 <p className="text-white/80 font-cairo text-[0.75rem] font-semibold text-right m-0 leading-snug">
-                                    ابدأ محادثتك الذكية لتحسين لغتك الآن.
+                                    {t('sidebar.ctaDesc')}
                                 </p>
                             </div>
 
@@ -106,12 +109,21 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                                 className="relative z-10 flex items-center justify-center gap-2 w-full h-[42px] rounded-xl bg-white text-[#2994f9] font-cairo font-bold text-[0.85rem] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200 border-none cursor-pointer"
                             >
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                                ابدأ جلسة
+                                {t('sidebar.ctaButton')}
                             </button>
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-4 mt-auto">
+                        {/* Language Toggle */}
+                        <button
+                            onClick={toggle}
+                            className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] bg-[#f8f8fd] hover:bg-[#f0f0f9] text-[#858597] hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <span>{t('sidebar.langToggleLabel')}</span>
+                        </button>
+
                         <div className="w-full h-[2px] bg-[#f4f3fd] rounded-full my-1"></div>
 
                         <button
@@ -124,14 +136,14 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                             <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                             </div>
-                            <span>الإعدادات</span>
+                            <span>{t('sidebar.settings')}</span>
                         </button>
 
                         <button onClick={handleLogout} className="flex items-center justify-start gap-3.5 w-full h-[52px] px-[22px] rounded-xl bg-transparent text-[#858597] hover:bg-[#ffe5e5] hover:text-[#d32f2f] font-cairo font-semibold text-base transition-colors group mb-[20px]">
                             <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                             </div>
-                            <span>تسجيل الخروج</span>
+                            <span>{t('sidebar.logout')}</span>
                         </button>
                     </div>
                 </nav>

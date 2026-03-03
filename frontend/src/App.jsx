@@ -21,9 +21,11 @@ import AdminDashboard from './pages/AdminDashboard.jsx';
 import Path from './pages/Path.jsx';
 import Messages from './pages/Messages.jsx';
 import AppFeedbackPage from './pages/AppFeedbackPage.jsx';
+import { LanguageProvider } from './context/LanguageContext.jsx';
 
 function App() {
   return (
+    <LanguageProvider>
     <AuthProvider>
       <Router>
         <Routes>
@@ -117,6 +119,7 @@ function App() {
         </Routes>
       </Router>
     </AuthProvider>
+    </LanguageProvider>
   );
 }
 

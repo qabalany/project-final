@@ -1,37 +1,38 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
-const steps = [
-    { id: 1, label: 'تحديد اللغة الأم', sublabel: 'اخترت لغتك الأصلية', done: true },
-    { id: 2, label: 'تحديد اللغة الهدف', sublabel: 'اخترت اللغة التي تتعلمها', done: true },
-    { id: 3, label: 'تخصيص المحادثة', sublabel: 'حددت أسلوب واهتمامات التعلم', done: true },
-    { id: 4, label: 'أولى جلساتك', sublabel: 'ابدأ محادثتك الأولى مع الذكاء الاصطناعي', done: false, cta: true },
-    { id: 5, label: 'مراجعة الأداء', sublabel: 'راجع جلساتك وتتبع تقدمك', done: false },
-    { id: 6, label: 'جلسات متقدمة', sublabel: 'استمر في التحسن بجلسات أعمق', done: false },
-];
+const DONE_FLAGS = [true, true, true, false, false, false];
 
 const Path = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { t, dir } = useLanguage();
+
+    const steps = t('path.steps').map((s, i) => ({
+        ...s,
+        id: i + 1,
+        done: DONE_FLAGS[i],
+    }));
 
     return (
-        <div className="flex-1 p-8 font-cairo" dir="rtl">
+        <div className="flex-1 p-8 font-cairo" dir={dir}>
             {/* Page Header */}
             <div className="mb-8">
-                <h1 className="text-2xl font-extrabold text-[#1b0444] mb-1">مسار التعلم</h1>
-                <p className="text-[#858597] text-sm">تتبع رحلتك في تعلم اللغات مع لُقَه.</p>
+                <h1 className="text-2xl font-extrabold text-[#1b0444] mb-1">{t('path.title')}</h1>
+                <p className="text-[#858597] text-sm">{t('path.subtitle')}</p>
             </div>
 
             {/* Progress Summary */}
             <div className="bg-gradient-to-br from-[#2994f9] to-[#31d4ed] rounded-2xl p-6 text-white mb-8 shadow-[0_8px_24px_rgba(41,148,249,0.25)]">
-                <p className="text-white/80 text-sm mb-1">مرحباً، {user?.name || 'متعلم'}!</p>
-                <h2 className="text-xl font-extrabold mb-3">أنت في بداية رحلتك</h2>
+                <p className="text-white/80 text-sm mb-1">{t('path.greeting')} {user?.name || (dir === 'rtl' ? 'متعلم' : 'Learner')}!</p>
+                <h2 className="text-xl font-extrabold mb-3">{t('path.progressIntro')}</h2>
                 <div className="flex items-center gap-3">
                     <div className="flex-1 bg-white/30 rounded-full h-2.5 overflow-hidden">
                         <div className="bg-white h-full rounded-full transition-all duration-500" style={{ width: '50%' }}></div>
                     </div>
-                    <span className="text-sm font-bold whitespace-nowrap">3 / 6 خطوات</span>
+                    <span className="text-sm font-bold whitespace-nowrap">3 / 6 {t('path.progressLabel')}</span>
                 </div>
             </div>
 
@@ -74,7 +75,7 @@ const Path = () => {
                                 onClick={() => navigate('/avatar-session')}
                                 className="shrink-0 px-4 py-1.5 rounded-xl bg-[#2994f9] text-white text-xs font-bold shadow-sm hover:bg-[#1a7de0] transition"
                             >
-                                ابدأ
+                                {t('path.startBtn')}
                             </button>
                         )}
                     </div>

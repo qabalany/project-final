@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const HeroBanner = ({ userName, avatarUrl }) => {
+    const { t, dir } = useLanguage();
     return (
         <div className="relative w-full h-[220px] lg:h-[312px] bg-[#1a0f35] rounded-xl overflow-hidden shadow-sm animate-[slideUpFade_0.4s_ease-out]">
             {/* CSS Shapes to mimic the original SVG background pattern */}
@@ -32,12 +34,12 @@ const HeroBanner = ({ userName, avatarUrl }) => {
             </div>
 
             {/* Text Content (Bottom Right) */}
-            <div className="absolute bottom-[20px] right-[20px] lg:bottom-[40px] lg:right-[40px] flex flex-col gap-1 lg:gap-3 items-end z-10 animate-[slideUpFade_0.6s_ease-out] max-w-[80%] pointer-events-none">
+            <div className="absolute bottom-[20px] right-[20px] lg:bottom-[40px] lg:right-[40px] flex flex-col gap-1 lg:gap-3 items-end z-10 animate-[slideUpFade_0.6s_ease-out] max-w-[80%] pointer-events-none" dir={dir}>
                 <span className="text-white/90 text-sm lg:text-2xl font-light font-cairo select-none">
-                    لنبدأ التعلم
+                    {t('heroBanner.subtitle')}
                 </span>
                 <h1 className="text-white text-2xl md:text-3xl lg:text-[56px] font-bold font-cairo leading-tight lg:leading-none select-none drop-shadow-md text-right break-words mt-2">
-                    اهلا <span className="block sm:inline">{userName}</span>
+                    {t('heroBanner.greeting')} <span className="block sm:inline">{userName}</span>
                 </h1>
             </div>
         </div>

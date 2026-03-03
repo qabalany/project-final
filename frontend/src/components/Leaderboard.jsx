@@ -1,14 +1,16 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Leaderboard = ({ users }) => {
+    const { t, dir } = useLanguage();
     return (
-        <div className="flex flex-col w-full gap-4 p-4 sm:p-9 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 animate-[slideUpFade_0.6s_ease-out_0.5s_both]">
+        <div className="flex flex-col w-full gap-4 p-4 sm:p-9 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 animate-[slideUpFade_0.6s_ease-out_0.5s_both]" dir={dir}>
             {/* Header with Title and Actions */}
             <div className="flex justify-between items-center mb-2.5">
-                <h2 className="font-cairo font-extrabold text-[#1b0444] text-[23px] leading-9">الأعلي مشاركة</h2>
+                <h2 className="font-cairo font-extrabold text-[#1b0444] text-[23px] leading-9">{t('home.leaderboardTitle')}</h2>
                 <div className="flex items-center gap-2">
                     <button className="text-[#1ea7ff] text-[17px] font-medium font-cairo hover:opacity-80 transition-opacity">
-                        المزيد
+                        {t('home.leaderboardMore')}
                     </button>
                     <button className="text-[#858597] text-2xl leading-none hover:text-[#232360] font-bold">⋮</button>
                 </div>
@@ -16,10 +18,10 @@ const Leaderboard = ({ users }) => {
 
             {/* Table Headers */}
             <div className="flex items-center justify-between w-full px-1 sm:px-3 py-2 text-[#858597] font-medium text-xs sm:text-sm font-cairo border-b border-[#f4f3fd]">
-                <span className="w-[100px] sm:w-[145px] text-right">الأسم</span>
-                <span className="w-[50px] sm:w-[64px] text-center">المستوي</span>
-                <span className="flex-1 text-center">النقاط</span>
-                <span className="flex-none font-semibold text-[#232360] text-sm sm:text-base">الأصدقاء</span>
+                <span className="w-[100px] sm:w-[145px] text-right">{t('home.colName')}</span>
+                <span className="w-[50px] sm:w-[64px] text-center">{t('home.colLevel')}</span>
+                <span className="flex-1 text-center">{t('home.colPoints')}</span>
+                <span className="flex-none font-semibold text-[#232360] text-sm sm:text-base">{t('home.colFriends')}</span>
             </div>
 
             {/* Rows */}
