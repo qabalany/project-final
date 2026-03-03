@@ -20,8 +20,8 @@ const Path = () => {
         <div className="flex-1 p-8 font-cairo" dir={dir}>
             {/* Page Header */}
             <div className="mb-8">
-                <h1 className="text-2xl font-extrabold text-[#1b0444] mb-1">{t('path.title')}</h1>
-                <p className="text-[#858597] text-sm">{t('path.subtitle')}</p>
+                <h1 className="text-2xl font-extrabold text-[#1b0444] dark:text-gray-100 mb-1">{t('path.title')}</h1>
+                <p className="text-[#858597] dark:text-gray-400 text-sm">{t('path.subtitle')}</p>
             </div>
 
             {/* Progress Summary */}
@@ -41,9 +41,9 @@ const Path = () => {
                 {steps.map((step, idx) => (
                     <div
                         key={step.id}
-                        className={`flex items-center gap-4 bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] px-5 py-4 transition-all duration-200
+                    className={`flex items-center gap-4 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-none px-5 py-4 transition-all duration-200
                             ${step.done ? 'opacity-70' : ''}
-                            ${step.cta ? 'border-2 border-[#2994f9]' : 'border border-[#f0f0f8]'}
+                            ${step.cta ? 'border-2 border-[#2994f9]' : 'border border-[#f0f0f8] dark:border-gray-700'}
                         `}
                     >
                         {/* Step indicator */}
@@ -65,8 +65,8 @@ const Path = () => {
 
                         {/* Text */}
                         <div className="flex-1">
-                            <p className={`text-sm font-bold ${step.done ? 'text-[#858597]' : 'text-[#1b0444]'}`}>{step.label}</p>
-                            <p className="text-xs text-[#b0b0c3] mt-0.5">{step.sublabel}</p>
+                            <p className={`text-sm font-bold ${step.done ? 'text-[#858597] dark:text-gray-500' : 'text-[#1b0444] dark:text-gray-100'}`}>{step.label}</p>
+                            <p className="text-xs text-[#b0b0c3] dark:text-gray-500 mt-0.5">{step.sublabel}</p>
                         </div>
 
                         {/* CTA Button */}

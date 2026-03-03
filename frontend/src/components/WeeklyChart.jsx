@@ -1,10 +1,12 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const WeeklyChart = () => {
+    const { t } = useLanguage();
     return (
-        <div className="flex flex-col flex-1 min-w-[320px] max-w-[482px] h-[267px] items-center gap-4 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 animate-[slideUpFade_0.4s_ease-out_both] delay-300">
-            <div className="w-full font-cairo font-bold text-[#1b0444] text-base text-right mb-2">
-                الانجاز الأسبوعي
+        <div className="flex flex-col flex-1 min-w-[320px] max-w-[482px] h-[267px] items-center gap-4 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 animate-[slideUpFade_0.4s_ease-out_both] delay-300">
+            <div className="w-full font-cairo font-bold text-[#1b0444] dark:text-gray-100 text-base text-right mb-2">
+                {t('home.weeklyChartTitle')}
             </div>
 
             {/* Chart Container */}

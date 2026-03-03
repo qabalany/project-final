@@ -23,6 +23,10 @@ const translations = {
             ctaDesc: 'ابدأ محادثتك الذكية لتحسين لغتك الآن.',
             ctaButton: 'ابدأ جلسة',
             langToggleLabel: 'English',
+            darkModeOn: 'الوضع الليلي',
+            darkModeOff: 'الوضع النهاري',
+            skipToMain: 'انتقل إلى المحتوى',
+            navLabel: 'التنقل الرئيسي',
         },
         heroBanner: {
             subtitle: 'لنبدأ التعلم',
@@ -139,6 +143,10 @@ const translations = {
             ctaDesc: 'Start a smart conversation to improve your language now.',
             ctaButton: 'Start Session',
             langToggleLabel: 'عربي',
+            darkModeOn: 'Dark mode',
+            darkModeOff: 'Light mode',
+            skipToMain: 'Skip to content',
+            navLabel: 'Main navigation',
         },
         heroBanner: {
             subtitle: "Let's start learning",

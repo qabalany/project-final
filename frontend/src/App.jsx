@@ -22,9 +22,11 @@ import Path from './pages/Path.jsx';
 import Messages from './pages/Messages.jsx';
 import AppFeedbackPage from './pages/AppFeedbackPage.jsx';
 import { LanguageProvider } from './context/LanguageContext.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 function App() {
   return (
+    <ThemeProvider>
     <LanguageProvider>
     <AuthProvider>
       <Router>
@@ -120,6 +122,7 @@ function App() {
       </Router>
     </AuthProvider>
     </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

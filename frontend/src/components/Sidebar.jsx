@@ -2,11 +2,13 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 const Sidebar = ({ activePage, isOpen, onClose }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const { t, dir, toggle, lang } = useLanguage();
+    const { isDark, toggleDark } = useTheme();
 
     const handleLogout = () => {
         logout();
@@ -38,7 +40,7 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
             <aside
                 className={`
                     fixed lg:static top-0 right-0 h-full
-                    w-[274px] bg-white lg:rounded-l-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.06)] 
+                    w-[274px] bg-white dark:bg-gray-800 lg:rounded-l-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.3)]
                     flex flex-col pt-10 pb-0 transition-transform duration-300 z-50 overflow-y-auto lg:overflow-visible shrink-0
                     ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
                 `}
@@ -47,7 +49,8 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                 {/* Close Button (Mobile Only) */}
                 <button
                     onClick={onClose}
-                    className="lg:hidden absolute top-4 left-4 p-2 text-[#858597] hover:text-[#232360] transition-colors"
+                    aria-label="إغلاق القائمة"
+                    className="lg:hidden absolute top-4 left-4 p-2 text-[#858597] hover:text-[#232360] dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -56,24 +59,29 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                 </button>
 
                 {/* Logo */}
-                <div className="flex flex-col items-center justify-center gap-1 mb-10 w-full cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
-                    <div className="flex items-center gap-2">
-                        <img src="/favicon.svg" alt="Logah Icon" className="w-[30px] h-[30px]" aria-hidden="true" />
-                        <span className="font-bold text-[24px] text-[#1b0444]">Logah</span>
-                    </div>
+                <div className="flex flex-col items-center justify-center gap-1 mb-10 w-full">
+                    <button
+                        onClick={() => navigate('/')}
+                        aria-label="Logah — الصفحة الرئيسية"
+                        className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80 bg-transparent border-none"
+                    >
+                        <img src="/favicon.svg" alt="" className="w-[30px] h-[30px]" aria-hidden="true" />
+                        <span className="font-bold text-[24px] text-[#1b0444] dark:text-gray-100">Logah</span>
+                    </button>
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex flex-col flex-1 gap-4 px-5 pb-10 h-full w-full justify-between">
+                <nav className="flex flex-col flex-1 gap-4 px-5 pb-10 h-full w-full justify-between" aria-label={t('sidebar.navLabel')}>
                     <div className="flex flex-col gap-4">
                         {navItems.map((item) => (
                             <button
                                 key={item.id}
                                 onClick={() => handleNavigation(item.path)}
+                                aria-current={activePage === item.id ? 'page' : undefined}
                                 className={`flex items-center justify-start gap-3.5 w-full h-[52px] px-[22px] rounded-xl border-none cursor-pointer font-cairo font-semibold text-base transition-colors duration-200
                             ${activePage === item.id
                                         ? 'bg-[#2994f9] text-white shadow-sm'
-                                        : 'bg-transparent text-[#858597] hover:bg-[#f4f3fd] hover:text-[#2994f9]'}`}
+                                        : 'bg-transparent text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#2994f9] dark:hover:text-[#2994f9]'}`}
                             >
                                 {/* Raw SVG component injected instead of an image tag */}
                                 <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0">
@@ -118,20 +126,35 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                         {/* Language Toggle */}
                         <button
                             onClick={toggle}
-                            className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] bg-[#f8f8fd] hover:bg-[#f0f0f9] text-[#858597] hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
+                            aria-label={t('sidebar.langToggleLabel')}
+                            className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#f8f8fd] dark:bg-gray-700 hover:bg-[#f0f0f9] dark:hover:bg-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] dark:hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
                         >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                             <span>{t('sidebar.langToggleLabel')}</span>
                         </button>
 
-                        <div className="w-full h-[2px] bg-[#f4f3fd] rounded-full my-1"></div>
+                        {/* Dark Mode Toggle */}
+                        <button
+                            onClick={toggleDark}
+                            aria-label={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
+                            className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#f8f8fd] dark:bg-gray-700 hover:bg-[#f0f0f9] dark:hover:bg-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] dark:hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
+                        >
+                            {isDark ? (
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                            ) : (
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            )}
+                            <span>{isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}</span>
+                        </button>
+
+                        <div className="w-full h-[2px] bg-[#f4f3fd] dark:bg-gray-700 rounded-full my-1" role="separator"></div>
 
                         <button
                             onClick={() => handleNavigation('/settings')}
                             className={`flex items-center justify-start gap-3.5 w-full h-[52px] px-[22px] rounded-xl border-none cursor-pointer font-cairo font-semibold text-base transition-colors duration-200
                             ${activePage === 'settings'
                                     ? 'bg-[#2994f9] text-white shadow-sm'
-                                    : 'bg-transparent text-[#858597] hover:bg-[#f4f3fd] hover:text-[#2994f9]'}`}
+                                    : 'bg-transparent text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#2994f9] dark:hover:text-[#2994f9]'}`}
                         >
                             <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -139,7 +162,7 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                             <span>{t('sidebar.settings')}</span>
                         </button>
 
-                        <button onClick={handleLogout} className="flex items-center justify-start gap-3.5 w-full h-[52px] px-[22px] rounded-xl bg-transparent text-[#858597] hover:bg-[#ffe5e5] hover:text-[#d32f2f] font-cairo font-semibold text-base transition-colors group mb-[20px]">
+                        <button onClick={handleLogout} className="flex items-center justify-start gap-3.5 w-full h-[52px] px-[22px] rounded-xl bg-transparent text-[#858597] dark:text-gray-400 hover:bg-[#ffe5e5] dark:hover:bg-red-900/30 hover:text-[#d32f2f] dark:hover:text-red-400 font-cairo font-semibold text-base transition-colors group mb-[20px]">
                             <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                             </div>

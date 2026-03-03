@@ -39,8 +39,8 @@ const AppFeedbackPage = () => {
         <div className="flex-1 p-8 font-cairo" dir={dir}>
             {/* Page Header */}
             <div className="mb-8">
-                <h1 className="text-2xl font-extrabold text-[#1b0444] mb-1">{t('appFeedback.title')}</h1>
-                <p className="text-[#858597] text-sm">{t('appFeedback.subtitle')}</p>
+                <h1 className="text-2xl font-extrabold text-[#1b0444] dark:text-gray-100 mb-1">{t('appFeedback.title')}</h1>
+                <p className="text-[#858597] dark:text-gray-400 text-sm">{t('appFeedback.subtitle')}</p>
             </div>
 
             <div className="max-w-xl">
@@ -69,24 +69,25 @@ const AppFeedbackPage = () => {
                 {/* Form Card */}
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-8 flex flex-col gap-5"
+                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-none p-8 flex flex-col gap-5"
                 >
                     {/* Name Field */}
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[#1b0444] font-bold text-sm">{t('appFeedback.nameLabel')}</label>
+                        <label className="text-[#1b0444] dark:text-gray-100 font-bold text-sm" htmlFor="feedback-name">{t('appFeedback.nameLabel')}</label>
                         <input
+                            id="feedback-name"
                             type="text"
                             name="name"
                             value={form.name}
                             onChange={handleChange}
                             placeholder={t('appFeedback.namePlaceholder')}
-                            className="w-full h-11 px-4 rounded-xl border border-[#e9e9f0] bg-[#fafafa] text-[#1b0444] font-cairo text-sm placeholder:text-[#b0b0c3] focus:outline-none focus:border-[#2994f9] focus:ring-2 focus:ring-[#2994f9]/20 transition"
+                            className="w-full h-11 px-4 rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#fafafa] dark:bg-gray-700 text-[#1b0444] dark:text-gray-100 font-cairo text-sm placeholder:text-[#b0b0c3] dark:placeholder:text-gray-500 focus:outline-none focus:border-[#2994f9] focus:ring-2 focus:ring-[#2994f9]/20 transition"
                         />
                     </div>
 
                     {/* Type Chips */}
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[#1b0444] font-bold text-sm">{t('appFeedback.typeLabel')}</label>
+                        <label className="text-[#1b0444] dark:text-gray-100 font-bold text-sm">{t('appFeedback.typeLabel')}</label>
                         <div className="flex gap-2 flex-wrap">
                             {t('appFeedback.types').map((chip) => (
                                 <button
@@ -100,7 +101,7 @@ const AppFeedbackPage = () => {
                                                 : `[${chip}] ${prev.message.replace(/^\[.*?\]\s*/, '')}`,
                                         }))
                                     }
-                                    className="px-4 py-1.5 rounded-full border border-[#e0e0f0] text-sm font-semibold text-[#858597] hover:border-[#2994f9] hover:text-[#2994f9] hover:bg-[#f0f8ff] transition"
+                                    className="px-4 py-1.5 rounded-full border border-[#e0e0f0] dark:border-gray-600 text-sm font-semibold text-[#858597] dark:text-gray-400 hover:border-[#2994f9] hover:text-[#2994f9] hover:bg-[#f0f8ff] dark:hover:bg-gray-600 transition"
                                 >
                                     {chip}
                                 </button>
@@ -110,15 +111,17 @@ const AppFeedbackPage = () => {
 
                     {/* Message Field */}
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[#1b0444] font-bold text-sm">{t('appFeedback.messageLabel')} <span className="text-red-500">*</span></label>
+                        <label className="text-[#1b0444] dark:text-gray-100 font-bold text-sm" htmlFor="feedback-message">{t('appFeedback.messageLabel')} <span className="text-red-500" aria-hidden="true">*</span></label>
                         <textarea
+                            id="feedback-message"
                             name="message"
                             value={form.message}
                             onChange={handleChange}
                             required
+                            aria-required="true"
                             rows={5}
                             placeholder={t('appFeedback.messagePlaceholder')}
-                            className="w-full px-4 py-3 rounded-xl border border-[#e9e9f0] bg-[#fafafa] text-[#1b0444] font-cairo text-sm placeholder:text-[#b0b0c3] resize-none focus:outline-none focus:border-[#2994f9] focus:ring-2 focus:ring-[#2994f9]/20 transition"
+                            className="w-full px-4 py-3 rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#fafafa] dark:bg-gray-700 text-[#1b0444] dark:text-gray-100 font-cairo text-sm placeholder:text-[#b0b0c3] dark:placeholder:text-gray-500 resize-none focus:outline-none focus:border-[#2994f9] focus:ring-2 focus:ring-[#2994f9]/20 transition"
                         />
                     </div>
 

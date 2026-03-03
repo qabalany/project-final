@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: add .dark to <html> to activate */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --color-primary-text: #1b0444;
@@ -37,5 +39,17 @@
         margin: 0;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Visible focus ring for keyboard navigation (Lighthouse accessibility) */
+    *:focus-visible {
+        outline: 2px solid #2994f9;
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+
+    /* Dark mode page background */
+    html.dark body {
+        background-color: #111827;
     }
 }
