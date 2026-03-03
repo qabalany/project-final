@@ -23,7 +23,7 @@ const GoogleAuthCallback = () => {
                     // Combine the profile data with the token
                     const fullUser = { ...userData, token };
 
-                    // Our AuthContext login method handles saving this to state & storage
+                    // AuthContext login method handles saving this to state & storage
                     login(fullUser);
 
                     // --- ROLE-BASED REDIRECTION ---

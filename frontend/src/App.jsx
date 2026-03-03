@@ -18,6 +18,9 @@ import Feedback from './pages/Feedback.jsx';
 import Home from './pages/Home.jsx';
 import Settings from './pages/Settings.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import Path from './pages/Path.jsx';
+import Messages from './pages/Messages.jsx';
+import AppFeedbackPage from './pages/AppFeedbackPage.jsx';
 
 function App() {
   return (
@@ -104,6 +107,9 @@ function App() {
           <Route element={<PrivateRoute><ProtectedLayout /></PrivateRoute>}>
             <Route path="/" element={<Home />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/path" element={<Path />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/app-feedback" element={<AppFeedbackPage />} />
           </Route>
 
           {/* Fallback */}

@@ -112,12 +112,7 @@ const SessionReview = () => {
                     <span className="font-bold text-lg text-[#232360] font-sans">Logah</span>
                 </div>
 
-                <div className="flex flex-col items-center justify-center w-full max-w-[200px] mx-auto">
-                    <span className="text-sm font-bold text-[#858597] mb-2">جاري استخراج النتيجة...</span>
-                    <div className="w-full h-2 bg-white rounded-full overflow-hidden shadow-sm border border-[#e5e7eb]">
-                        <div className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] transition-all duration-500" style={{ width: '50%' }}></div>
-                    </div>
-                </div>
+                <div className="w-1/3"></div>
 
                 <div className="flex items-center justify-end w-1/3">
                     <button className="flex items-center gap-2 bg-transparent border-none text-[#858597] text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
