@@ -1,4 +1,4 @@
-// Okay, this is where I define what a "User" looks like in my database
+// this define what a "User" looks like in the database
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
@@ -26,8 +26,8 @@ const userSchema = new mongoose.Schema(
             default: 'user', // Everyone is a normal user by default
         },
 
-        // --- Onboarding Data ---
-        // I need to save the answers from the onboarding wizard so the AI knows how to talk to them
+        // Onboarding Data
+        // need to save the answers from the onboarding wizard so the AI knows how to talk to them
         onboardingCompleted: {
             type: Boolean,
             default: false,
@@ -51,9 +51,9 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-// --- Password Protection Magic ---
+// Password Protection Magic
 
-// 1. Before saving a user to the database, I need to scramble their password
+// Before saving a user to the database, I need to scramble their password
 userSchema.pre('save', async function (next) {
     // If the user isn't updating their password, skip this step so I don't double-hash it!
     if (!this.isModified('password')) {
@@ -74,5 +74,5 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// I create the model and export it so I can use it in my routes later to find, create, or update users
+// create the model and export it so I can use it in my routes later to find, create, or update users
 export default mongoose.model('User', userSchema);

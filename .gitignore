@@ -1,6 +1,6 @@
 node_modules
 .DS_Store
-
+material/
 # Environments
 .env
 .env.local
@@ -20,5 +20,3 @@ yarn-error.log*
 # Lockfiles (optional, depending on project rules)
 package-lock.json
 
-# School requirement workaround (hiding material folders from git)
-material/

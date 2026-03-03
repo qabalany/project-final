@@ -3,7 +3,7 @@ import config from '../config/index.js';
 import Feedback from '../models/Feedback.model.js';
 
 // This is a list of mock data containing realistic Arabic feedback.
-// It allows developers to instantly populate their local database for testing the Admin Dashboard UI.
+// so i can populate local database for testing the Admin Dashboard UI.
 const mockFeedbacks = [
     {
         name: 'عبدالله الشهري',
