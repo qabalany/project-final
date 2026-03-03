@@ -19,31 +19,40 @@ const ProtectedLayout = () => {
     };
 
     return (
-        <div className="flex w-full min-h-screen bg-[#f3f4f8]" dir="rtl">
-            {/* Sidebar */}
-            <Sidebar
-                activePage={getActivePageId()}
-                isOpen={isMobileMenuOpen}
-                onClose={() => setIsMobileMenuOpen(false)}
-            />
-
+        <div className="flex justify-center min-h-screen bg-[#f3f4f8] font-cairo text-[#1b0444] lg:py-[30px] px-0 sm:px-4" dir="rtl">
             {/* Mobile Header (Hamburger Menu) */}
             <div className="lg:hidden fixed top-0 left-0 w-full h-[70px] bg-white flex items-center justify-between px-6 z-30 shadow-sm">
                 <div
-                    className="flex flex-col gap-[5px] cursor-pointer p-2"
+                    className="flex flex-col gap-[5px] cursor-pointer p-2 -mr-2"
                     onClick={() => setIsMobileMenuOpen(true)}
                 >
                     <div className="w-[24px] h-[3px] bg-[#1b0444] rounded-full"></div>
                     <div className="w-[18px] h-[3px] bg-[#1b0444] rounded-full"></div>
                     <div className="w-[24px] h-[3px] bg-[#1b0444] rounded-full"></div>
                 </div>
-                <img src="/favicon.svg" alt="Logah" className="w-[24px] h-[24px]" />
+                <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80">
+                    <img src="/favicon.svg" alt="Logah" className="w-8 h-8" />
+                    <span className="font-bold text-lg text-[#232360]">Logah</span>
+                </div>
+                {/* Spacer for flex balance */}
+                <div className="w-8 h-8"></div>
             </div>
 
-            {/* Main Content Area */}
-            <main className="flex-1 w-full lg:w-[calc(100%-274px)] h-screen overflow-y-auto px-4 lg:px-10 py-6 lg:py-10 mt-[70px] lg:mt-0 transition-all duration-300">
-                <Outlet />
-            </main>
+            <div className="flex w-full max-w-[1440px] gap-4 relative mt-[70px] lg:mt-0">
+                {/* Sidebar Wrapper */}
+                <div className="absolute lg:sticky lg:w-[274px] shrink-0 top-[31px] h-fit z-50">
+                    <Sidebar
+                        activePage={getActivePageId()}
+                        isOpen={isMobileMenuOpen}
+                        onClose={() => setIsMobileMenuOpen(false)}
+                    />
+                </div>
+
+                {/* Main Content Area */}
+                <main className="flex-1 w-full max-w-[1118px] flex flex-col gap-4 overflow-x-hidden pt-6 lg:pt-0 px-4 lg:px-0 pb-10">
+                    <Outlet />
+                </main>
+            </div>
         </div>
     );
 };
