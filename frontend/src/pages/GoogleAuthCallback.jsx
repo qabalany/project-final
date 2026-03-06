@@ -10,6 +10,13 @@ const GoogleAuthCallback = () => {
 
     useEffect(() => {
         const token = searchParams.get('token');
+        const error = searchParams.get('error');
+
+        if (error) {
+            navigate('/login?error=google_auth_failed');
+            return;
+        }
+
         if (token) {
             // Securely store the token temporarily to fetch the profile
             localStorage.setItem('token', token);

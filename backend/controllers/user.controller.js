@@ -156,3 +156,81 @@ export const googleLogin = async (req, res) => {
         res.status(401).json({ message: "Invalid Google token" });
     }
 };
+
+// @desc    Redirect browser to Google OAuth consent page
+// @route   GET /api/users/google
+// @access  Public
+export const googleOAuthRedirect = (req, res) => {
+    const oAuthClient = new OAuth2Client(
+        config.googleClientId,
+        config.googleClientSecret,
+        config.googleCallbackUrl
+    );
+    const url = oAuthClient.generateAuthUrl({
+        access_type: 'offline',
+        scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+        ],
+        prompt: 'select_account',
+    });
+    res.redirect(url);
+};
+
+// @desc    Handle Google OAuth callback, create session, redirect to frontend
+// @route   GET /api/users/google/callback
+// @access  Public
+export const googleOAuthCallback = async (req, res) => {
+    const { code } = req.query;
+
+    if (!code) {
+        return res.redirect(`${config.clientUrl}/login?error=google_auth_failed`);
+    }
+
+    try {
+        const oAuthClient = new OAuth2Client(
+            config.googleClientId,
+            config.googleClientSecret,
+            config.googleCallbackUrl
+        );
+
+        // Exchange the authorization code for tokens
+        const { tokens } = await oAuthClient.getToken(code);
+
+        // Verify the ID token to get user info
+        const ticket = await oAuthClient.verifyIdToken({
+            idToken: tokens.id_token,
+            audience: config.googleClientId,
+        });
+
+        const payload = ticket.getPayload();
+        const { email, name, sub: googleId } = payload;
+
+        // Find or create the user
+        let user = await User.findOne({ email });
+        if (user) {
+            if (!user.googleId) {
+                user.googleId = googleId;
+                await user.save();
+            }
+        } else {
+            user = await User.create({
+                name,
+                email,
+                googleId,
+                password: Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8),
+            });
+        }
+
+        // Sign our own JWT
+        const token = jwt.sign({ id: user._id }, config.jwtSecret, {
+            expiresIn: "30d",
+        });
+
+        // Redirect to frontend callback page with the JWT
+        res.redirect(`${config.clientUrl}/auth/callback?token=${token}`);
+    } catch (error) {
+        console.error("Google OAuth callback error:", error);
+        res.redirect(`${config.clientUrl}/login?error=google_auth_failed`);
+    }
+};

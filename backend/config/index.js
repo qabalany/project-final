@@ -9,6 +9,8 @@ const config = {
     mongoUri: process.env.MONGO_URI,
     jwtSecret: process.env.JWT_SECRET || 'fallback_secret',
     googleClientId: process.env.GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID',
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:8080/api/users/google/callback',
     clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
 
     // External APIs

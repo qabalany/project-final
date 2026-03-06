@@ -36,7 +36,7 @@ function App() {
           <Route path="/register" element={<Register />} />
 
           {/* OAuth Callback */}
-          <Route path="/api/users/google/callback" element={<GoogleAuthCallback />} />
+          <Route path="/auth/callback" element={<GoogleAuthCallback />} />
 
           {/* Onboarding Routes */}
           <Route
