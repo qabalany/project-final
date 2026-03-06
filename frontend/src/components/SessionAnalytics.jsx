@@ -26,7 +26,7 @@ const CEFR_COLORS = { A1: '#dc2626', A2: '#f59e0b', B1: '#31d4ed', B2: '#2994f9'
 const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null;
     return (
-        <div className="bg-white/95 backdrop-blur-sm px-4 py-2.5 rounded-xl shadow-lg border border-black/5 font-cairo text-sm" dir="rtl">
+        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm px-4 py-2.5 rounded-xl shadow-lg border border-black/5 dark:border-gray-700 font-cairo text-sm" dir="rtl">
             <p className="font-bold text-[#1b0444] mb-1">{label}</p>
             {payload.map((entry, i) => (
                 <p key={i} style={{ color: entry.color || COLORS.primary }} className="font-semibold">
@@ -64,14 +64,14 @@ const IconLevel = () => (
 
 /* ── Stat Card ── */
 const StatCard = ({ icon, value, label, color }) => (
-    <div className="flex flex-col items-center justify-center p-5 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+    <div className="flex flex-col items-center justify-center p-5 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 border border-black/5 dark:border-gray-700">
         <div className="flex items-center gap-8 mb-2">
-            <span className="text-[2rem] font-extrabold text-[#1b0444] leading-none">{value}</span>
+            <span className="text-[2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{value}</span>
             <div className={`w-[42px] h-[42px] rounded-full flex items-center justify-center shrink-0`} style={{ backgroundColor: color + '18', color }}>
                 {icon}
             </div>
         </div>
-        <span className="text-[0.9rem] text-[#858597] font-semibold mt-1">{label}</span>
+        <span className="text-[0.9rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{label}</span>
     </div>
 );
 
@@ -187,7 +187,7 @@ const SessionAnalytics = () => {
 
     // If no summary data came back (e.g. no sessions yet), show nothing
     if (!summary) return (
-        <div className="bg-white rounded-2xl p-10 text-center text-[#858597] font-cairo shadow-sm border border-black/5">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-10 text-center text-[#858597] dark:text-gray-400 font-cairo shadow-sm border border-black/5 dark:border-gray-700">
             {t('analytics.noData')}
         </div>
     );
@@ -211,8 +211,8 @@ const SessionAnalytics = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                 {/* Sessions Timeline */}
-                <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5">
-                    <h3 className="text-base font-extrabold text-[#1b0444] font-cairo mb-4 flex items-center gap-2">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700">
+                    <h3 className="text-base font-extrabold text-[#1b0444] dark:text-gray-100 font-cairo mb-4 flex items-center gap-2">
                         <span className="text-[#2994f9]"><IconLevel /></span>
                         {t('analytics.chartTimeline')}
                     </h3>
@@ -232,8 +232,8 @@ const SessionAnalytics = () => {
                 </div>
 
                 {/* CEFR Distribution */}
-                <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5">
-                    <h3 className="text-base font-extrabold text-[#1b0444] font-cairo mb-4 flex items-center gap-2">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700">
+                    <h3 className="text-base font-extrabold text-[#1b0444] dark:text-gray-100 font-cairo mb-4 flex items-center gap-2">
                         <span className="text-[#6366f1]">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="12" width="4" height="9" rx="1" /><rect x="10" y="7" width="4" height="14" rx="1" /><rect x="17" y="3" width="4" height="18" rx="1" /></svg>
                         </span>
@@ -256,8 +256,8 @@ const SessionAnalytics = () => {
 
                 {/* Avatar Usage Pie */}
                 {avatarData.length > 0 && (
-                    <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5">
-                        <h3 className="text-base font-extrabold text-[#1b0444] font-cairo mb-4 flex items-center gap-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700">
+                        <h3 className="text-base font-extrabold text-[#1b0444] dark:text-gray-100 font-cairo mb-4 flex items-center gap-2">
                             <span className="text-[#31d4ed]">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
                             </span>
@@ -280,26 +280,26 @@ const SessionAnalytics = () => {
 
             {/* ── User Activity Table ── */}
             {userActivity.length > 0 && (
-                <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 overflow-x-auto">
-                    <h3 className="text-base font-extrabold text-[#1b0444] font-cairo mb-4 flex items-center gap-2">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 overflow-x-auto">
+                    <h3 className="text-base font-extrabold text-[#1b0444] dark:text-gray-100 font-cairo mb-4 flex items-center gap-2">
                         <span className="text-[#059669]"><IconUsers /></span>
                         {t('analytics.chartUserActivity')}
                     </h3>
                     <table className="w-full text-sm font-cairo">
                         <thead>
-                            <tr className="border-b border-[#f0f0f5]">
-                                <th className="py-3 px-3 text-right font-bold text-[#858597]">{t('analytics.colUser')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colSessions')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colMinutes')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colLevel')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colAvatar')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colLastSession')}</th>
+                            <tr className="border-b border-[#f0f0f5] dark:border-gray-700">
+                                <th className="py-3 px-3 text-right font-bold text-[#858597] dark:text-gray-400">{t('analytics.colUser')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colSessions')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colMinutes')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colLevel')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colAvatar')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colLastSession')}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {userActivity.map((user, i) => (
-                                <tr key={i} className="border-b border-[#f8f8fb] hover:bg-[#fafaff] transition-colors">
-                                    <td className="py-3 px-3 font-bold text-[#1b0444]">
+                                <tr key={i} className="border-b border-[#f8f8fb] dark:border-gray-700 hover:bg-[#fafaff] dark:hover:bg-gray-700/50 transition-colors">
+                                    <td className="py-3 px-3 font-bold text-[#1b0444] dark:text-gray-100">
                                         <div className="flex items-center gap-2">
                                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-xs font-extrabold shrink-0">
                                                 {user.userName?.charAt(0) || '؟'}
@@ -307,8 +307,8 @@ const SessionAnalytics = () => {
                                             {user.userName}
                                         </div>
                                     </td>
-                                    <td className="py-3 px-3 text-center font-semibold text-[#1b0444]">{user.totalSessions}</td>
-                                    <td className="py-3 px-3 text-center font-semibold text-[#1b0444]">{user.totalMinutes} {t('analytics.minuteUnit')}</td>
+                                    <td className="py-3 px-3 text-center font-semibold text-[#1b0444] dark:text-gray-100">{user.totalSessions}</td>
+                                    <td className="py-3 px-3 text-center font-semibold text-[#1b0444] dark:text-gray-100">{user.totalMinutes} {t('analytics.minuteUnit')}</td>
                                     <td className="py-3 px-3 text-center">
                                         {user.latestLevel ? (
                                             <span className="px-2.5 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: CEFR_COLORS[user.latestLevel] || COLORS.muted }}>

@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import api from '../api/client';
 import FeedbackCharts from '../components/FeedbackCharts';
 import SessionAnalytics from '../components/SessionAnalytics';
@@ -79,6 +80,7 @@ const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const { t, toggle, lang, dir } = useLanguage();
+    const { isDark, toggleDark } = useTheme();
 
     const [searchName, setSearchName] = useState('');
     const [activeTab, setActiveTab] = useState('feedback');
@@ -153,26 +155,38 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#f0f2f8] via-[#e8eaf3] to-[#f4f3fd] font-cairo" dir={dir}>
+        <div className="min-h-screen bg-gradient-to-br from-[#f0f2f8] via-[#e8eaf3] to-[#f4f3fd] dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 font-cairo" dir={dir}>
             {/* Header */}
-            <header className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 p-4 md:px-8 bg-white border-b border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] sticky top-0 z-[100]">
+            <header className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 p-4 md:px-8 bg-white dark:bg-gray-800 border-b border-black/5 dark:border-gray-700 shadow-[0_2px_12px_rgba(0,0,0,0.04)] sticky top-0 z-[100]">
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                     <div className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
                         <img src="/favicon.svg" alt="Logah" className="w-8 h-8" />
-                        <span className="font-extrabold text-[#1b0444] text-xl tracking-tight">Logah</span>
+                        <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-xl tracking-tight">Logah</span>
                     </div>
-                    <div className="hidden md:block w-px h-7 bg-[#e0e0e8]"></div>
-                    <h1 className="text-lg font-bold text-[#1b0444] m-0">
+                    <div className="hidden md:block w-px h-7 bg-[#e0e0e8] dark:bg-gray-600"></div>
+                    <h1 className="text-lg font-bold text-[#1b0444] dark:text-gray-100 m-0">
                         {t(`admin.headerTitles.${activeTab}`)}
                     </h1>
                 </div>
                 <div className="flex items-center gap-4">
                     <button
                         onClick={toggle}
-                        className="px-3 py-1.5 rounded-xl border-[1.5px] border-[#e0e0e8] text-[#858597] font-cairo text-sm font-bold hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
+                        className="px-3 py-1.5 rounded-xl border-[1.5px] border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 font-cairo text-sm font-bold hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
                         title="Switch language"
                     >
                         {lang === 'ar' ? 'EN' : 'ع'}
+                    </button>
+                    <button
+                        onClick={toggleDark}
+                        aria-label={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
+                        className="p-2 rounded-xl border-[1.5px] border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
+                        title={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
+                    >
+                        {isDark ? (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        ) : (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        )}
                     </button>
                     <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-[#fff7e6] to-[#fff3db] border border-[#fce4a8] rounded-full text-sm font-semibold text-[#7a5e2a]">
                         <span className="flex items-center"><IconShield /></span>
@@ -190,11 +204,11 @@ const AdminDashboard = () => {
 
             <main className="max-w-7xl mx-auto p-4 md:p-8">
                 {/* Tab Navigation */}
-                <div className="flex items-center gap-2 mb-6 bg-white rounded-2xl p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/5 w-fit">
+                <div className="flex items-center gap-2 mb-6 bg-white dark:bg-gray-800 rounded-2xl p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-none border border-black/5 dark:border-gray-700 w-fit">
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'feedback'
                             ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
-                            : 'text-[#858597] hover:bg-[#f4f3fd] hover:text-[#1b0444]'
+                            : 'text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('feedback')}
                     >
@@ -206,7 +220,7 @@ const AdminDashboard = () => {
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'sessions'
                             ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
-                            : 'text-[#858597] hover:bg-[#f4f3fd] hover:text-[#1b0444]'
+                            : 'text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('sessions')}
                     >
@@ -218,7 +232,7 @@ const AdminDashboard = () => {
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'app-feedback'
                             ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
-                            : 'text-[#858597] hover:bg-[#f4f3fd] hover:text-[#1b0444]'
+                            : 'text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('app-feedback')}
                     >
