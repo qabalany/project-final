@@ -15,7 +15,10 @@ const port = config.port;
 const app = express();
 
 // Set up basic middleware for JSON and CORS
-app.use(cors());
+app.use(cors({
+  origin: config.clientUrl,
+  credentials: true,
+}));
 app.use(express.json());
 
 // create a super simple route just to see if the server is actually working

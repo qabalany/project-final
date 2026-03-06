@@ -2,8 +2,7 @@ import axios from 'axios';
 
 // Create a customized instance of Axios
 const apiClient = axios.create({
-    // This points to our Node.js backend running on port 8080
-    baseURL: 'http://localhost:8080/api',
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
