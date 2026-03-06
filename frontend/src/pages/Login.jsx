@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login as loginService, API_URL } from '../api/auth.service';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const DEMO_EMAIL = 'test@logah.mvp';
 const DEMO_PASSWORD = 'Logah2030';
@@ -26,6 +27,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const { login } = useAuth();
+    const { t, toggle, lang, dir } = useLanguage();
 
     // Carousel auto-advance logic
     // useCallback prevents this function from being recreated every single time the component re-renders
@@ -68,15 +70,15 @@ const Login = () => {
         let newErrors = {};
 
         if (!formData.email.trim()) {
-            newErrors.email = 'البريد الإلكتروني مطلوب';
+            newErrors.email = t('login.errors.emailRequired');
         } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'يرجى إدخال بريد إلكتروني صحيح';
+            newErrors.email = t('login.errors.emailInvalid');
         }
 
         if (!formData.password.trim()) {
-            newErrors.password = 'كلمة السر مطلوبة';
+            newErrors.password = t('login.errors.passwordRequired');
         } else if (formData.password.length < 6) {
-            newErrors.password = 'كلمة السر يجب أن تكون 6 أحرف على الأقل';
+            newErrors.password = t('login.errors.passwordMin');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -106,7 +108,7 @@ const Login = () => {
             }
         } catch (err) {
             // If the backend sends an error (like "Invalid password"), display it globally
-            setErrors({ general: err.response?.data?.message || 'حدث خطأ أثناء تسجيل الدخول' });
+            setErrors({ general: err.response?.data?.message || t('login.errors.general') });
         } finally {
             // Always turn off the loading spinner, even if it failed
             setLoading(false);
@@ -122,34 +124,22 @@ const Login = () => {
             login(userData);
             navigate('/mother-tongue');
         } catch (err) {
-            setErrors({ general: 'تعذر الدخول للحساب التجريبي، حاول مجدداً' });
+            setErrors({ general: t('login.errors.demoFailed') });
         } finally {
             setLoading(false);
         }
     };
 
     const slides = [
-        {
-            img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration.png',
-            title: 'العديد من الدورات التجريبية المجانية',
-            desc: 'دورات مجانية لمساعدتك على اكتشاف طريقك في التعلّم.',
-        },
-        {
-            img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-1.png',
-            title: 'تعلّم سريع وسهل',
-            desc: 'تعلّم بسهولة وفي أي وقت، لتطوير مهاراتك في اللغة الإنجليزية بسرعة وفعالية.',
-        },
-        {
-            img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-2.png',
-            title: 'دروس مخصصة لك',
-            desc: 'دروس تناسب مستواك وأهدافك، لضمان التقدم المستمر.',
-        },
+        { img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration.png', title: t('authSlides.0.title'), desc: t('authSlides.0.desc') },
+        { img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-1.png', title: t('authSlides.1.title'), desc: t('authSlides.1.desc') },
+        { img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-2.png', title: t('authSlides.2.title'), desc: t('authSlides.2.desc') },
     ];
 
     return (
         // <main> is a semantic HTML tag. It helps screen readers identify the primary purpose of this page.
         // Tailwind Notes: 'flex-col lg:flex-row' makes it stack vertically on phones, but side-by-side on desktops (lg screens).
-        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
+        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir={dir}>
 
             {/* --- CAROUSEL SECTION --- */}
             {/* aria-label ensures screen readers hear "ميزات التطبيق" when focusing on this section */}
@@ -164,8 +154,8 @@ const Login = () => {
                             <div className="w-[33.333%] h-full flex justify-center items-center bg-white p-[60px_40px] xl:p-[80px_60px] box-border" key={i}>
                                 <div className="flex flex-col items-center text-center gap-5 max-w-[395px]">
                                     <img src={slide.img} alt={slide.title} className="w-[250px] h-[250px] xl:w-[363px] xl:h-[363px] object-contain" />
-                                    <h2 className="font-bold text-[#1b0444] text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir="rtl">{slide.title}</h2>
-                                    <p className="font-normal text-[#858597] text-[18px] xl:text-[22px] leading-normal m-0" dir="rtl">{slide.desc}</p>
+                                    <h2 className="font-bold text-[#1b0444] text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir={dir}>{slide.title}</h2>
+                                    <p className="font-normal text-[#858597] text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
                                 </div>
                             </div>
                         ))}
@@ -187,7 +177,12 @@ const Login = () => {
 
             {/* --- FORM SECTION --- */}
             <section className="flex-1 flex flex-col items-start justify-center p-5 sm:p-[40px_20px] lg:p-[40px_60px] w-full max-w-[450px] lg:max-w-[512px] mx-auto gap-[35px]">
-                <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0" dir="rtl">تسجيل الدخول</h1>
+                <div className="flex items-center justify-between w-full">
+                    <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0">{t('login.title')}</h1>
+                    <button onClick={toggle} className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1 hover:bg-[#2994f9] hover:text-white transition-colors duration-200">
+                        {lang === 'ar' ? 'English' : 'عربي'}
+                    </button>
+                </div>
 
                 {/* LIGHTHOUSE ACCESSIBILITY: role="alert" guarantees the screen reader will interrupt its reading to announce this error. */}
                 {errors.general && <div role="alert" className="bg-[#fee] text-[#c33] p-3 rounded-lg text-center border border-[#fcc] w-full text-[14px]">
@@ -201,8 +196,8 @@ const Login = () => {
                         {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
                             {/* LIGHTHOUSE ACCESSIBILITY: htmlFor literally binds this text to the input with id="emailInput" */}
-                            <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
-                                البريد الألكتروني
+                            <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal">
+                                {t('login.emailLabel')}
                             </label>
 
                             {/* Tailwind Notes: focus-within colors the entire border blue if the user clicks *anywhere* inside this div */}
@@ -228,8 +223,8 @@ const Login = () => {
 
                         {/* --- PASSWORD INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="passwordInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
-                                كلمة السر
+                            <label htmlFor="passwordInput" className="font-normal text-[#858597] text-[14px] leading-normal">
+                                {t('login.passwordLabel')}
                             </label>
                             <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
                                 <input
@@ -252,7 +247,7 @@ const Login = () => {
                                     className="bg-transparent border-none cursor-pointer p-1 flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
                                     onClick={() => setShowPassword(!showPassword)}
                                     // Dynamic ARIA label based on state
-                                    aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+                                    aria-label={showPassword ? t('login.hidePassword') : t('login.showPassword')}
                                 >
                                     {/* aria-hidden="true" tells the screen reader to completely ignore this graphic */}
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -266,8 +261,8 @@ const Login = () => {
                         </div>
 
                         <div className="flex justify-start">
-                            <Link to="/forgot-password" className="font-normal text-[#858597] text-[15px] no-underline transition-colors duration-300 hover:text-[#2994f9]" dir="rtl">
-                                هل نسيت كلمة المرور؟
+                            <Link to="/forgot-password" className="font-normal text-[#858597] text-[15px] no-underline transition-colors duration-300 hover:text-[#2994f9]">
+                                {t('login.forgotPassword')}
                             </Link>
                         </div>
                     </div>
@@ -280,15 +275,15 @@ const Login = () => {
                             disabled={loading}
                             aria-live="polite"
                         >
-                            <span className="font-sans font-bold text-[15px]" dir="rtl">
-                                {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+                            <span className="font-sans font-bold text-[15px]">
+                                {loading ? t('login.submitting') : t('login.submitBtn')}
                             </span>
                         </button>
 
                         <div className="flex items-center gap-[3px]">
-                            <span className="font-medium text-[#858597] text-[15px]">ليس لديك حساب؟</span>
+                            <span className="font-medium text-[#858597] text-[15px]">{t('login.noAccount')}</span>
                             <Link to="/register" className="font-medium text-[15px] bg-gradient-to-br from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent no-underline transition-opacity duration-300 hover:opacity-80">
-                                إنشاء حساب
+                                {t('login.createAccount')}
                             </Link>
                         </div>
                     </div>
@@ -296,8 +291,8 @@ const Login = () => {
                     {/* Social Login */}
                     <div className="flex items-center gap-4 w-full">
                         <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
-                        <span className="opacity-50 font-normal text-[#1b0444] text-[14px] whitespace-nowrap" dir="rtl">
-                            او سجل الدخول عن طريق
+                        <span className="opacity-50 font-normal text-[#1b0444] text-[14px] whitespace-nowrap">
+                            {t('login.orWith')}
                         </span>
                         <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
                     </div>
@@ -308,7 +303,7 @@ const Login = () => {
                         <a
                             href={`${API_URL}/users/google`}
                             className="shrink-0 w-12 h-12 rounded-full border-[1.5px] border-[#b8b8d2] bg-white flex items-center justify-center cursor-pointer transition-all duration-250 ease no-underline hover:border-[#858597] hover:bg-[#f8f8ff] hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
-                            aria-label="الدخول باستخدام حساب جوجل"
+                            aria-label={t('login.googleBtn')}
                         >
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -325,12 +320,12 @@ const Login = () => {
                             style={{ background: 'linear-gradient(135deg, rgba(41, 148, 249, 0.1) 0%, rgba(49, 212, 237, 0.1) 100%)' }}
                             onClick={handleDemoLogin}
                             disabled={loading}
-                            aria-label="تسجيل الدخول بالحساب التجريبي"
+                            aria-label={t('login.demoBtn')}
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-[#2994f9] to-[#31d4ed] opacity-0 transition-opacity duration-250 ease pointer-events-none group-hover:opacity-100"></div>
                             <span className="text-[17px] leading-none relative z-10 transition-all duration-250 ease group-hover:brightness-[10]" aria-hidden="true">🧪</span>
                             <span className="font-sans font-bold text-[15px] dir-rtl relative z-10 bg-gradient-to-br from-[#2994f9] to-[#31d4ed] bg-clip-text text-transparent transition-all duration-250 ease group-hover:text-white group-hover:bg-none">
-                                {loading ? 'جاري الدخول...' : 'الحساب التجريبي'}
+                                {loading ? t('login.demoLoading') : t('login.demoBtn')}
                             </span>
                         </button>
                     </div>

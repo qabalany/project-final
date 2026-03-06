@@ -10,7 +10,7 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }) => {
-    const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'ar');
+    const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'en');
 
     const toggle = () => setLang(prev => (prev === 'ar' ? 'en' : 'ar'));
 

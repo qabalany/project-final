@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register as registerService } from '../api/auth.service';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -18,6 +19,7 @@ const Register = () => {
 
     const navigate = useNavigate();
     const { login } = useAuth();
+    const { t, toggle, lang, dir } = useLanguage();
 
     // 2. CAROUSEL STATE
     // useCallback prevents this slide timer from being destroyed and recreated every re-render
@@ -50,20 +52,19 @@ const Register = () => {
         let newErrors = {};
 
         if (!formData.email.trim()) {
-            newErrors.email = 'البريد الإلكتروني مطلوب';
+            newErrors.email = t('register.errors.emailRequired');
         } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'البريد الإلكتروني غير صالح';
+            newErrors.email = t('register.errors.emailInvalid');
         }
 
         if (!formData.password) {
-            newErrors.password = 'كلمة السر مطلوبة';
+            newErrors.password = t('register.errors.passwordRequired');
         } else if (formData.password.length < 6) {
-            newErrors.password = 'كلمة السر يجب أن تكون 6 أحرف على الأقل';
+            newErrors.password = t('register.errors.passwordMin');
         }
 
-        // IMPORTANT: We block submission if the terms and conditions checkbox isn't checked
         if (!termsAccepted) {
-            newErrors.terms = 'يجب الموافقة على الشروط والأحكام';
+            newErrors.terms = t('register.errors.termsRequired');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -78,32 +79,20 @@ const Register = () => {
             login(userData);
             navigate('/mother-tongue');
         } catch (err) {
-            setErrors({ general: err.response?.data?.message || 'حدث خطأ أثناء التسجيل' });
+            setErrors({ general: err.response?.data?.message || t('register.errors.general') });
         } finally {
             setLoading(false);
         }
     };
 
     const slides = [
-        {
-            img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration.png',
-            title: 'العديد من الدورات التجريبية المجانية',
-            desc: 'دورات مجانية لمساعدتك على اكتشاف طريقك في التعلّم.',
-        },
-        {
-            img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-1.png',
-            title: 'تعلّم سريع وسهل',
-            desc: 'تعلّم بسهولة وفي أي وقت، لتطوير مهاراتك في اللغة الإنجليزية بسرعة وفعالية.',
-        },
-        {
-            img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-2.png',
-            title: 'دروس مخصصة لك',
-            desc: 'دروس تناسب مستواك وأهدافك، لضمان التقدم المستمر.',
-        },
+        { img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration.png', title: t('authSlides.0.title'), desc: t('authSlides.0.desc') },
+        { img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-1.png', title: t('authSlides.1.title'), desc: t('authSlides.1.desc') },
+        { img: 'https://c.animaapp.com/mls6bns1cyyo2R/img/illustration-2.png', title: t('authSlides.2.title'), desc: t('authSlides.2.desc') },
     ];
 
     return (
-        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir="rtl">
+        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir={dir}>
             {/* Carousel Section */}
             <section aria-label="ميزات التطبيق" className="hidden lg:block w-full max-w-[500px] xl:max-w-[616px] h-[700px] xl:h-[816px] lg:mt-16 lg:mr-[60px] xl:mr-[104px] rounded-[30px] overflow-hidden relative shrink-0">
                 <div className="w-full h-full overflow-hidden relative">
@@ -115,8 +104,8 @@ const Register = () => {
                             <div className="w-[33.333%] h-full flex justify-center items-center bg-white p-[60px_40px] xl:p-[80px_60px] box-border" key={i}>
                                 <div className="flex flex-col items-center text-center gap-5 max-w-[395px]">
                                     <img src={slide.img} alt={slide.title} className="w-[250px] h-[250px] xl:w-[363px] xl:h-[363px] object-contain" />
-                                    <h2 className="font-bold text-[#1b0444] text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir="rtl">{slide.title}</h2>
-                                    <p className="font-normal text-[#858597] text-[18px] xl:text-[22px] leading-normal m-0" dir="rtl">{slide.desc}</p>
+                                    <h2 className="font-bold text-[#1b0444] text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir={dir}>{slide.title}</h2>
+                                    <p className="font-normal text-[#858597] text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
                                 </div>
                             </div>
                         ))}
@@ -139,8 +128,13 @@ const Register = () => {
             {/* --- FORM SECTION --- */}
             <section className="flex-1 flex flex-col items-start justify-center p-5 sm:p-[40px_20px] lg:p-[40px_60px] w-full max-w-[450px] lg:max-w-[512px] mx-auto gap-[35px]">
                 <div className="flex flex-col gap-[2px]">
-                    <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0" dir="rtl">إنشاء حساب</h1>
-                    <p className="text-[#858597] font-normal text-[15px] m-0">أدخل بياناتك أدناه وأنشئ حسابًا مجانًا</p>
+                    <div className="flex items-center justify-between">
+                        <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0">{t('register.title')}</h1>
+                        <button onClick={toggle} className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1 hover:bg-[#2994f9] hover:text-white transition-colors duration-200">
+                            {lang === 'ar' ? 'English' : 'عربي'}
+                        </button>
+                    </div>
+                    <p className="text-[#858597] font-normal text-[15px] m-0">{t('register.subtitle')}</p>
                 </div>
 
                 {/* Global errors (like "Email already in use") appear here */}
@@ -154,8 +148,8 @@ const Register = () => {
 
                         {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
-                                البريد الألكتروني
+                            <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal">
+                                {t('register.emailLabel')}
                             </label>
                             <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border focus-within:border-[#2994f9] ${errors.email ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
                                 <input
@@ -176,8 +170,8 @@ const Register = () => {
 
                         {/* Password */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="passwordInput" className="font-normal text-[#858597] text-[14px] leading-normal" dir="rtl">
-                                كلمة السر
+                            <label htmlFor="passwordInput" className="font-normal text-[#858597] text-[14px] leading-normal">
+                                {t('register.passwordLabel')}
                             </label>
                             <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
                                 <input
@@ -196,7 +190,7 @@ const Register = () => {
                                     type="button"
                                     className="bg-transparent border-none cursor-pointer p-1 flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+                                    aria-label={showPassword ? t('register.hidePassword') : t('register.showPassword')}
                                 >
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                                         <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="#858597" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -217,8 +211,8 @@ const Register = () => {
                             disabled={loading}
                             aria-live="polite"
                         >
-                            <span className="font-sans font-bold text-[15px]" dir="rtl">
-                                {loading ? 'جاري الإنشاء...' : 'إنشاء حساب'}
+                            <span className="font-sans font-bold text-[15px]">
+                                {loading ? t('register.submitting') : t('register.submitBtn')}
                             </span>
                         </button>
 
@@ -247,25 +241,25 @@ const Register = () => {
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
                                 </div>
-                                <span className="font-normal text-[#858597] text-[15px] leading-[1.4]" dir="rtl">
-                                    بإنشاء حساب، فإنك توافق على الشروط والأحكام الخاصة بنا.
+                                <span className="font-normal text-[#858597] text-[15px] leading-[1.4]">
+                                    {t('register.terms')}
                                 </span>
                             </label>
                         </div>
                         {errors.terms && <span id="termsError" className="text-[12px] text-[#ff4444] min-h-[18px] self-start" dir="rtl" role="alert">{errors.terms}</span>}
 
                         <div className="flex items-center gap-[3px] mt-2">
-                            <span className="font-medium text-[#858597] text-[15px]">لديك حساب بالفعل؟</span>
+                            <span className="font-medium text-[#858597] text-[15px]">{t('register.haveAccount')}</span>
                             <Link to="/login" className="font-medium text-[15px] bg-gradient-to-br from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent no-underline transition-opacity duration-300 hover:opacity-80">
-                                تسجيل الدخول
+                                {t('register.signIn')}
                             </Link>
                         </div>
 
                         {/* Social Login */}
                         <div className="flex items-center gap-4 w-full mt-2">
                             <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
-                            <span className="opacity-50 font-normal text-[#1b0444] text-[14px] whitespace-nowrap" dir="rtl">
-                                او سجل عن طريق
+                            <span className="opacity-50 font-normal text-[#1b0444] text-[14px] whitespace-nowrap">
+                                {t('register.orWith')}
                             </span>
                             <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
                         </div>
@@ -273,7 +267,7 @@ const Register = () => {
                         <a
                             href={`${API_URL}/users/google`}
                             className="flex items-center justify-center gap-[12px] w-full h-[48px] border border-[#b8b8d2] rounded-[8px] bg-white cursor-pointer transition-all duration-300 ease no-underline hover:bg-[#f8f8ff] hover:border-[#858597]"
-                            aria-label="التسجيل باستخدام حساب جوجل"
+                            aria-label={t('register.googleBtn')}
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -281,7 +275,7 @@ const Register = () => {
                                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                             </svg>
-                            <span className="font-sans font-medium text-[#1b0444] text-[15px]" dir="rtl">التسجيل لحساب جوجل</span>
+                            <span className="font-sans font-medium text-[#1b0444] text-[15px]">{t('register.googleBtn')}</span>
                         </a>
                     </div>
                 </form>
