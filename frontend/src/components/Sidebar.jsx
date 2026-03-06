@@ -91,6 +91,30 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                             </button>
                         ))}
 
+                        {/* Language & Theme Toggles */}
+                        <div className="flex flex-col gap-2">
+                            <button
+                                onClick={toggle}
+                                aria-label={t('sidebar.langToggleLabel')}
+                                className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#f8f8fd] dark:bg-gray-700 hover:bg-[#f0f0f9] dark:hover:bg-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] dark:hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                <span>{t('sidebar.langToggleLabel')}</span>
+                            </button>
+                            <button
+                                onClick={toggleDark}
+                                aria-label={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
+                                className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#f8f8fd] dark:bg-gray-700 hover:bg-[#f0f0f9] dark:hover:bg-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] dark:hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
+                            >
+                                {isDark ? (
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                                ) : (
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                                )}
+                                <span>{isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}</span>
+                            </button>
+                        </div>
+
                         {/* CTA: Start Session Banner */}
                         <div className="relative mt-2 rounded-[24px] bg-gradient-to-br from-[#2994f9] to-[#31d4ed] p-5 overflow-hidden shadow-[0_8px_24px_rgba(41,148,249,0.25)] transition-all duration-300 hover:shadow-[0_12px_30px_rgba(41,148,249,0.35)] hover:-translate-y-0.5 group">
                             {/* Decorative background shapes */}
@@ -123,30 +147,6 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
                     </div>
 
                     <div className="flex flex-col gap-4 mt-auto">
-                        {/* Language Toggle */}
-                        <button
-                            onClick={toggle}
-                            aria-label={t('sidebar.langToggleLabel')}
-                            className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#f8f8fd] dark:bg-gray-700 hover:bg-[#f0f0f9] dark:hover:bg-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] dark:hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                            <span>{t('sidebar.langToggleLabel')}</span>
-                        </button>
-
-                        {/* Dark Mode Toggle */}
-                        <button
-                            onClick={toggleDark}
-                            aria-label={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
-                            className="flex items-center justify-center gap-2 w-full h-[44px] px-[22px] rounded-xl border border-[#e9e9f0] dark:border-gray-600 bg-[#f8f8fd] dark:bg-gray-700 hover:bg-[#f0f0f9] dark:hover:bg-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] dark:hover:text-[#2994f9] font-cairo font-semibold text-sm transition-colors duration-200"
-                        >
-                            {isDark ? (
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                            ) : (
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                            )}
-                            <span>{isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}</span>
-                        </button>
-
                         <div className="w-full h-[2px] bg-[#f4f3fd] dark:bg-gray-700 rounded-full my-1" role="separator"></div>
 
                         <button

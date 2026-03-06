@@ -92,24 +92,30 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
         return result;
     }, [feedbacks]);
 
-    // Count responses per ease-of-use category
+    // Count responses per ease-of-use category (Arabic DB values mapped to English)
     const easeData = useMemo(() => {
+        const easeMap = {
+            'سهل جداً': 'Very Easy',
+            'سهل لحد ما': 'Somewhat Easy',
+            'محايد': 'Neutral',
+            'صعب': 'Difficult',
+        };
         const counts = {};
         feedbacks.forEach(f => {
-            const val = f.easeOfUse || 'غير محدد';
+            const val = easeMap[f.easeOfUse] || f.easeOfUse || 'Unknown';
             counts[val] = (counts[val] || 0) + 1;
         });
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
     }, [feedbacks]);
 
-    // Count how many users would recommend the platform
+    // Count how many users would recommend the platform (Arabic DB values mapped to English)
     const recommendData = useMemo(() => {
         const counts = {};
         feedbacks.forEach(f => {
-            let val = 'غير محدد';
-            if (f.recommendation?.includes('بالتأكيد')) val = 'بالتأكيد';
-            else if (f.recommendation?.includes('ربما')) val = 'ربما';
-            else if (f.recommendation?.includes('لا')) val = 'لا أعتقد';
+            let val = 'Unknown';
+            if (f.recommendation?.includes('بالتأكيد')) val = 'Definitely';
+            else if (f.recommendation?.includes('ربما')) val = 'Maybe';
+            else if (f.recommendation?.includes('لا')) val = 'No';
             counts[val] = (counts[val] || 0) + 1;
         });
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
@@ -206,7 +212,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
                                 verticalAlign="bottom"
                                 align="center"
                                 iconType="circle"
-                                formatter={(value) => <span className="font-cairo text-[13px] font-bold text-[#1b0444]" style={{ marginRight: '8px', marginLeft: '8px' }}>{value}</span>}
+                                formatter={(value) => <span className="font-cairo text-[13px] font-bold text-[#1b0444] dark:text-gray-100" style={{ marginRight: '8px', marginLeft: '8px' }}>{value}</span>}
                                 wrapperStyle={{ paddingBottom: '10px' }}
                             />
                         </PieChart>
@@ -214,7 +220,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
                 </div>
             </div>
 
-            {/* ── Recommendation Donut Chart ── */}
+            {/* ── Recommendation Donut Chart ── */
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)]">
                 <SectionTitle
                     icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>}
@@ -242,7 +248,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
                                 verticalAlign="bottom"
                                 align="center"
                                 iconType="circle"
-                                formatter={(value) => <span className="font-cairo text-[13px] font-bold text-[#1b0444]" style={{ marginRight: '8px', marginLeft: '8px' }}>{value}</span>}
+                                formatter={(value) => <span className="font-cairo text-[13px] font-bold text-[#1b0444] dark:text-gray-100" style={{ marginRight: '8px', marginLeft: '8px' }}>{value}</span>}
                                 wrapperStyle={{ paddingBottom: '10px' }}
                             />
                         </PieChart>

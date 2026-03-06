@@ -141,12 +141,17 @@ const SessionAnalytics = () => {
         });
     }, [summary]);
 
-    // Convert avatar usage stats to pie chart format
+    // Convert avatar usage stats to pie chart format, merging duplicates by normalised key
     const avatarData = useMemo(() => {
         if (!summary?.avatarUsage) return [];
-        return summary.avatarUsage.map(d => ({
-            name: d.avatar === 'ula' ? 'Ula (أمريكية)' : 'Tuwaiq (بريطاني)',
-            value: d.count,
+        const merged = {};
+        summary.avatarUsage.forEach(d => {
+            const key = String(d.avatar).toLowerCase().includes('tuwaiq') ? 'tuwaiq' : 'ula';
+            merged[key] = (merged[key] || 0) + d.count;
+        });
+        return Object.entries(merged).map(([key, count]) => ({
+            name: key === 'ula' ? 'Ula (American)' : 'Tuwaiq (British)',
+            value: count,
         }));
     }, [summary]);
 
@@ -185,6 +190,17 @@ const SessionAnalytics = () => {
         );
     }
 
+    // Format a duration in seconds as e.g. "1h 4m 30s", "4m 30s", or "45s"
+    const formatDuration = (seconds) => {
+        if (!seconds && seconds !== 0) return '—';
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = Math.round(seconds % 60);
+        if (h > 0) return `${h}h ${m}m ${s}s`;
+        if (m > 0) return `${m}m ${s}s`;
+        return `${s}s`;
+    };
+
     // If no summary data came back (e.g. no sessions yet), show nothing
     if (!summary) return (
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-10 text-center text-[#858597] dark:text-gray-400 font-cairo shadow-sm border border-black/5 dark:border-gray-700">
@@ -204,7 +220,7 @@ const SessionAnalytics = () => {
                 <StatCard icon={<IconSessions />} value={summary.totalSessions} label={t('analytics.statTotalSessions')} color={COLORS.primary} />
                 <StatCard icon={<IconClock />} value={`${summary.totalMinutes} ${t('analytics.minuteUnit')}`} label={t('analytics.statTotalMinutes')} color={COLORS.secondary} />
                 <StatCard icon={<IconUsers />} value={summary.totalUniqueUsers} label={t('analytics.statUsers')} color={COLORS.accent} />
-                <StatCard icon={<IconLevel />} value={`${summary.avgDurationSeconds}${t('analytics.secondUnit')}`} label={t('analytics.statAvgDuration')} color={COLORS.success} />
+                <StatCard icon={<IconLevel />} value={formatDuration(summary.avgDurationSeconds)} label={t('analytics.statAvgDuration')} color={COLORS.success} />
             </div>
 
             {/* ── Charts Grid ── */}
@@ -271,7 +287,7 @@ const SessionAnalytics = () => {
                                     ))}
                                 </Pie>
                                 <Tooltip content={<CustomTooltip />} />
-                                <Legend formatter={(value) => <span className="font-cairo text-sm font-semibold text-[#1b0444]">{value}</span>} />
+                                <Legend formatter={(value) => <span className="font-cairo text-sm font-semibold text-[#1b0444] dark:text-gray-100">{value}</span>} />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>

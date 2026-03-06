@@ -10,7 +10,7 @@ import SessionAnalytics from '../components/SessionAnalytics';
 /* ── SVG Icon Components ── */
 
 const IconChart = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="12" width="4" height="9" rx="1" />
         <rect x="10" y="7" width="4" height="14" rx="1" />
         <rect x="17" y="3" width="4" height="18" rx="1" />
@@ -24,7 +24,7 @@ const IconStar = () => (
 );
 
 const IconHeart = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="#2994f9" stroke="none">
         <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
     </svg>
 );
