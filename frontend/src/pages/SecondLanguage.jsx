@@ -41,7 +41,7 @@ const SecondLanguage = () => {
 
     return (
         // The <main> landmark signals the primary content area to screen readers
-        <main className="w-full min-h-screen flex flex-col bg-white font-cairo" dir="rtl">
+        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-cairo" dir="rtl">
             <OnboardingHeader currentStep={2} />
 
             {/* The <section> groups the target language selection area.
@@ -84,7 +84,7 @@ const SecondLanguage = () => {
                                     disabled={isDisabled}
                                     aria-disabled={isDisabled}
                                     title={isDisabled ? `${lang.name} (Coming soon)` : `Select ${lang.name}`}
-                                    className={`flex flex-col bg-white rounded-[30px] overflow-hidden shadow-[0_8px_12px_#b8b8d233] relative w-[calc(50%-10px)] min-w-[130px] sm:w-[calc(50%-12px)] sm:min-w-[140px] md:w-[220px] lg:w-[260px] transition-all duration-300 ease-in-out
+                                    className={`flex flex-col bg-white dark:bg-gray-800 rounded-[30px] overflow-hidden shadow-[0_8px_12px_#b8b8d233] dark:shadow-[0_8px_12px_rgba(0,0,0,0.3)] relative w-[calc(50%-10px)] min-w-[130px] sm:w-[calc(50%-12px)] sm:min-w-[140px] md:w-[220px] lg:w-[260px] transition-all duration-300 ease-in-out
                                         ${isSelected ? 'opacity-100 shadow-[0_8px_16px_rgba(41,148,249,0.25)] border-2 border-[rgba(41,148,249,0.4)]' : 'opacity-30 border-2 border-transparent'}
                                         ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1 hover:shadow-[0_12px_20px_#b8b8d266]'}`}
                                 >
@@ -97,8 +97,8 @@ const SecondLanguage = () => {
                                             aria-hidden="true"
                                         />
                                     </div>
-                                    <div className="flex items-center justify-center gap-2 bg-white h-[60px] p-3 sm:h-[70px] sm:p-4 md:h-[90px] md:p-5 lg:h-[90px] lg:p-5 w-full">
-                                        <div className="font-bold text-primary-text text-center text-[18px] sm:text-[20px] md:text-[25px]">
+                                    <div className="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 h-[60px] p-3 sm:h-[70px] sm:p-4 md:h-[90px] md:p-5 lg:h-[90px] lg:p-5 w-full">
+                                        <div className="font-bold text-primary-text dark:text-gray-100 text-center text-[18px] sm:text-[20px] md:text-[25px]">
                                             {lang.name}
                                         </div>
 

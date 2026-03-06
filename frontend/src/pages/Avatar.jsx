@@ -37,7 +37,7 @@ const Avatar = () => {
     };
 
     return (
-        <main className="w-full min-h-screen flex flex-col bg-white font-sans" dir="rtl">
+        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-sans" dir="rtl">
             <OnboardingHeader currentStep={3} totalSteps={4} />
 
             <section aria-labelledby="avatar-heading" className="flex-1 flex items-center justify-center py-10 px-5 relative">

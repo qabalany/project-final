@@ -50,7 +50,7 @@ const Personalised = () => {
     if (!selectedAvatar) return null;
 
     return (
-        <main className="w-full min-h-screen flex flex-col bg-white font-sans" dir="rtl">
+        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-sans" dir="rtl">
             <OnboardingHeader currentStep={4} totalSteps={4} />
 
             <section aria-labelledby="personalised-heading" className="flex-1 flex items-center justify-center py-10 px-5 relative">
@@ -58,17 +58,17 @@ const Personalised = () => {
                     <div className="text-center">
                         <h1 id="personalised-heading" className="font-bold text-[32px] leading-[46px] md:text-[38px] md:leading-[55px] lg:text-[53px] lg:leading-[76.8px] m-0">
                             <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">التخصيص </span>
-                            <span className="text-[#1b0444]">المهني</span>
+                            <span className="text-[#1b0444] dark:text-gray-100">المهني</span>
                         </h1>
                     </div>
 
                     <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-[30px] lg:gap-[69px] w-full">
                         {/* Text Area Section */}
                         <div className="flex flex-col w-full lg:w-[753px] max-w-[600px] lg:max-w-full gap-[10px] flex-1">
-                            <div className="flex flex-col flex-1 min-h-[300px] md:min-h-[350px] lg:min-h-[400px] bg-[#f9fafb] rounded-[20px] lg:rounded-[30px] border border-[#f3f4f8] shadow-inner focus-within:border-[#2994f9] focus-within:ring-4 focus-within:ring-[#2994f9]/20 transition-all duration-300 overflow-hidden" style={{ padding: '30px' }}>
+                            <div className="flex flex-col flex-1 min-h-[300px] md:min-h-[350px] lg:min-h-[400px] bg-[#f9fafb] dark:bg-gray-800 rounded-[20px] lg:rounded-[30px] border border-[#f3f4f8] dark:border-gray-700 shadow-inner focus-within:border-[#2994f9] focus-within:ring-4 focus-within:ring-[#2994f9]/20 transition-all duration-300 overflow-hidden" style={{ padding: '30px' }}>
                                 <label htmlFor="professionInput" className="sr-only">مجال عملك أو تخصصك الدقيق</label>
                                 <textarea
-                                    className="w-full h-full min-h-[300px] font-sans font-medium text-[#1b0444] text-[18px] leading-[30px] bg-transparent border-none outline-none resize-none px-2 py-1 placeholder-[#b8b8d2]"
+                                    className="w-full h-full min-h-[300px] font-sans font-medium text-[#1b0444] dark:text-gray-100 text-[18px] leading-[30px] bg-transparent border-none outline-none resize-none px-2 py-1 placeholder-[#b8b8d2] dark:placeholder-gray-500"
                                     id="professionInput"
                                     value={profession}
                                     onChange={handleChange}
@@ -79,7 +79,7 @@ const Personalised = () => {
                                 />
                             </div>
                             <div className="flex justify-start px-2">
-                                <span id="char-count" className="font-medium text-[#858597] text-[14px]">{profession.length} / {maxChars} حرفاً</span>
+                                <span id="char-count" className="font-medium text-[#858597] dark:text-gray-400 text-[14px]">{profession.length} / {maxChars} حرفاً</span>
                             </div>
                             <button
                                 type="button"
