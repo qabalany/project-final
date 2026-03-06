@@ -220,7 +220,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
                 </div>
             </div>
 
-            {/* ── Recommendation Donut Chart ── */
+            {/* ── Recommendation Donut Chart ── */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)]">
                 <SectionTitle
                     icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>}
