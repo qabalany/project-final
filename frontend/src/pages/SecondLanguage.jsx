@@ -46,7 +46,7 @@ const SecondLanguage = () => {
                             id="screen-title"
                             className="font-bold text-[32px] sm:text-[36px] md:text-[45px] lg:text-[53px] leading-[46px] sm:leading-[52px] md:leading-[65px] lg:leading-[76.8px] m-0"
                         >
-                            <span className="text-white">{t('secondLanguage.titlePart1')}</span>
+                            <span className="text-[#1b0444] dark:text-gray-100">{t('secondLanguage.titlePart1')}</span>
                             <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">{t('secondLanguage.titleHighlight')}</span>
                         </h1>
                     </div>
@@ -71,7 +71,7 @@ const SecondLanguage = () => {
                                     aria-disabled={isDisabled}
                                     title={isDisabled ? `${currentLang === 'ar' ? lang.name : lang.nameEn} (${t('secondLanguage.comingSoon')})` : `Select ${currentLang === 'ar' ? lang.name : lang.nameEn}`}
                                     className={`flex flex-col bg-white dark:bg-gray-800 rounded-[30px] overflow-hidden shadow-[0_8px_12px_#b8b8d233] dark:shadow-[0_8px_12px_rgba(0,0,0,0.3)] relative w-[calc(50%-10px)] min-w-[130px] sm:w-[calc(50%-12px)] sm:min-w-[140px] md:w-[220px] lg:w-[260px] transition-all duration-300 ease-in-out
-                                        ${isSelected ? 'opacity-100 shadow-[0_8px_16px_rgba(41,148,249,0.25)] border-2 border-[rgba(41,148,249,0.4)]' : 'opacity-30 border-2 border-transparent'}
+                                        ${isSelected ? 'opacity-100 shadow-[0_8px_16px_rgba(41,148,249,0.25)] border-2 border-[rgba(41,148,249,0.4)]' : 'opacity-60 border-2 border-transparent'}
                                         ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1 hover:shadow-[0_12px_20px_#b8b8d266]'}`}
                                 >
                                     <div className="w-full flex items-center justify-center overflow-hidden bg-[#f0f4ff] h-[100px] sm:h-[120px] md:h-[140px] lg:h-[164px]">

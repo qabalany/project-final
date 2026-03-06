@@ -40,7 +40,7 @@ const Avatar = () => {
                 <div className="w-full max-w-[781px] flex flex-col gap-10 md:gap-[60px] lg:gap-[97px]">
                     <div className="text-center">
                         <h1 id="avatar-heading" className="font-bold text-[28px] leading-[40px] md:text-[36px] md:leading-[52px] lg:text-[53px] lg:leading-[76.8px] m-0">
-                            <span className="text-white">{t('avatar.titlePart1')} </span>
+                            <span className="text-[#1b0444] dark:text-gray-100">{t('avatar.titlePart1')} </span>
                             <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">{t('avatar.titleHighlight')}</span>
                         </h1>
                     </div>
