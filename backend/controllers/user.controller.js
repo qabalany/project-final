@@ -71,6 +71,7 @@ export const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                onboardingCompleted: user.onboardingCompleted,
                 token: token,
             });
         } else {
@@ -95,6 +96,7 @@ export const getUserProfile = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            onboardingCompleted: user.onboardingCompleted,
         });
     } else {
         res.status(404).json({ message: "User not found" });
