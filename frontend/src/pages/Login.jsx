@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { login as loginService, API_URL } from '../api/auth.service';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 const DEMO_EMAIL = 'test@logah.mvp';
 const DEMO_PASSWORD = 'Logah2030';
@@ -28,6 +29,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const { t, toggle, lang, dir } = useLanguage();
+    const { isDark, toggleDark } = useTheme();
 
     // Carousel auto-advance logic
     // useCallback prevents this function from being recreated every single time the component re-renders
@@ -137,9 +139,22 @@ const Login = () => {
     ];
 
     return (
-        // <main> is a semantic HTML tag. It helps screen readers identify the primary purpose of this page.
-        // Tailwind Notes: 'flex-col lg:flex-row' makes it stack vertically on phones, but side-by-side on desktops (lg screens).
-        <main className="flex justify-center w-full min-h-screen bg-white font-sans flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0" dir={dir}>
+        <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 font-sans" dir={dir}>
+            <header className="flex items-center justify-between px-6 py-4 border-b border-[#f0f0f5] dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-50 shadow-sm">
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+                    <img src="/favicon.svg" alt="Logah" className="w-7 h-7" />
+                    <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-lg tracking-tight">Logah</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <button onClick={toggleDark} className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 hover:border-[#2994f9] hover:text-[#2994f9] transition-colors duration-200" aria-label="Toggle dark mode">
+                        {isDark ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>}
+                    </button>
+                    <button onClick={toggle} className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1.5 hover:bg-[#2994f9] hover:text-white transition-colors duration-200">
+                        {lang === 'ar' ? 'English' : 'عربي'}
+                    </button>
+                </div>
+            </header>
+            <main className="flex justify-center w-full flex-1 flex-col lg:flex-row items-center lg:items-stretch gap-10 lg:gap-0 py-10 px-5 lg:p-0 bg-white dark:bg-gray-900">
 
             {/* --- CAROUSEL SECTION --- */}
             {/* aria-label ensures screen readers hear "ميزات التطبيق" when focusing on this section */}
@@ -151,11 +166,11 @@ const Login = () => {
                         style={{ transform: `translateX(${currentSlide * (100 / totalSlides)}%)` }}
                     >
                         {slides.map((slide, i) => (
-                            <div className="w-[33.333%] h-full flex justify-center items-center bg-white p-[60px_40px] xl:p-[80px_60px] box-border" key={i}>
+                            <div className="w-[33.333%] h-full flex justify-center items-center bg-white dark:bg-gray-900 p-[60px_40px] xl:p-[80px_60px] box-border" key={i}>
                                 <div className="flex flex-col items-center text-center gap-5 max-w-[395px]">
                                     <img src={slide.img} alt={slide.title} className="w-[250px] h-[250px] xl:w-[363px] xl:h-[363px] object-contain" />
-                                    <h2 className="font-bold text-[#1b0444] text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir={dir}>{slide.title}</h2>
-                                    <p className="font-normal text-[#858597] text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
+                                    <h2 className="font-bold text-[#1b0444] dark:text-gray-100 text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir={dir}>{slide.title}</h2>
+                                    <p className="font-normal text-[#858597] dark:text-gray-400 text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
                                 </div>
                             </div>
                         ))}
@@ -168,7 +183,7 @@ const Login = () => {
                             role="tab"
                             aria-selected={currentSlide === i}
                             aria-label={`الذهاب إلى الشريحة ${i + 1}`}
-                            className={`h-2 rounded-[6px] cursor-pointer transition-all duration-300 border-none ${currentSlide === i ? 'w-[39px] bg-gradient-to-r from-[#2994f9] to-[#31d4ed]' : 'w-3 bg-[#eaeaff]'}`}
+                            className={`h-2 rounded-[6px] cursor-pointer transition-all duration-300 border-none ${currentSlide === i ? 'w-[39px] bg-gradient-to-r from-[#2994f9] to-[#31d4ed]' : 'w-3 bg-[#eaeaff] dark:bg-gray-600'}`}
                             onClick={() => goToSlide(i)}
                         />
                     ))}
@@ -177,15 +192,10 @@ const Login = () => {
 
             {/* --- FORM SECTION --- */}
             <section className="flex-1 flex flex-col items-start justify-center p-5 sm:p-[40px_20px] lg:p-[40px_60px] w-full max-w-[450px] lg:max-w-[512px] mx-auto gap-[35px]">
-                <div className="flex items-center justify-between w-full">
-                    <h1 className="font-bold text-[#1b0444] text-[34px] leading-normal m-0">{t('login.title')}</h1>
-                    <button onClick={toggle} className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1 hover:bg-[#2994f9] hover:text-white transition-colors duration-200">
-                        {lang === 'ar' ? 'English' : 'عربي'}
-                    </button>
-                </div>
+                <h1 className="font-bold text-[#1b0444] dark:text-gray-100 text-[34px] leading-normal m-0">{t('login.title')}</h1>
 
                 {/* LIGHTHOUSE ACCESSIBILITY: role="alert" guarantees the screen reader will interrupt its reading to announce this error. */}
-                {errors.general && <div role="alert" className="bg-[#fee] text-[#c33] p-3 rounded-lg text-center border border-[#fcc] w-full text-[14px]">
+                {errors.general && <div role="alert" className="bg-[#fee] dark:bg-red-900/30 text-[#c33] dark:text-red-300 p-3 rounded-lg text-center border border-[#fcc] dark:border-red-700 w-full text-[14px]">
                     {errors.general}
                 </div>}
 
@@ -196,12 +206,12 @@ const Login = () => {
                         {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
                             {/* LIGHTHOUSE ACCESSIBILITY: htmlFor literally binds this text to the input with id="emailInput" */}
-                            <label htmlFor="emailInput" className="font-normal text-[#858597] text-[14px] leading-normal">
+                            <label htmlFor="emailInput" className="font-normal text-[#858597] dark:text-gray-400 text-[14px] leading-normal">
                                 {t('login.emailLabel')}
                             </label>
 
                             {/* Tailwind Notes: focus-within colors the entire border blue if the user clicks *anywhere* inside this div */}
-                            <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border focus-within:border-[#2994f9] ${errors.email ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
+                            <div className={`w-full h-[50px] flex items-center bg-white dark:bg-gray-800 rounded-[12px] border transition-colors duration-300 box-border focus-within:border-[#2994f9] ${errors.email ? 'border-[#ff4444]' : 'border-[#b8b8d2] dark:border-gray-600'}`}>
                                 <input
                                     id="emailInput"
                                     type="email"
@@ -209,7 +219,7 @@ const Login = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="example@email.com"
-                                    className="flex-1 border-none bg-transparent h-full px-4 font-sans font-normal text-[#1b0444] text-[14px] outline-none text-right placeholder-gray-400"
+                                    className="flex-1 border-none bg-transparent h-full px-4 font-sans font-normal text-[#1b0444] dark:text-gray-100 text-[14px] outline-none text-right placeholder-gray-400 dark:placeholder-gray-500"
                                     dir="ltr"
                                     // LIGHTHOUSE ACCESSIBILITY: Tells the screen reader the input is currently rejected
                                     aria-invalid={errors.email ? 'true' : 'false'}
@@ -223,10 +233,10 @@ const Login = () => {
 
                         {/* --- PASSWORD INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="passwordInput" className="font-normal text-[#858597] text-[14px] leading-normal">
+                            <label htmlFor="passwordInput" className="font-normal text-[#858597] dark:text-gray-400 text-[14px] leading-normal">
                                 {t('login.passwordLabel')}
                             </label>
-                            <div className={`w-full h-[50px] flex items-center bg-white rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2]'}`}>
+                            <div className={`w-full h-[50px] flex items-center bg-white dark:bg-gray-800 rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2] dark:border-gray-600'}`}>
                                 <input
                                     id="passwordInput"
                                     // Dynamically toggle between hidden dots or plain text
@@ -235,7 +245,7 @@ const Login = () => {
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="••••••••"
-                                    className="flex-1 border-none bg-transparent h-full px-[8px] font-sans font-normal text-[#1b0444] text-[14px] outline-none text-right placeholder-gray-400"
+                                    className="flex-1 border-none bg-transparent h-full px-[8px] font-sans font-normal text-[#1b0444] dark:text-gray-100 text-[14px] outline-none text-right placeholder-gray-400 dark:placeholder-gray-500"
                                     dir="ltr"
                                     aria-invalid={errors.password ? 'true' : 'false'}
                                     aria-describedby={errors.password ? "passwordError" : undefined}
@@ -281,7 +291,7 @@ const Login = () => {
                         </button>
 
                         <div className="flex items-center gap-[3px]">
-                            <span className="font-medium text-[#858597] text-[15px]">{t('login.noAccount')}</span>
+                            <span className="font-medium text-[#858597] dark:text-gray-400 text-[15px]">{t('login.noAccount')}</span>
                             <Link to="/register" className="font-medium text-[15px] bg-gradient-to-br from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent no-underline transition-opacity duration-300 hover:opacity-80">
                                 {t('login.createAccount')}
                             </Link>
@@ -291,10 +301,10 @@ const Login = () => {
                     {/* Social Login */}
                     <div className="flex items-center gap-4 w-full">
                         <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
-                        <span className="opacity-50 font-normal text-[#1b0444] text-[14px] whitespace-nowrap">
+                        <span className="opacity-50 font-normal text-[#1b0444] dark:text-gray-400 text-[14px] whitespace-nowrap">
                             {t('login.orWith')}
                         </span>
-                        <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
+                        <div className="flex-1 h-[1px] bg-[#1b0444] dark:bg-gray-600 opacity-25" />
                     </div>
 
                     {/* Social Login Row */}
@@ -302,7 +312,7 @@ const Login = () => {
                         {/* Google — circular icon */}
                         <a
                             href={`${API_URL}/users/google`}
-                            className="shrink-0 w-12 h-12 rounded-full border-[1.5px] border-[#b8b8d2] bg-white flex items-center justify-center cursor-pointer transition-all duration-250 ease no-underline hover:border-[#858597] hover:bg-[#f8f8ff] hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+                            className="shrink-0 w-12 h-12 rounded-full border-[1.5px] border-[#b8b8d2] dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center justify-center cursor-pointer transition-all duration-250 ease no-underline hover:border-[#858597] dark:hover:border-gray-400 hover:bg-[#f8f8ff] dark:hover:bg-gray-700 hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
                             aria-label={t('login.googleBtn')}
                         >
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -329,9 +339,12 @@ const Login = () => {
                             </span>
                         </button>
                     </div>
+
+
                 </form>
             </section>
-        </main>
+            </main>
+        </div>
     );
 };
 
