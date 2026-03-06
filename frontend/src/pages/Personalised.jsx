@@ -4,18 +4,8 @@ import OnboardingHeader from '../components/OnboardingHeader';
 import { useLanguage } from '../context/LanguageContext';
 
 const avatarData = {
-    ula: {
-        id: 'ula',
-        name: 'عُلا',
-        img: '/assets/katya_no_bg.png',
-        speech: 'مرحباً، أنا عُلا! لكي أصمم لك مساراً يليق بطموحك، أخبرني ما هو مجال عملك أو تخصصك الدقيق؟',
-    },
-    tuwaiq: {
-        id: 'tuwaiq',
-        name: 'طويق',
-        img: '/assets/kebtagon_no_bg_precise.png',
-        speech: 'مرحباً، أنا طويق! لكي أصمم لك مساراً يليق بطموحك، أخبرني ما هو مجال عملك أو تخصصك الدقيق؟',
-    },
+    ula:    { id: 'ula',    img: '/assets/katya_no_bg.png' },
+    tuwaiq: { id: 'tuwaiq', img: '/assets/kebtagon_no_bg_precise.png' },
 };
 
 const Personalised = () => {
@@ -68,7 +58,7 @@ const Personalised = () => {
                         {/* Text Area Section */}
                         <div className="flex flex-col w-full lg:w-[753px] max-w-[600px] lg:max-w-full gap-[10px] flex-1">
                             <div className="flex flex-col flex-1 min-h-[300px] md:min-h-[350px] lg:min-h-[400px] bg-[#f9fafb] dark:bg-gray-800 rounded-[20px] lg:rounded-[30px] border border-[#f3f4f8] dark:border-gray-700 shadow-inner focus-within:border-[#2994f9] focus-within:ring-4 focus-within:ring-[#2994f9]/20 transition-all duration-300 overflow-hidden" style={{ padding: '30px' }}>
-                                <label htmlFor="professionInput" className="sr-only">مجال عملك أو تخصصك الدقيق</label>
+                                <label htmlFor="professionInput" className="sr-only">{t('personalised.labelInput')}</label>
                                 <textarea
                                     className="w-full h-full min-h-[300px] font-sans font-medium text-[#1b0444] dark:text-gray-100 text-[18px] leading-[30px] bg-transparent border-none outline-none resize-none px-2 py-1 placeholder-[#b8b8d2] dark:placeholder-gray-500"
                                     id="professionInput"

@@ -286,7 +286,7 @@ const Login = () => {
 
                     {/* Social Login */}
                     <div className="flex items-center gap-4 w-full">
-                        <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
+                        <div className="flex-1 h-[1px] bg-[#1b0444] dark:bg-gray-600 opacity-25" />
                         <span className="opacity-50 font-normal text-[#1b0444] dark:text-gray-400 text-[14px] whitespace-nowrap">
                             {t('login.orWith')}
                         </span>

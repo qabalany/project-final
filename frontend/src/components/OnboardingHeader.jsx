@@ -7,7 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgress = true, showSkip = true }) => {
     const [showModal, setShowModal] = useState(false);
     const { user, completeOnboarding } = useAuth();
-    const { toggle, lang } = useLanguage();
+    const { toggle, lang, t, dir } = useLanguage();
     const { isDark, toggleDark } = useTheme();
     const navigate = useNavigate();
 
@@ -43,12 +43,12 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                         <button
                             onClick={onBack}
                             className="bg-transparent border-none flex items-center gap-2 text-[#858597] dark:text-gray-400 hover:text-[#2994f9] font-sans font-medium text-[15px] cursor-pointer transition-colors"
-                            aria-label="العودة للخطوة السابقة"
+                            aria-label={t('onboardingHeader.backLabel')}
                         >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rotate-180">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
-                            <span className="hidden sm:inline" dir="rtl">رجوع</span>
+                            <span className="hidden sm:inline">{t('onboardingHeader.back')}</span>
                         </button>
                     )}
                 </div>
@@ -117,7 +117,7 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                             aria-expanded={showModal}
                             aria-haspopup="dialog"
                         >
-                            تخطي
+                            {t('onboardingHeader.skip')}
                         </button>
                     )}
                 </div>
@@ -128,7 +128,7 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                 <div
                     className="fixed inset-0 bg-[#1b0444]/60 backdrop-blur-sm z-[100] flex items-center justify-center p-5"
                     onClick={() => setShowModal(false)}
-                    dir="rtl"
+                    dir={dir}
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="modal-title"
@@ -146,9 +146,9 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                             </svg>
                         </div>
 
-                        <h3 id="modal-title" className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-3">تخطي التجربة؟</h3>
+                        <h3 id="modal-title" className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-3">{t('onboardingHeader.skipTitle')}</h3>
                         <p className="text-[#858597] dark:text-gray-400 text-[15px] leading-relaxed mb-8">
-                            إذا قمت بالتخطي الآن، لن تتمكن من تجربة مميزات الموقع مثل جلسة المحادثة مع المدرب الذكي وإعطائنا رأيك. هل أنت متأكد؟
+                            {t('onboardingHeader.skipWarning')}
                         </p>
 
                         {/* Modal Actions */}
@@ -157,13 +157,13 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                                 className="flex-1 h-12 rounded-xl bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white font-bold text-[15px] border-none cursor-pointer transition-transform hover:-translate-y-0.5 shadow-[0_8px_16px_rgba(41,148,249,0.2)]"
                                 onClick={() => setShowModal(false)}
                             >
-                                إكمال التجربة 🚀
+                                {t('onboardingHeader.continueBtn')}
                             </button>
                             <button
                                 className="flex-1 h-12 rounded-xl bg-[#f3f4f8] dark:bg-gray-700 text-[#858597] dark:text-gray-300 font-bold text-[15px] border-none cursor-pointer transition-colors hover:bg-[#e2e4ec] dark:hover:bg-gray-600 hover:text-[#1b0444] dark:hover:text-gray-100"
                                 onClick={handleSkip}
                             >
-                                تأكيد التخطي
+                                {t('onboardingHeader.confirmSkip')}
                             </button>
                         </div>
                     </div>

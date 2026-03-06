@@ -7,7 +7,7 @@ const Settings = () => {
     const { t, dir } = useLanguage();
     const [name, setName] = useState(user?.name || 'الحساب التجريبي');
     const [email, setEmail] = useState(user?.email || 'test@logah.mvp');
-    const [profession, setProfession] = useState('مهندس بدي اسافر واتعلم للسفر');
+    const [profession, setProfession] = useState(user?.profession || '');
     const [motherTongue, setMotherTongue] = useState(user?.motherTongue || 'arabic');
     const [targetLanguage, setTargetLanguage] = useState(user?.targetLanguage || 'english');
     const [selectedAvatar, setSelectedAvatar] = useState(user?.selectedAvatar || 'tuwaiq');
@@ -33,7 +33,6 @@ const Settings = () => {
                     onClick={handleSave}
                     disabled={isSaving}
                     className="bg-[#2994f9] text-white py-2.5 px-6 rounded-xl flex items-center gap-2 font-bold text-sm shadow-[0_4px_12px_rgba(41,148,249,0.3)] hover:shadow-[0_6px_16px_rgba(41,148,249,0.4)] hover:-translate-y-[1px] transition-all duration-200 disabled:opacity-70 disabled:transform-none"
-                    dir="ltr"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                     <span>{t('common.save')}</span>
@@ -72,7 +71,6 @@ const Settings = () => {
                                 className="w-full p-4 border border-[#e5e7eb]/80 dark:border-gray-600 rounded-2xl text-[14px] outline-none transition-all focus:border-[#31D4ED] bg-[#fafbfc] dark:bg-gray-700 text-[#858597] dark:text-gray-400 text-right font-medium opacity-80"
                                 value={email}
                                 disabled
-                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                     </div>

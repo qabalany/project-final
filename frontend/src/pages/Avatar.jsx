@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import OnboardingHeader from '../components/OnboardingHeader';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -8,16 +7,12 @@ const avatars = [
     {
         id: 'ula',
         name: 'عُلا',
-        accent: 'لهجة امريكية',
-        desc: 'دافئ وحيوي. ودودة، مشجّعة، وسهل التعلّم\nوالتعامل معها.',
         img: '/assets/katya_no_bg.png',
         flagIcon: 'https://c.animaapp.com/CqYhItr3/img/vector-1.svg',
     },
     {
         id: 'tuwaiq',
         name: 'طويق',
-        accent: 'لهجة بريطانية',
-        desc: 'هادئ، متزن، وواثق.\nبنبرة عصرية ومهنية، رسمية بشكل خفيف.',
         img: '/assets/kebtagon_no_bg_precise.png',
         flagIcon: 'https://c.animaapp.com/CqYhItr3/img/vector-1.svg',
     },
@@ -26,7 +21,6 @@ const avatars = [
 const Avatar = () => {
     const [selected, setSelected] = useState(null);
     const navigate = useNavigate();
-    const { completeOnboarding } = useAuth();
     const { t, dir } = useLanguage();
 
     const handleSelect = (id) => {
@@ -82,9 +76,7 @@ const Avatar = () => {
                                     <div className="absolute inset-x-0 bottom-0 h-[32%] flex flex-col justify-center bg-white rounded-[30px] border-t-2 border-[#f3f4f8] shadow-[0_-8px_20px_rgba(0,0,0,0.06)] z-10" aria-hidden="true" style={{ padding: '24px 32px' }}>
                                         <div className="flex flex-col items-stretch justify-center gap-2 sm:gap-3 w-full">
                                             <div className="flex items-center justify-between w-full">
-                                                {/* In RTL: justify-between means this first div (Name) is on the RIGHT */}
                                                 <div className="font-bold text-[#1b0444] text-[20px] sm:text-[23px] text-right shrink-0">{avatar.name}</div>
-                                                {/* In RTL: this second div (Flag) is on the LEFT */}
                                                 <div className="flex items-center gap-1 shrink-0">
                                                     <span className="font-normal text-[#858597] text-[12px]">{t(`avatar.${avatar.id}.accent`)}</span>
                                                     <img src={avatar.flagIcon} alt="" className="w-3 h-[9px]" />

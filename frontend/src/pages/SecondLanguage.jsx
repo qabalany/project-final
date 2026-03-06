@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-// Import accessible OnboardingHeader component
 import OnboardingHeader from '../components/OnboardingHeader';
 
 // Array of language options. Only 'english' is currently set to available: true.
@@ -19,35 +17,25 @@ const languages = [
 ];
 
 const SecondLanguage = () => {
-    // Default selection is 'english' corresponding to the primary available course
     const [selected, setSelected] = useState('english');
     const navigate = useNavigate();
-    const { completeOnboarding } = useAuth();
     const { t, lang: currentLang, dir } = useLanguage();
 
-    // Triggered upon clicking a language card
     const handleSelect = (lang) => {
-        // Exit early if the language is not available
         if (!lang.available) return;
 
         setSelected(lang.id);
-
-        // Save target language choice to localStorage for temporary persistence across onboarding screens
         localStorage.setItem('onboarding_targetLanguage', lang.id);
 
-        // Timeout of 400ms allows the active state animation to render before navigation
         setTimeout(() => {
             navigate('/avatar');
         }, 400);
     };
 
     return (
-        // The <main> landmark signals the primary content area to screen readers
         <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-cairo" dir={dir}>
             <OnboardingHeader currentStep={2} />
 
-            {/* The <section> groups the target language selection area.
-                aria-labelledby links the section to the h1 for contextual screen reader announcements */}
             <section
                 className="flex-1 flex items-center justify-center py-10 px-5 relative"
                 aria-labelledby="screen-title"
@@ -63,26 +51,22 @@ const SecondLanguage = () => {
                         </h1>
                     </div>
 
-                    {/* role="group" informs screen readers that these distinct interactive elements represent a cohesive selection set */}
+                    {/* role="group" informs screen readers that these elements form one cohesive selection context */}
                     <div
                         className="flex flex-wrap items-center justify-center gap-5 sm:gap-6 md:gap-8 lg:gap-12 w-full"
                         role="group"
-                        aria-label="Select your target language"
+                        aria-label={t('secondLanguage.groupLabel')}
                     >
                         {languages.map((lang) => {
                             const isSelected = selected === lang.id;
                             const isDisabled = !lang.available;
 
                             return (
-                                /* Native <button> elements are inherently keyboard-focusable via the Tab key.
-                                   Replacing generic <div> elements with <button> tags drastically improves accessibility. */
                                 <button
                                     key={lang.id}
                                     type="button"
                                     onClick={() => handleSelect(lang)}
-                                    // aria-pressed explicitly declares the active selection state to assistive technology
                                     aria-pressed={isSelected}
-                                    // The disabled attribute prevents focus/clicks, while aria-disabled conveys the state to screen readers
                                     disabled={isDisabled}
                                     aria-disabled={isDisabled}
                                     title={isDisabled ? `${currentLang === 'ar' ? lang.name : lang.nameEn} (${t('secondLanguage.comingSoon')})` : `Select ${currentLang === 'ar' ? lang.name : lang.nameEn}`}
@@ -91,7 +75,6 @@ const SecondLanguage = () => {
                                         ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1 hover:shadow-[0_12px_20px_#b8b8d266]'}`}
                                 >
                                     <div className="w-full flex items-center justify-center overflow-hidden bg-[#f0f4ff] h-[100px] sm:h-[120px] md:h-[140px] lg:h-[164px]">
-                                        {/* aria-hidden="true" instructs screen readers to ignore decorative and redundant images */}
                                         <img
                                             className="w-full h-full object-cover"
                                             src={lang.flag}
@@ -105,7 +88,6 @@ const SecondLanguage = () => {
                                         </div>
 
                                         {isDisabled && (
-                                            /* Visually displayed "Coming soon" text that is hidden from screen readers to prevent duplicate announcements */
                                             <span
                                                 className="text-[11px] text-white bg-gradient-to-br from-[#858597] to-[#b8b8d2] px-[10px] py-[2px] rounded-[20px] font-medium leading-none whitespace-nowrap"
                                                 aria-hidden="true"
@@ -115,7 +97,6 @@ const SecondLanguage = () => {
                                         )}
 
                                         {isDisabled && (
-                                            /* Screen-reader-only text (.sr-only) ensuring assistive technology announces the item is unavailable */
                                             <span className="sr-only">Currently unavailable</span>
                                         )}
                                     </div>

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// Import useAuth for potential future access to global user data
-import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-// Import accessible OnboardingHeader component
 import OnboardingHeader from '../components/OnboardingHeader';
 
 // Array of language options. Only 'arabic' is currently set to available: true.
@@ -20,45 +17,31 @@ const languages = [
 ];
 
 const MotherTongue = () => {
-    // Default selection is 'arabic' to streamline onboarding for primary demographic
     const [selected, setSelected] = useState('arabic');
-
-    // useNavigate hook enables programmatic push to the next screen
     const navigate = useNavigate();
-    const { completeOnboarding } = useAuth();
     const { t, lang: currentLang, dir } = useLanguage();
 
-    // Triggered upon clicking a language card
     const handleSelect = (lang) => {
-        // Exit early if the language is not available
         if (!lang.available) return;
 
         setSelected(lang.id);
-
-        // Save choice to localStorage for temporary persistence across onboarding screens
-        // This avoids unnecessary database writes until completion
         localStorage.setItem('onboarding_motherTongue', lang.id);
 
-        // Timeout of 400ms allows the active state animation to render before navigation
         setTimeout(() => {
             navigate('/second-language');
         }, 400);
     };
 
     return (
-        // The <main> landmark signals the primary content area to screen readers
         <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-cairo" dir={dir}>
             <OnboardingHeader />
 
-            {/* The <section> groups the language selection area.
-                aria-labelledby points to the h1 ID so assistive tech reads the section meaning contextually */}
             <section
                 className="flex-1 flex items-center justify-center py-10 px-5 relative"
                 aria-labelledby="screen-title"
             >
                 <div className="flex flex-col items-center w-full max-w-[1144px] gap-[60px]">
                     <div className="text-center">
-                        {/* <h1> is used because every page should have one main heading for logical document structure */}
                         <h1
                             id="screen-title"
                             className="font-bold text-[32px] sm:text-[36px] md:text-[45px] lg:text-[53px] leading-[46px] sm:leading-[52px] md:leading-[65px] lg:leading-[76.8px] m-0"
@@ -69,26 +52,22 @@ const MotherTongue = () => {
                         </h1>
                     </div>
 
-                    {/* role="group" informs screen readers that these distinct elements form one cohesive selection context */}
+                    {/* role="group" informs screen readers that these elements form one cohesive selection context */}
                     <div
                         className="flex flex-wrap items-center justify-center gap-5 sm:gap-6 md:gap-8 lg:gap-12 w-full"
                         role="group"
-                        aria-label="Select your mother tongue"
+                        aria-label={t('motherTongue.groupLabel')}
                     >
                         {languages.map((lang) => {
                             const isSelected = selected === lang.id;
                             const isDisabled = !lang.available;
 
                             return (
-                                /* Native <button> elements are naturally keyboard-focusable (Tab key support).
-                                   Avoid using onClick handlers on generic <div> elements for interactive UI. */
                                 <button
                                     key={lang.id}
                                     type="button"
                                     onClick={() => handleSelect(lang)}
-                                    // aria-pressed indicates to assistive tech if the current item is selected
                                     aria-pressed={isSelected}
-                                    // disabled and aria-disabled ensure full deactivation for screen readers
                                     disabled={isDisabled}
                                     aria-disabled={isDisabled}
                                     title={isDisabled ? `${currentLang === 'ar' ? lang.name : lang.nameEn} (${t('motherTongue.comingSoon')})` : `Select ${currentLang === 'ar' ? lang.name : lang.nameEn}`}
@@ -97,7 +76,6 @@ const MotherTongue = () => {
                                         ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1 hover:shadow-[0_12px_20px_#b8b8d266]'}`}
                                 >
                                     <div className="w-full flex items-center justify-center overflow-hidden bg-[#f0f4ff] h-[100px] sm:h-[120px] md:h-[140px] lg:h-[164px]">
-                                        {/* aria-hidden="true" tells screen readers to ignore purely decorative images */}
                                         <img
                                             className="w-full h-full object-cover"
                                             src={lang.flag}
@@ -111,7 +89,6 @@ const MotherTongue = () => {
                                         </div>
 
                                         {isDisabled && (
-                                            /* Visually displayed text that is hidden from screen readers using aria-hidden */
                                             <span
                                                 className="text-[11px] text-white bg-gradient-to-br from-[#858597] to-[#b8b8d2] px-[10px] py-[2px] rounded-[20px] font-medium leading-none whitespace-nowrap"
                                                 aria-hidden="true"
@@ -121,7 +98,6 @@ const MotherTongue = () => {
                                         )}
 
                                         {isDisabled && (
-                                            /* Screen-reader-only text (.sr-only) to explicitly announce the disabled state */
                                             <span className="sr-only">Currently unavailable</span>
                                         )}
                                     </div>

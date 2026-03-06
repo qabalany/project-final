@@ -395,7 +395,7 @@ const AvatarSession = () => {
                     {/* Outro banner */}
                     {isOutro && status === 'active' && (
                         <div className="absolute bottom-[90px] sm:bottom-[100px] left-1/2 -translate-x-1/2 px-5 py-2.5 sm:px-7 sm:py-3 bg-orange-500/15 backdrop-blur-md border border-orange-500/30 rounded-full text-[12px] sm:text-sm font-semibold text-orange-500 z-[15] whitespace-nowrap shadow-lg">
-                            <span>🎬 Session ending — {avatarName} is wrapping up...</span>
+                            <span>{t('avatarSession.outroMsg').replace('{name}', avatarName)}</span>
                         </div>
                     )}
 
