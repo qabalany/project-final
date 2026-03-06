@@ -7,9 +7,23 @@ import feedbackRoutes from "./routes/feedback.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
 import connectToDatabase from "./config/db.js";
 import config from "./config/index.js";
+import User from "./models/User.model.js";
 
 // Call connection function
-connectToDatabase();
+connectToDatabase().then(async () => {
+  // Seed demo and admin users if they don't exist
+  const seeds = [
+    { name: 'Demo User', email: 'test@logah.mvp', password: 'Logah2030', role: 'user', onboardingCompleted: false },
+    { name: 'Admin', email: 'admin@logah.ai', password: 'AdminLogah2030!', role: 'admin', onboardingCompleted: true },
+  ];
+  for (const seed of seeds) {
+    const exists = await User.findOne({ email: seed.email });
+    if (!exists) {
+      await User.create(seed);
+      console.log(`✅ Seeded user: ${seed.email}`);
+    }
+  }
+});
 
 const port = config.port;
 const app = express();
