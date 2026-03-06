@@ -184,7 +184,7 @@ export const googleOAuthCallback = async (req, res) => {
     const { code } = req.query;
 
     if (!code) {
-        return res.redirect(`${config.clientUrl}/login?error=google_auth_failed`);
+        return res.redirect(`${config.clientUrl}/login?google_error=no_code`);
     }
 
     try {
@@ -195,7 +195,13 @@ export const googleOAuthCallback = async (req, res) => {
         );
 
         // Exchange the authorization code for tokens
-        const { tokens } = await oAuthClient.getToken(code);
+        let tokens;
+        try {
+            ({ tokens } = await oAuthClient.getToken(code));
+        } catch (tokenErr) {
+            console.error("Google getToken error:", tokenErr.message);
+            return res.redirect(`${config.clientUrl}/login?google_error=${encodeURIComponent(tokenErr.message)}`);
+        }
 
         // Verify the ID token to get user info
         const ticket = await oAuthClient.verifyIdToken({
@@ -230,7 +236,7 @@ export const googleOAuthCallback = async (req, res) => {
         // Redirect to frontend callback page with the JWT
         res.redirect(`${config.clientUrl}/auth/callback?token=${token}`);
     } catch (error) {
-        console.error("Google OAuth callback error:", error);
-        res.redirect(`${config.clientUrl}/login?error=google_auth_failed`);
+        console.error("Google OAuth callback error:", error.message);
+        res.redirect(`${config.clientUrl}/login?google_error=${encodeURIComponent(error.message)}`);
     }
 };

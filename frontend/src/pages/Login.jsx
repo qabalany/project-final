@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { login as loginService, API_URL } from '../api/auth.service';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -27,6 +27,7 @@ const Login = () => {
     const autoAdvanceRef = useRef(null);
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { login } = useAuth();
     const { t, dir } = useLanguage();
 
@@ -184,6 +185,12 @@ const Login = () => {
                 {errors.general && <div role="alert" className="bg-[#fee] dark:bg-red-900/30 text-[#c33] dark:text-red-300 p-3 rounded-lg text-center border border-[#fcc] dark:border-red-700 w-full text-[14px]">
                     {errors.general}
                 </div>}
+
+                {searchParams.get('google_error') && (
+                    <div role="alert" className="bg-[#fee] dark:bg-red-900/30 text-[#c33] dark:text-red-300 p-3 rounded-lg text-center border border-[#fcc] dark:border-red-700 w-full text-[14px]">
+                        Google sign-in failed: {searchParams.get('google_error')}
+                    </div>
+                )}
 
                 {/* noValidate turns off default browser popups so we can show our own custom Arabic error text */}
                 <form onSubmit={handleSubmit} noValidate className="flex flex-col items-center gap-10 w-full">
