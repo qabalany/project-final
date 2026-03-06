@@ -10,7 +10,14 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }) => {
-    const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'en');
+    const [lang, setLang] = useState(() => {
+        const stored = localStorage.getItem('lang');
+        if (stored) return stored;
+        // Follow system/browser language if it's Arabic; otherwise default to English
+        const systemLang = navigator.language || '';
+        if (systemLang.startsWith('ar')) return 'ar';
+        return 'en';
+    });
 
     const toggle = () => setLang(prev => (prev === 'ar' ? 'en' : 'ar'));
 

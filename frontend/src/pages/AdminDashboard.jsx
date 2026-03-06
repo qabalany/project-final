@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../api/client';
 import FeedbackCharts from '../components/FeedbackCharts';
 import SessionAnalytics from '../components/SessionAnalytics';
@@ -77,6 +78,7 @@ const AdminDashboard = () => {
     const [error, setError] = useState('');
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const { t, toggle, lang, dir } = useLanguage();
 
     const [searchName, setSearchName] = useState('');
     const [activeTab, setActiveTab] = useState('feedback');
@@ -97,9 +99,9 @@ const AdminDashboard = () => {
             } catch (err) {
                 console.error('Error fetching data:', err);
                 if (err.response?.status === 401 || err.response?.status === 403) {
-                    setError('ليس لديك صلاحية لعرض هذه البيانات');
+                    setError(t('admin.errorUnauthorized'));
                 } else {
-                    setError('حدث خطأ أثناء جلب البيانات');
+                    setError(t('admin.errorGeneral'));
                 }
             } finally {
                 setLoading(false);
@@ -137,21 +139,21 @@ const AdminDashboard = () => {
         </div>
     );
 
-    const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString('ar-SA', {
+    const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString(lang === 'ar' ? 'ar-SA' : 'en-GB', {
         year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
 
     if (loading) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen font-cairo text-[#858597] gap-4" dir="rtl">
+            <div className="flex flex-col items-center justify-center h-screen font-cairo text-[#858597] gap-4" dir={dir}>
                 <div className="w-10 h-10 border-[3px] border-[#f0f0f5] border-t-[#2994f9] rounded-full animate-spin"></div>
-                <p>جاري تحميل البيانات...</p>
+                <p>{t('admin.loading')}</p>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#f0f2f8] via-[#e8eaf3] to-[#f4f3fd] font-cairo" dir="rtl">
+        <div className="min-h-screen bg-gradient-to-br from-[#f0f2f8] via-[#e8eaf3] to-[#f4f3fd] font-cairo" dir={dir}>
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 p-4 md:px-8 bg-white border-b border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] sticky top-0 z-[100]">
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
@@ -161,20 +163,27 @@ const AdminDashboard = () => {
                     </div>
                     <div className="hidden md:block w-px h-7 bg-[#e0e0e8]"></div>
                     <h1 className="text-lg font-bold text-[#1b0444] m-0">
-                        {activeTab === 'feedback' ? 'لوحة تحكم التقييمات' : activeTab === 'sessions' ? 'تحليلات الجلسات' : 'الشكاوى والاقتراحات'}
+                        {t(`admin.headerTitles.${activeTab}`)}
                     </h1>
                 </div>
                 <div className="flex items-center gap-4">
+                    <button
+                        onClick={toggle}
+                        className="px-3 py-1.5 rounded-xl border-[1.5px] border-[#e0e0e8] text-[#858597] font-cairo text-sm font-bold hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
+                        title="Switch language"
+                    >
+                        {lang === 'ar' ? 'EN' : 'ع'}
+                    </button>
                     <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-[#fff7e6] to-[#fff3db] border border-[#fce4a8] rounded-full text-sm font-semibold text-[#7a5e2a]">
                         <span className="flex items-center"><IconShield /></span>
-                        <span>{user?.name || 'المسؤول'}</span>
+                        <span>{user?.name || 'Admin'}</span>
                     </div>
                     <button
                         className="flex items-center gap-1.5 px-4 md:px-5 py-2 bg-transparent border-[1.5px] border-[#e0e0e8] rounded-xl text-[#858597] font-cairo text-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-[#fff0f0] hover:border-[#f5a5a5] hover:text-[#d94444]"
                         onClick={handleLogout}
                     >
                         <IconLogout />
-                        <span>تسجيل خروج</span>
+                        <span>{t('admin.logout')}</span>
                     </button>
                 </div>
             </header>
@@ -191,7 +200,7 @@ const AdminDashboard = () => {
                     >
                         <span className="flex items-center gap-2">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>
-                            التقييمات
+                            {t('admin.tabFeedback')}
                         </span>
                     </button>
                     <button
@@ -203,7 +212,7 @@ const AdminDashboard = () => {
                     >
                         <span className="flex items-center gap-2">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
-                            الجلسات
+                            {t('admin.tabSessions')}
                         </span>
                     </button>
                     <button
@@ -215,7 +224,7 @@ const AdminDashboard = () => {
                     >
                         <span className="flex items-center gap-2">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /></svg>
-                            الرسائل
+                            {t('admin.tabMessages')}
                         </span>
                     </button>
                 </div>
@@ -227,25 +236,25 @@ const AdminDashboard = () => {
                 {activeTab === 'app-feedback' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                         {appFeedbacks.length === 0 ? (
-                            <div className="col-span-full bg-white rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] py-16 px-8 text-center flex flex-col items-center">
+                            <div className="col-span-full bg-white dark:bg-gray-800 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] dark:shadow-none py-16 px-8 text-center flex flex-col items-center">
                                 <div className="mb-4"><IconInbox /></div>
-                                <h3 className="text-xl font-bold text-[#1b0444] mb-2">لا توجد رسائل بعد</h3>
-                                <p className="text-[#858597] text-[0.9rem]">ستظهر الشكاوى والاقتراحات هنا فور إرسالها من المستخدمين.</p>
+                                <h3 className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-2">{t('admin.emptyMessagesTitle')}</h3>
+                                <p className="text-[#858597] dark:text-gray-400 text-[0.9rem]">{t('admin.emptyMessagesDesc')}</p>
                             </div>
                         ) : (
                             appFeedbacks.map((item) => (
-                                <div key={item._id} className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
+                                <div key={item._id} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
                                     <div className="flex items-center gap-3 mb-4">
                                         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
                                             {item.name?.charAt(0) || '؟'}
                                         </div>
                                         <div className="flex flex-col overflow-hidden">
-                                            <span className="font-extrabold text-[#1b0444] text-[1rem] truncate">{item.name}</span>
-                                            <span className="text-[0.75rem] text-[#858597]">{formatDate(item.createdAt)}</span>
+                                            <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-[1rem] truncate">{item.name}</span>
+                                            <span className="text-[0.75rem] text-[#858597] dark:text-gray-400">{formatDate(item.createdAt)}</span>
                                         </div>
                                     </div>
-                                    <div className="bg-[#f8f9fc] rounded-xl p-4 border border-[#e8eaf3] flex-grow">
-                                        <p className="text-[0.9rem] text-[#1b0444] leading-relaxed break-words whitespace-pre-wrap m-0">
+                                    <div className="bg-[#f8f9fc] dark:bg-gray-700 rounded-xl p-4 border border-[#e8eaf3] dark:border-gray-600 flex-grow">
+                                        <p className="text-[0.9rem] text-[#1b0444] dark:text-gray-100 leading-relaxed break-words whitespace-pre-wrap m-0">
                                             {item.message}
                                         </p>
                                     </div>
@@ -259,70 +268,70 @@ const AdminDashboard = () => {
                 {activeTab === 'feedback' && (<>
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+                        <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 border border-black/5 dark:border-gray-700">
                             <div className="flex items-center gap-10 mb-2">
-                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] leading-none">{totalFeedbacks}</span>
-                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#eef4ff] shrink-0"><IconChart /></div>
+                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{totalFeedbacks}</span>
+                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#eef4ff] dark:bg-blue-900/30 shrink-0"><IconChart /></div>
                             </div>
-                            <span className="text-[0.95rem] text-[#858597] font-semibold mt-1">إجمالي التقييمات</span>
+                            <span className="text-[0.95rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{t('admin.statTotal')}</span>
                         </div>
-                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+                        <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 border border-black/5 dark:border-gray-700">
                             <div className="flex items-center gap-10 mb-2">
-                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] leading-none">{avgDesignRating}</span>
-                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#fff9e6] shrink-0"><IconStar /></div>
+                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{avgDesignRating}</span>
+                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#fff9e6] dark:bg-yellow-900/30 shrink-0"><IconStar /></div>
                             </div>
-                            <span className="text-[0.95rem] text-[#858597] font-semibold mt-1">متوسط تقييم التصميم</span>
+                            <span className="text-[0.95rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{t('admin.statAvgDesign')}</span>
                         </div>
-                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-0.5 border border-black/5">
+                        <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 border border-black/5 dark:border-gray-700">
                             <div className="flex items-center gap-10 mb-2">
-                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] leading-none">{recommendPercent}%</span>
-                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#e8fff0] shrink-0"><IconHeart /></div>
+                                <span className="text-[2.2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{recommendPercent}%</span>
+                                <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#e8fff0] dark:bg-green-900/30 shrink-0"><IconHeart /></div>
                             </div>
-                            <span className="text-[0.95rem] text-[#858597] font-semibold mt-1">يوصون بالمنصة</span>
+                            <span className="text-[0.95rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{t('admin.statRecommend')}</span>
                         </div>
                     </div>
 
                     {/* Filter Bar */}
-                    <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 md:px-6 md:py-4 bg-white rounded-2xl border border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] mb-6 flex-wrap">
-                        <div className="flex items-center gap-1.5 text-[#1b0444] font-bold text-sm shrink-0">
+                    <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 md:px-6 md:py-4 bg-white dark:bg-gray-800 rounded-2xl border border-black/5 dark:border-gray-700 shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-none mb-6 flex-wrap">
+                        <div className="flex items-center gap-1.5 text-[#1b0444] dark:text-gray-100 font-bold text-sm shrink-0">
                             <span className="flex items-center text-[#2994f9]"><IconFilter /></span>
-                            <span>تصفية</span>
+                            <span>{t('admin.filterLabel')}</span>
                         </div>
                         <div className="flex flex-col md:flex-row md:items-center gap-3 flex-1 flex-wrap">
                             <div className="relative flex items-center flex-1 w-full md:min-w-[160px] md:max-w-[240px]">
                                 <span className="absolute right-3 flex items-center text-[#b0b0c8] pointer-events-none"><IconSearch /></span>
                                 <input
                                     type="text"
-                                    className="w-full py-2 pl-3 pr-10 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10 placeholder:text-[#b0b0c8]"
-                                    placeholder="بحث بالاسم..."
+                                    className="w-full py-2 pl-3 pr-10 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10 placeholder:text-[#b0b0c8] dark:placeholder:text-gray-500"
+                                    placeholder={t('admin.filterSearchPlaceholder')}
                                     value={searchName}
                                     onChange={(e) => setSearchName(e.target.value)}
                                 />
                             </div>
-                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRating} onChange={(e) => setFilterRating(e.target.value)}>
-                                <option value="">التقييم: الكل</option>
-                                <option value="5">5 نجوم</option>
-                                <option value="4">4 نجوم</option>
-                                <option value="3">3 نجوم</option>
-                                <option value="2">نجمتان</option>
-                                <option value="1">نجمة واحدة</option>
+                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRating} onChange={(e) => setFilterRating(e.target.value)}>
+                                <option value="">{t('admin.filterRatingAll')}</option>
+                                <option value="5">{t('admin.filterRatingStars')[0]}</option>
+                                <option value="4">{t('admin.filterRatingStars')[1]}</option>
+                                <option value="3">{t('admin.filterRatingStars')[2]}</option>
+                                <option value="2">{t('admin.filterRatingStars')[3]}</option>
+                                <option value="1">{t('admin.filterRatingStars')[4]}</option>
                             </select>
-                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRecommend} onChange={(e) => setFilterRecommend(e.target.value)}>
-                                <option value="">التوصية: الكل</option>
-                                <option value="بالتأكيد">بالتأكيد</option>
-                                <option value="ربما">ربما</option>
-                                <option value="لا">لا اعتقد</option>
+                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRecommend} onChange={(e) => setFilterRecommend(e.target.value)}>
+                                <option value="">{t('admin.filterRecommendAll')}</option>
+                                <option value="بالتأكيد">{t('admin.filterRecommendOptions')[0]}</option>
+                                <option value="ربما">{t('admin.filterRecommendOptions')[1]}</option>
+                                <option value="لا">{t('admin.filterRecommendOptions')[2]}</option>
                             </select>
-                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] rounded-xl font-cairo text-[0.82rem] text-[#1b0444] bg-[#fafaff] cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterEase} onChange={(e) => setFilterEase(e.target.value)}>
-                                <option value="">سهولة الاستخدام: الكل</option>
-                                <option value="سهل جداً">سهل جداً</option>
-                                <option value="سهل لحد ما">سهل لحد ما</option>
-                                <option value="محايد">محايد</option>
-                                <option value="صعب">صعب</option>
+                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterEase} onChange={(e) => setFilterEase(e.target.value)}>
+                                <option value="">{t('admin.filterEaseAll')}</option>
+                                <option value="سهل جداً">{t('admin.filterEaseOptions')[0]}</option>
+                                <option value="سهل لحد ما">{t('admin.filterEaseOptions')[1]}</option>
+                                <option value="محايد">{t('admin.filterEaseOptions')[2]}</option>
+                                <option value="صعب">{t('admin.filterEaseOptions')[3]}</option>
                             </select>
                             {hasActiveFilters && (
                                 <button className="py-[0.45rem] px-4 bg-[#fff5f5] border-[1.5px] border-[#fecaca] rounded-xl text-[#dc2626] font-cairo text-[0.8rem] font-semibold cursor-pointer transition-all duration-200 whitespace-nowrap hover:bg-[#fee2e2] hover:border-[#f5a5a5]" onClick={clearFilters}>
-                                    مسح الفلاتر
+                                    {t('admin.clearFilters')}
                                 </button>
                             )}
                         </div>
@@ -332,7 +341,7 @@ const AdminDashboard = () => {
                     <div className="flex justify-start mb-6 w-full max-w-[500px]">
                         <button
                             onClick={() => setShowCharts(!showCharts)}
-                            className="flex items-center gap-2 px-5 py-3 w-full bg-white border border-[#e8eaf3] rounded-2xl shadow-sm text-[#4a4a68] font-cairo font-bold text-[0.95rem] hover:bg-[#f8f9fc] hover:border-[#2994f9]/50 hover:text-[#2994f9] transition-all duration-200"
+                            className="flex items-center gap-2 px-5 py-3 w-full bg-white dark:bg-gray-800 border border-[#e8eaf3] dark:border-gray-600 rounded-2xl shadow-sm text-[#4a4a68] dark:text-gray-300 font-cairo font-bold text-[0.95rem] hover:bg-[#f8f9fc] dark:hover:bg-gray-700 hover:border-[#2994f9]/50 hover:text-[#2994f9] transition-all duration-200"
                         >
                             <span className={`w-8 h-8 rounded-full flex flex-shrink-0 items-center justify-center transition-colors duration-200 ${showCharts ? 'bg-[#2994f9]/10 text-[#2994f9]' : 'bg-[#f0f0f5] text-[#858597]'}`}>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -342,7 +351,7 @@ const AdminDashboard = () => {
                                 </svg>
                             </span>
                             <span className="flex-1 text-right">
-                                {showCharts ? 'إخفاء التحليلات والرسومات البيانية' : 'عرض التحليلات والرسومات البيانية 📊'}
+                                {showCharts ? t('admin.toggleChartsHide') : t('admin.toggleChartsShow')}
                             </span>
                             <svg className={`w-5 h-5 text-[#858597] transition-transform duration-300 ${showCharts ? 'rotate-180' : 'rotate-0'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="6 9 12 15 18 9" />
@@ -357,36 +366,36 @@ const AdminDashboard = () => {
 
                     {/* Error State */}
                     {error && (
-                        <div className="flex items-center gap-2 py-4 px-5 bg-[#fff5f5] border border-[#fecaca] rounded-xl text-[#b91c1c] font-semibold mb-6">
+                        <div className="flex items-center gap-2 py-4 px-5 bg-[#fff5f5] dark:bg-red-900/20 border border-[#fecaca] dark:border-red-700/50 rounded-xl text-[#b91c1c] dark:text-red-300 font-semibold mb-6">
                             <IconAlert /> {error}
                         </div>
                     )}
 
                     {/* Feedback Cards Grid */}
                     {filteredFeedbacks.length === 0 ? (
-                        <div className="bg-white rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] py-16 px-8 text-center flex flex-col items-center">
+                        <div className="bg-white dark:bg-gray-800 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] dark:shadow-none py-16 px-8 text-center flex flex-col items-center">
                             <div className="mb-4"><IconInbox /></div>
-                            <h3 className="text-xl font-bold text-[#1b0444] mb-2">{hasActiveFilters ? 'لا توجد نتائج مطابقة' : 'لا يوجد تقييمات بعد'}</h3>
-                            <p className="text-[#858597] text-[0.9rem]">
-                                {hasActiveFilters ? 'جرب تعديل الفلاتر أو مسحها للعرض الكامل.' : 'ستظهر التقييمات هنا بعد أن يقوم المستخدمون بتقديمها.'}
+                            <h3 className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-2">{hasActiveFilters ? t('admin.emptyFilterTitle') : t('admin.emptyFeedbackTitle')}</h3>
+                            <p className="text-[#858597] dark:text-gray-400 text-[0.9rem]">
+                                {hasActiveFilters ? t('admin.emptyFilterDesc') : t('admin.emptyFeedbackDesc')}
                             </p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {filteredFeedbacks.map((item) => (
-                                <div key={item._id} className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
+                                <div key={item._id} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
                                     <div className="flex items-center gap-3 mb-5">
                                         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
                                             {item.name?.charAt(0) || '؟'}
                                         </div>
                                         <div className="flex flex-col overflow-hidden">
-                                            <span className="font-extrabold text-[#1b0444] text-[1rem] truncate">{item.name}</span>
-                                            <span className="text-[0.75rem] text-[#858597]">{formatDate(item.createdAt)}</span>
+                                            <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-[1rem] truncate">{item.name}</span>
+                                            <span className="text-[0.75rem] text-[#858597] dark:text-gray-400">{formatDate(item.createdAt)}</span>
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-4 mb-5 flex-grow">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[0.8rem] text-[#858597] font-bold">تقييم التصميم:</span>
+                                            <span className="text-[0.8rem] text-[#858597] dark:text-gray-400 font-bold">{t('admin.cardDesignLabel')}</span>
                                             {renderStars(item.websiteDesign)}
                                         </div>
                                         <div className="flex flex-wrap gap-2">
@@ -398,17 +407,17 @@ const AdminDashboard = () => {
                                             </div>
                                         </div>
                                         <div className="flex flex-col gap-1.5">
-                                            <span className="text-[0.8rem] text-[#858597] font-bold">الاستفادة:</span>
-                                            <p className="text-[0.85rem] font-bold text-[#1b0444] leading-relaxed bg-[#f8f9fc] p-2.5 rounded-xl">
+                                            <span className="text-[0.8rem] text-[#858597] dark:text-gray-400 font-bold">{t('admin.cardUsefulnessLabel')}</span>
+                                            <p className="text-[0.85rem] font-bold text-[#1b0444] dark:text-gray-100 leading-relaxed bg-[#f8f9fc] dark:bg-gray-700 p-2.5 rounded-xl">
                                                 "{item.usefulness || 'نعم، مفيد جداً'}"
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="pt-4 border-t border-[#f0f0f5]">
-                                        <span className="text-[0.8rem] text-[#858597] font-bold block mb-2">الملاحظات:</span>
-                                        <div className="bg-[#fff9f9]/50 rounded-xl p-3 border border-[#fff0f0]">
-                                            <p className="text-[0.85rem] text-[#4a4a68] leading-relaxed italic line-clamp-4">
-                                                {item.additionalComments ? `"${item.additionalComments}"` : '— لا توجد ملاحظات إضافية —'}
+                                    <div className="pt-4 border-t border-[#f0f0f5] dark:border-gray-700">
+                                        <span className="text-[0.8rem] text-[#858597] dark:text-gray-400 font-bold block mb-2">{t('admin.cardNotesLabel')}</span>
+                                        <div className="bg-[#fff9f9]/50 dark:bg-gray-700/50 rounded-xl p-3 border border-[#fff0f0] dark:border-gray-600">
+                                            <p className="text-[0.85rem] text-[#4a4a68] dark:text-gray-300 leading-relaxed italic line-clamp-4">
+                                                {item.additionalComments ? `"${item.additionalComments}"` : t('admin.cardNoNotes')}
                                             </p>
                                         </div>
                                     </div>
