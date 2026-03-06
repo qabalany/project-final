@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import api from '../api/client';
+import { useLanguage } from '../context/LanguageContext';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     LineChart, Line, PieChart, Pie, Cell, Legend
@@ -83,6 +84,7 @@ const StatCard = ({ icon, value, label, color }) => (
    - User activity table
 */
 const SessionAnalytics = () => {
+    const { t } = useLanguage();
     const [summary, setSummary] = useState(null);
     const [userActivity, setUserActivity] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -123,7 +125,7 @@ const SessionAnalytics = () => {
         return summary.sessionsPerDay.map(d => {
             const date = new Date(d.date);
             return {
-                name: date.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }),
+                name: date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
                 count: d.count,
             };
         });
@@ -152,7 +154,7 @@ const SessionAnalytics = () => {
         return (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <div className="w-10 h-10 border-[3px] border-[#f0f0f5] border-t-[#2994f9] rounded-full animate-spin"></div>
-                <p className="text-[#858597] font-cairo">جاري تحميل بيانات الجلسات...</p>
+                <p className="text-[#858597] font-cairo">{t('analytics.loading')}</p>
             </div>
         );
     }
@@ -186,23 +188,23 @@ const SessionAnalytics = () => {
     // If no summary data came back (e.g. no sessions yet), show nothing
     if (!summary) return (
         <div className="bg-white rounded-2xl p-10 text-center text-[#858597] font-cairo shadow-sm border border-black/5">
-            لا توجد بيانات جلسات بعد
+            {t('analytics.noData')}
         </div>
     );
 
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
-        return date.toLocaleDateString('ar-SA', { year: 'numeric', month: 'short', day: 'numeric' });
+        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
     };
 
     return (
         <div className="space-y-6" dir="rtl">
             {/* ── Stats Cards ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <StatCard icon={<IconSessions />} value={summary.totalSessions} label="إجمالي الجلسات" color={COLORS.primary} />
-                <StatCard icon={<IconClock />} value={`${summary.totalMinutes} د`} label="دقائق التدريب" color={COLORS.secondary} />
-                <StatCard icon={<IconUsers />} value={summary.totalUsers} label="المستخدمون" color={COLORS.accent} />
-                <StatCard icon={<IconLevel />} value={`${summary.avgDuration}ث`} label="متوسط الجلسة" color={COLORS.success} />
+                <StatCard icon={<IconSessions />} value={summary.totalSessions} label={t('analytics.statTotalSessions')} color={COLORS.primary} />
+                <StatCard icon={<IconClock />} value={`${summary.totalMinutes} ${t('analytics.minuteUnit')}`} label={t('analytics.statTotalMinutes')} color={COLORS.secondary} />
+                <StatCard icon={<IconUsers />} value={summary.totalUniqueUsers} label={t('analytics.statUsers')} color={COLORS.accent} />
+                <StatCard icon={<IconLevel />} value={`${summary.avgDurationSeconds}${t('analytics.secondUnit')}`} label={t('analytics.statAvgDuration')} color={COLORS.success} />
             </div>
 
             {/* ── Charts Grid ── */}
@@ -212,7 +214,7 @@ const SessionAnalytics = () => {
                 <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5">
                     <h3 className="text-base font-extrabold text-[#1b0444] font-cairo mb-4 flex items-center gap-2">
                         <span className="text-[#2994f9]"><IconLevel /></span>
-                        الجلسات خلال الشهر
+                        {t('analytics.chartTimeline')}
                     </h3>
                     {timelineData.length > 0 ? (
                         <ResponsiveContainer width="100%" height={220}>
@@ -221,11 +223,11 @@ const SessionAnalytics = () => {
                                 <XAxis dataKey="name" tick={{ fontSize: 11, fontFamily: 'Cairo', fill: COLORS.muted }} />
                                 <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: COLORS.muted }} />
                                 <Tooltip content={<CustomTooltip />} />
-                                <Line type="monotone" dataKey="count" name="جلسات" stroke={COLORS.primary} strokeWidth={2.5} dot={{ r: 4, fill: COLORS.primary }} animationDuration={1000} />
+                                <Line type="monotone" dataKey="count" name={t('analytics.seriesSessions')} stroke={COLORS.primary} strokeWidth={2.5} dot={{ r: 4, fill: COLORS.primary }} animationDuration={1000} />
                             </LineChart>
                         </ResponsiveContainer>
                     ) : (
-                        <p className="text-center text-[#858597] py-10">لا توجد بيانات بعد</p>
+                        <p className="text-center text-[#858597] py-10">{t('analytics.noData')}</p>
                     )}
                 </div>
 
@@ -235,7 +237,7 @@ const SessionAnalytics = () => {
                         <span className="text-[#6366f1]">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="12" width="4" height="9" rx="1" /><rect x="10" y="7" width="4" height="14" rx="1" /><rect x="17" y="3" width="4" height="18" rx="1" /></svg>
                         </span>
-                        توزيع مستويات CEFR
+                        {t('analytics.chartCefr')}
                     </h3>
                     <ResponsiveContainer width="100%" height={220}>
                         <BarChart data={cefrData} margin={{ top: 5, right: 5, left: -15, bottom: 5 }}>
@@ -243,7 +245,7 @@ const SessionAnalytics = () => {
                             <XAxis dataKey="name" tick={{ fontSize: 13, fontFamily: 'Cairo', fill: COLORS.muted }} />
                             <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: COLORS.muted }} />
                             <Tooltip content={<CustomTooltip />} />
-                            <Bar dataKey="count" name="المستخدمون" radius={[8, 8, 0, 0]} animationDuration={800}>
+                            <Bar dataKey="count" name={t('analytics.seriesUsers')} radius={[8, 8, 0, 0]} animationDuration={800}>
                                 {cefrData.map((entry, i) => (
                                     <Cell key={i} fill={entry.fill} />
                                 ))}
@@ -259,7 +261,7 @@ const SessionAnalytics = () => {
                             <span className="text-[#31d4ed]">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
                             </span>
-                            استخدام الأفاتار
+                            {t('analytics.chartAvatarUsage')}
                         </h3>
                         <ResponsiveContainer width="100%" height={220}>
                             <PieChart>
@@ -281,17 +283,17 @@ const SessionAnalytics = () => {
                 <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 overflow-x-auto">
                     <h3 className="text-base font-extrabold text-[#1b0444] font-cairo mb-4 flex items-center gap-2">
                         <span className="text-[#059669]"><IconUsers /></span>
-                        نشاط المستخدمين
+                        {t('analytics.chartUserActivity')}
                     </h3>
                     <table className="w-full text-sm font-cairo">
                         <thead>
                             <tr className="border-b border-[#f0f0f5]">
-                                <th className="py-3 px-3 text-right font-bold text-[#858597]">المستخدم</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">الجلسات</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">الدقائق</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">المستوى</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">الأفاتار</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597]">آخر جلسة</th>
+                                <th className="py-3 px-3 text-right font-bold text-[#858597]">{t('analytics.colUser')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colSessions')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colMinutes')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colLevel')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colAvatar')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-[#858597]">{t('analytics.colLastSession')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -306,7 +308,7 @@ const SessionAnalytics = () => {
                                         </div>
                                     </td>
                                     <td className="py-3 px-3 text-center font-semibold text-[#1b0444]">{user.totalSessions}</td>
-                                    <td className="py-3 px-3 text-center font-semibold text-[#1b0444]">{user.totalMinutes} د</td>
+                                    <td className="py-3 px-3 text-center font-semibold text-[#1b0444]">{user.totalMinutes} {t('analytics.minuteUnit')}</td>
                                     <td className="py-3 px-3 text-center">
                                         {user.latestLevel ? (
                                             <span className="px-2.5 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: CEFR_COLORS[user.latestLevel] || COLORS.muted }}>

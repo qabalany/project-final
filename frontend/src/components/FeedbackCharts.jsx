@@ -3,6 +3,7 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     AreaChart, Area, PieChart, Pie, Cell, Legend
 } from 'recharts';
+import { useLanguage } from '../context/LanguageContext';
 
 /* ── Colour Palette ── */
 const COLORS = {
@@ -50,6 +51,7 @@ const SectionTitle = ({ icon, title }) => (
    4) Recommendation split (donut chart)
 */
 const FeedbackCharts = ({ feedbacks = [] }) => {
+    const { t } = useLanguage();
 
     // Count how many ratings each star level received
     const ratingData = useMemo(() => {
@@ -71,7 +73,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
     const timelineData = useMemo(() => {
         const grouped = {};
         feedbacks.forEach(f => {
-            const day = new Date(f.createdAt).toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' });
+            const day = new Date(f.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
             grouped[day] = (grouped[day] || 0) + 1;
         });
         const sorted = feedbacks
@@ -81,7 +83,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
         const seen = new Set();
         const result = [];
         sorted.forEach(({ date }) => {
-            const day = date.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' });
+            const day = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
             if (!seen.has(day)) {
                 seen.add(day);
                 result.push({ name: day, count: grouped[day] });
@@ -123,7 +125,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
             <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)]">
                 <SectionTitle
                     icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="12" width="4" height="9" rx="1" /><rect x="10" y="7" width="4" height="14" rx="1" /><rect x="17" y="3" width="4" height="18" rx="1" /></svg>}
-                    title="توزيع التقييمات"
+                    title={t('analytics.chartRatings')}
                 />
                 <div style={{ width: '100%', height: 220 }}>
                     <ResponsiveContainer>
@@ -132,7 +134,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
                             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 13, fontFamily: 'Cairo', fill: COLORS.muted }} />
                             <YAxis axisLine={false} tickLine={false} allowDecimals={false} tick={{ fontSize: 12, fill: COLORS.muted }} />
                             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
-                            <Bar dataKey="count" name="العدد" radius={[6, 6, 0, 0]} animationDuration={800}>
+                            <Bar dataKey="count" name={t('analytics.seriesCount')} radius={[6, 6, 0, 0]} animationDuration={800}>
                                 {ratingData.map((entry, i) => (
                                     <Cell key={i} fill={entry.fill} />
                                 ))}
@@ -146,7 +148,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
             <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)]">
                 <SectionTitle
                     icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>}
-                    title="التقييمات عبر الزمن"
+                    title={t('analytics.chartFeedbackTimeline')}
                 />
                 <div style={{ width: '100%', height: 220 }}>
                     <ResponsiveContainer>
@@ -164,7 +166,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
                             <Area
                                 type="monotone"
                                 dataKey="count"
-                                name="تقييمات"
+                                name={t('analytics.seriesRatings')}
                                 stroke={COLORS.primary}
                                 strokeWidth={3}
                                 fill="url(#gradientArea)"
@@ -179,7 +181,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
             <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)]">
                 <SectionTitle
                     icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a10 10 0 0 1 10 10" /><path d="M12 12L12 2" /><path d="M12 12L22 12" /></svg>}
-                    title="سهولة الاستخدام"
+                    title={t('analytics.chartEaseOfUse')}
                 />
                 <div style={{ width: '100%', height: 260 }}>
                     <ResponsiveContainer>
@@ -216,7 +218,7 @@ const FeedbackCharts = ({ feedbacks = [] }) => {
             <div className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)]">
                 <SectionTitle
                     icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>}
-                    title="التوصية بالمنصة"
+                    title={t('analytics.chartRecommendation')}
                 />
                 <div style={{ width: '100%', height: 260 }}>
                     <ResponsiveContainer>
