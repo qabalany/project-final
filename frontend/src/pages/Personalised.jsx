@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnboardingHeader from '../components/OnboardingHeader';
+import { useLanguage } from '../context/LanguageContext';
 
 const avatarData = {
     ula: {
@@ -22,6 +23,7 @@ const Personalised = () => {
     const [selectedAvatar, setSelectedAvatar] = useState(null);
     const navigate = useNavigate();
     const maxChars = 200;
+    const { t, dir } = useLanguage();
 
     useEffect(() => {
         // Read selected avatar from localStorage, default to tuwaiq
@@ -50,15 +52,15 @@ const Personalised = () => {
     if (!selectedAvatar) return null;
 
     return (
-        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-sans" dir="rtl">
+        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-sans" dir={dir}>
             <OnboardingHeader currentStep={4} totalSteps={4} />
 
             <section aria-labelledby="personalised-heading" className="flex-1 flex items-center justify-center py-10 px-5 relative">
                 <div className="flex flex-col items-center w-full max-w-[1178px] gap-[30px] md:gap-[50px] lg:gap-[97px]">
                     <div className="text-center">
                         <h1 id="personalised-heading" className="font-bold text-[32px] leading-[46px] md:text-[38px] md:leading-[55px] lg:text-[53px] lg:leading-[76.8px] m-0">
-                            <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">التخصيص </span>
-                            <span className="text-[#1b0444] dark:text-gray-100">المهني</span>
+                            <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">{t('personalised.titleHighlight')} </span>
+                            <span className="text-[#1b0444] dark:text-gray-100">{t('personalised.titlePart2')}</span>
                         </h1>
                     </div>
 
@@ -72,14 +74,13 @@ const Personalised = () => {
                                     id="professionInput"
                                     value={profession}
                                     onChange={handleChange}
-                                    placeholder={'مثال: "أنا مهندس أمن سيبراني" أو "طبيب أسنان" أو "محامي تجاري"...'}
+                                    placeholder={t('personalised.placeholder')}
                                     maxLength={maxChars}
-                                    dir="rtl"
                                     aria-describedby="char-count"
                                 />
                             </div>
                             <div className="flex justify-start px-2">
-                                <span id="char-count" className="font-medium text-[#858597] dark:text-gray-400 text-[14px]">{profession.length} / {maxChars} حرفاً</span>
+                                <span id="char-count" className="font-medium text-[#858597] dark:text-gray-400 text-[14px]">{profession.length} / {maxChars} {t('personalised.charCount')}</span>
                             </div>
                             <button
                                 type="button"
@@ -91,7 +92,7 @@ const Personalised = () => {
                                 disabled={!profession.trim()}
                                 aria-disabled={!profession.trim()}
                             >
-                                <span className="font-bold text-[18px]">متابعة</span>
+                                <span className="font-bold text-[18px]">{t('personalised.continueBtn')}</span>
                             </button>
                         </div>
 
@@ -109,7 +110,7 @@ const Personalised = () => {
                             {/* Replicating the exact deep shadow and spacing of the Avatar Selection screen */}
                             <div className="absolute inset-x-0 bottom-0 h-[35%] flex flex-col justify-center bg-white rounded-[30px] border-t-2 border-[#f3f4f8] shadow-[0_-8px_20px_rgba(0,0,0,0.06)] z-10" style={{ padding: '24px 32px' }}>
                                 <p className="font-medium text-[#1b0444] text-[15px] sm:text-[17px] leading-[26px] text-center m-0">
-                                    {selectedAvatar.speech}
+                                    {t(`personalised.${selectedAvatar.id}Speech`)}
                                 </p>
                             </div>
                         </div>

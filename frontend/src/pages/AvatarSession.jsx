@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Room, RoomEvent, Track } from 'livekit-client';
 import avatarService from '../api/avatar.service';
 import { AuthContext } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const AvatarSession = () => {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
+    const { t, dir } = useLanguage();
 
     // Combine UI States
     const [sessionData, setSessionData] = useState(null);
@@ -319,7 +321,7 @@ const AvatarSession = () => {
 
     // -- Renders --
     return (
-        <div className="w-full h-screen bg-[#0a0f1c] flex flex-col font-sans" dir="rtl">
+        <div className="w-full h-screen bg-[#0a0f1c] flex flex-col font-sans" dir={dir}>
             {/* Top Bar */}
             <div className="flex justify-between items-center px-4 sm:px-8 py-5 sm:py-6 z-10 shrink-0">
                 <button
@@ -330,7 +332,7 @@ const AvatarSession = () => {
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                    <span className="hidden sm:inline">إنهاء الجلسة</span>
+                    <span className="hidden sm:inline">{t('avatarSession.endSession')}</span>
                 </button>
 
                 <div className={`flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-sm border transition-colors ${isClosing ? 'bg-red-500/20 border-red-500/50' : timeLeft <= 30 ? 'bg-orange-500/20 border-orange-500/50' : 'bg-white/5 border-white/10'}`}>
@@ -355,8 +357,8 @@ const AvatarSession = () => {
                                     <path d="M21 3v5h-5" />
                                 </svg>
                             </div>
-                            <h2 className="text-white/90 text-xl sm:text-2xl font-bold mb-2 tracking-wide">جاري تهيئة الجلسة...</h2>
-                            <p className="text-white/50 text-sm sm:text-base px-6 text-center">يرجى الانتظار بينما نقوم بتحضير المعلم الذكي الخاص بك</p>
+                            <h2 className="text-white/90 text-xl sm:text-2xl font-bold mb-2 tracking-wide">{t('avatarSession.connecting')}</h2>
+                            <p className="text-white/50 text-sm sm:text-base px-6 text-center">{t('avatarSession.connectingDesc')}</p>
                         </div>
                     )}
 
@@ -364,7 +366,7 @@ const AvatarSession = () => {
                         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0f1c]/95 backdrop-blur-md z-40">
                             <div className="bg-red-500/10 p-6 sm:p-8 rounded-3xl border border-red-500/20 max-w-sm w-full mx-4 text-center shadow-2xl">
                                 <h2 className="text-red-400 text-xl font-bold mb-4">{errorMsg}</h2>
-                                <button onClick={() => navigate('/')} className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl transition-colors font-medium border border-white/10 w-full">العودة للرئيسية</button>
+                                <button onClick={() => navigate('/')} className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl transition-colors font-medium border border-white/10 w-full">{t('avatarSession.backHome')}</button>
                             </div>
                         </div>
                     )}
@@ -378,7 +380,7 @@ const AvatarSession = () => {
                                     <rect x="3" y="6" width="12" height="12" rx="2" stroke="rgba(255,255,255,0.3)" />
                                 </svg>
                             </div>
-                            <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">في انتظار بث الفيديو الذكي...</p>
+                            <p className="text-white/50 text-base sm:text-lg font-medium px-4 text-center">{t('avatarSession.waitingVideo')}</p>
                         </div>
                     )}
 
@@ -400,19 +402,19 @@ const AvatarSession = () => {
                     {transcripts.length > 0 && (
                         <div className="absolute top-16 sm:top-20 right-4 sm:right-6 md:auto md:left-6 md:right-auto md:w-[380px] max-h-[200px] md:max-h-[280px] bg-[#1b0444]/85 backdrop-blur-xl border border-[#31d4ed]/20 rounded-2xl overflow-hidden z-25 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                             <div className="px-5 py-4 border-b border-white/10 text-[14px] font-semibold text-white/60 uppercase tracking-wide bg-[#0a0f1c]/50">
-                                <span>المحادثة</span>
+                                <span>{t('avatarSession.conversation')}</span>
                             </div>
                             <div className="px-5 py-4 overflow-y-auto flex-1 flex flex-col gap-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent pr-2 sm:pr-3">
-                                {transcripts.map((t, i) => (
+                                {transcripts.map((transcript, i) => (
                                     <div
                                         key={i}
-                                        className={`flex flex-col gap-2 rounded-2xl border relative ${t.role === 'user' ? 'bg-[#31d4ed]/10 border-[#31d4ed]/20' : 'bg-white/5 border-white/10'}`}
+                                        className={`flex flex-col gap-2 rounded-2xl border relative ${transcript.role === 'user' ? 'bg-[#31d4ed]/10 border-[#31d4ed]/20' : 'bg-white/5 border-white/10'}`}
                                         style={{ padding: '16px 20px' }}
                                     >
-                                        <span className={`text-[12px] font-bold uppercase tracking-widest ${t.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
-                                            {t.role === 'user' ? 'أنت' : avatarName}
+                                        <span className={`text-[12px] font-bold uppercase tracking-widest ${transcript.role === 'user' ? 'text-[#31d4ed]' : 'text-[#2994f9]'}`}>
+                                            {transcript.role === 'user' ? t('avatarSession.you') : avatarName}
                                         </span>
-                                        <p className="text-[15px] sm:text-[16px] leading-relaxed text-white/95 m-0" dir="ltr">{t.text}</p>
+                                        <p className="text-[15px] sm:text-[16px] leading-relaxed text-white/95 m-0" dir="ltr">{transcript.text}</p>
                                     </div>
                                 ))}
                                 <div ref={transcriptsEndRef} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import OnboardingHeader from '../components/OnboardingHeader';
+import { useLanguage } from '../context/LanguageContext';
 
 const avatars = [
     {
@@ -26,6 +27,7 @@ const Avatar = () => {
     const [selected, setSelected] = useState(null);
     const navigate = useNavigate();
     const { completeOnboarding } = useAuth();
+    const { t, dir } = useLanguage();
 
     const handleSelect = (id) => {
         setSelected(id);
@@ -37,15 +39,15 @@ const Avatar = () => {
     };
 
     return (
-        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-sans" dir="rtl">
+        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-sans" dir={dir}>
             <OnboardingHeader currentStep={3} totalSteps={4} />
 
             <section aria-labelledby="avatar-heading" className="flex-1 flex items-center justify-center py-10 px-5 relative">
                 <div className="w-full max-w-[781px] flex flex-col gap-10 md:gap-[60px] lg:gap-[97px]">
                     <div className="text-center">
                         <h1 id="avatar-heading" className="font-bold text-[28px] leading-[40px] md:text-[36px] md:leading-[52px] lg:text-[53px] lg:leading-[76.8px] m-0">
-                            <span className="text-[#1b0444]">أختار شخصيتك المفضلة لتبدأ </span>
-                            <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">الرحلة</span>
+                            <span className="text-white">{t('avatar.titlePart1')} </span>
+                            <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">{t('avatar.titleHighlight')}</span>
                         </h1>
                     </div>
 
@@ -67,7 +69,7 @@ const Avatar = () => {
                                     onClick={() => handleSelect(avatar.id)}
                                 >
                                     <span className="sr-only">
-                                        {isSelected ? 'تم اختيار' : 'اختر'} شخصية {avatar.name}، {avatar.accent}. {avatar.desc}
+                                        {isSelected ? t('avatar.srSelected') : t('avatar.srSelect')} {t('avatar.srPersonality')} {avatar.name}، {t(`avatar.${avatar.id}.accent`)}. {t(`avatar.${avatar.id}.desc`)}
                                     </span>
 
                                     <img
@@ -84,11 +86,11 @@ const Avatar = () => {
                                                 <div className="font-bold text-[#1b0444] text-[20px] sm:text-[23px] text-right shrink-0">{avatar.name}</div>
                                                 {/* In RTL: this second div (Flag) is on the LEFT */}
                                                 <div className="flex items-center gap-1 shrink-0">
-                                                    <span className="font-normal text-[#858597] text-[12px]">{avatar.accent}</span>
+                                                    <span className="font-normal text-[#858597] text-[12px]">{t(`avatar.${avatar.id}.accent`)}</span>
                                                     <img src={avatar.flagIcon} alt="" className="w-3 h-[9px]" />
                                                 </div>
                                             </div>
-                                            <p className="font-normal text-[#858597] text-[13px] leading-[18.2px] text-right m-0 whitespace-pre-line w-full">{avatar.desc}</p>
+                                            <p className="font-normal text-[#858597] text-[13px] leading-[18.2px] text-right m-0 whitespace-pre-line w-full">{t(`avatar.${avatar.id}.desc`)}</p>
                                         </div>
                                     </div>
                                 </button>
