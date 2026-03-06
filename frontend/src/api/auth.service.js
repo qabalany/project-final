@@ -1,6 +1,6 @@
 import client from "./client";
 
-export const API_URL = 'http://localhost:8080/api';
+export const API_URL = import.meta.env.VITE_API_URL;
 // Extracts axios calls from components for reuse
 
 // Send registration data to backend

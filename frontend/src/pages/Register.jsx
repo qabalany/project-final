@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register as registerService } from '../api/auth.service';
 import { useAuth } from '../context/AuthContext';
 
-const API_URL = 'http://localhost:8080/api'; // Or use your environment config
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Register = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
