@@ -119,6 +119,17 @@ const translations = {
             messagePlaceholder: 'اكتب شكواك أو اقتراحك هنا...',
             successMsg: 'تم إرسال رسالتك بنجاح! شكراً لمساعدتنا في تحسين التطبيق.',
         },
+        motherTongue: {
+            titlePart1: 'ما هي',
+            titleHighlight: ' لغتك ',
+            titlePart2: 'الأم',
+            comingSoon: 'قريباً',
+        },
+        secondLanguage: {
+            titlePart1: 'ماذا تريد ان',
+            titleHighlight: ' تتعلم',
+            comingSoon: 'قريباً',
+        },
         authSlides: [
             { title: 'العديد من الدورات التجريبية المجانية', desc: 'دورات مجانية لمساعدتك على اكتشاف طريقك في التعلّم.' },
             { title: 'تعلّم سريع وسهل', desc: 'تعلّم بسهولة وفي أي وقت، لتطوير مهاراتك في اللغة الإنجليزية بسرعة وفعالية.' },
@@ -334,6 +345,17 @@ const translations = {
             messageLabel: 'Message',
             messagePlaceholder: 'Write your complaint or suggestion here...',
             successMsg: 'Your message was sent successfully! Thank you for helping us improve.',
+        },
+        motherTongue: {
+            titlePart1: 'What is your',
+            titleHighlight: ' mother tongue',
+            titlePart2: '?',
+            comingSoon: 'Soon',
+        },
+        secondLanguage: {
+            titlePart1: 'What do you want to',
+            titleHighlight: ' learn',
+            comingSoon: 'Soon',
         },
         authSlides: [
             { title: 'Many Free Trial Courses', desc: 'Free courses to help you discover your path in learning.' },

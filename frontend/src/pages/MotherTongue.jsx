@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Import useAuth for potential future access to global user data
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 // Import accessible OnboardingHeader component
 import OnboardingHeader from '../components/OnboardingHeader';
 
 // Array of language options. Only 'arabic' is currently set to available: true.
 // Other languages are disabled to indicate they are coming soon.
 const languages = [
-    { id: 'french', name: 'الفرنسية', flag: 'https://flagcdn.com/w320/fr.png', available: false },
-    { id: 'spanish', name: 'الإسبانية', flag: 'https://flagcdn.com/w320/es.png', available: false },
-    { id: 'german', name: 'الألمانية', flag: 'https://flagcdn.com/w320/de.png', available: false },
-    { id: 'arabic', name: 'العربية', flag: 'https://flagcdn.com/w320/sa.png', available: true },
-    { id: 'turkish', name: 'التركية', flag: 'https://flagcdn.com/w320/tr.png', available: false },
-    { id: 'urdu', name: 'الأوردية', flag: 'https://flagcdn.com/w320/pk.png', available: false },
-    { id: 'hindi', name: 'الهندية', flag: 'https://flagcdn.com/w320/in.png', available: false },
-    { id: 'chinese', name: 'الصينية', flag: 'https://flagcdn.com/w320/cn.png', available: false },
+    { id: 'french', name: 'الفرنسية', nameEn: 'French', flag: 'https://flagcdn.com/w320/fr.png', available: false },
+    { id: 'spanish', name: 'الإسبانية', nameEn: 'Spanish', flag: 'https://flagcdn.com/w320/es.png', available: false },
+    { id: 'german', name: 'الألمانية', nameEn: 'German', flag: 'https://flagcdn.com/w320/de.png', available: false },
+    { id: 'arabic', name: 'العربية', nameEn: 'Arabic', flag: 'https://flagcdn.com/w320/sa.png', available: true },
+    { id: 'turkish', name: 'التركية', nameEn: 'Turkish', flag: 'https://flagcdn.com/w320/tr.png', available: false },
+    { id: 'urdu', name: 'الأوردية', nameEn: 'Urdu', flag: 'https://flagcdn.com/w320/pk.png', available: false },
+    { id: 'hindi', name: 'الهندية', nameEn: 'Hindi', flag: 'https://flagcdn.com/w320/in.png', available: false },
+    { id: 'chinese', name: 'الصينية', nameEn: 'Chinese', flag: 'https://flagcdn.com/w320/cn.png', available: false },
 ];
 
 const MotherTongue = () => {
@@ -25,6 +26,7 @@ const MotherTongue = () => {
     // useNavigate hook enables programmatic push to the next screen
     const navigate = useNavigate();
     const { completeOnboarding } = useAuth();
+    const { t, lang: currentLang, dir } = useLanguage();
 
     // Triggered upon clicking a language card
     const handleSelect = (lang) => {
@@ -45,7 +47,7 @@ const MotherTongue = () => {
 
     return (
         // The <main> landmark signals the primary content area to screen readers
-        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-cairo" dir="rtl">
+        <main className="w-full min-h-screen flex flex-col bg-white dark:bg-gray-900 font-cairo" dir={dir}>
             <OnboardingHeader />
 
             {/* The <section> groups the language selection area.
@@ -61,9 +63,9 @@ const MotherTongue = () => {
                             id="screen-title"
                             className="font-bold text-[32px] sm:text-[36px] md:text-[45px] lg:text-[53px] leading-[46px] sm:leading-[52px] md:leading-[65px] lg:leading-[76.8px] m-0"
                         >
-                            <span className="text-primary-text">ما هي</span>
-                            <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent"> لغتك </span>
-                            <span className="text-primary-text">الأم</span>
+                            <span className="text-white">{t('motherTongue.titlePart1')}</span>
+                            <span className="bg-gradient-to-r from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent">{t('motherTongue.titleHighlight')}</span>
+                            <span className="text-white">{t('motherTongue.titlePart2')}</span>
                         </h1>
                     </div>
 
@@ -89,7 +91,7 @@ const MotherTongue = () => {
                                     // disabled and aria-disabled ensure full deactivation for screen readers
                                     disabled={isDisabled}
                                     aria-disabled={isDisabled}
-                                    title={isDisabled ? `${lang.name} (Coming soon)` : `Select ${lang.name}`}
+                                    title={isDisabled ? `${currentLang === 'ar' ? lang.name : lang.nameEn} (${t('motherTongue.comingSoon')})` : `Select ${currentLang === 'ar' ? lang.name : lang.nameEn}`}
                                     className={`flex flex-col bg-white dark:bg-gray-800 rounded-[30px] overflow-hidden shadow-[0_8px_12px_#b8b8d233] dark:shadow-[0_8px_12px_rgba(0,0,0,0.3)] relative w-[calc(50%-10px)] min-w-[130px] sm:w-[calc(50%-12px)] sm:min-w-[140px] md:w-[220px] lg:w-[260px] transition-all duration-300 ease-in-out
                                         ${isSelected ? 'opacity-100 shadow-[0_8px_16px_rgba(41,148,249,0.25)] border-2 border-[rgba(41,148,249,0.4)]' : 'opacity-30 border-2 border-transparent'}
                                         ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1 hover:shadow-[0_12px_20px_#b8b8d266]'}`}
@@ -99,13 +101,13 @@ const MotherTongue = () => {
                                         <img
                                             className="w-full h-full object-cover"
                                             src={lang.flag}
-                                            alt={`${lang.name} flag`}
+                                            alt={`${currentLang === 'ar' ? lang.name : lang.nameEn} flag`}
                                             aria-hidden="true"
                                         />
                                     </div>
                                     <div className="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 h-[60px] p-3 sm:h-[70px] sm:p-4 md:h-[90px] md:p-5 lg:h-[90px] lg:p-5 w-full">
                                         <div className="font-bold text-primary-text dark:text-gray-100 text-center text-[18px] sm:text-[20px] md:text-[25px]">
-                                            {lang.name}
+                                            {currentLang === 'ar' ? lang.name : lang.nameEn}
                                         </div>
 
                                         {isDisabled && (
@@ -114,7 +116,7 @@ const MotherTongue = () => {
                                                 className="text-[11px] text-white bg-gradient-to-br from-[#858597] to-[#b8b8d2] px-[10px] py-[2px] rounded-[20px] font-medium leading-none whitespace-nowrap"
                                                 aria-hidden="true"
                                             >
-                                                قريباً
+                                                {t('motherTongue.comingSoon')}
                                             </span>
                                         )}
 

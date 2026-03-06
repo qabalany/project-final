@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import feedbackService from '../api/feedback.service';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Feedback = () => {
     const navigate = useNavigate();
     const { isDark, toggleDark } = useTheme();
+    const { toggle, lang, dir } = useLanguage();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -49,7 +51,7 @@ const Feedback = () => {
 
     if (submitted) {
         return (
-            <div className="flex flex-col items-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 font-sans" dir="rtl">
+            <div className="flex flex-col items-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 font-sans" dir={dir}>
                 <header className="absolute top-0 flex w-full h-[70px] bg-white dark:bg-gray-800 items-center justify-between px-6 lg:px-10 shrink-0 border-b border-[#f3f4f8] dark:border-gray-700">
                     {/* Left side */}
                     <div className="flex items-center gap-4 w-1/3"></div>
@@ -79,7 +81,7 @@ const Feedback = () => {
     }
 
     return (
-        <div className="flex flex-col items-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 w-full font-sans relative" dir="rtl">
+        <div className="flex flex-col items-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 w-full font-sans relative" dir={dir}>
             <header className="sticky top-0 z-50 flex w-full pt-6 pb-2 bg-transparent items-center justify-between shrink-0 px-6">
                 <div className="flex items-center gap-2 w-1/3 cursor-pointer transition-opacity hover:opacity-80" onClick={() => navigate('/')}>
                     <img src="/favicon.svg" alt="Logah" className="w-[30px] h-[30px]" />
@@ -98,8 +100,11 @@ const Feedback = () => {
                     <button onClick={toggleDark} className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] transition-colors duration-200" aria-label="Toggle dark mode">
                         {isDark ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>}
                     </button>
+                    <button onClick={toggle} className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1.5 hover:bg-[#2994f9] hover:text-white transition-colors duration-200">
+                        {lang === 'ar' ? 'English' : 'عربي'}
+                    </button>
                     <button className="flex items-center gap-2 bg-transparent border-none text-[#858597] dark:text-gray-400 text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
-                        إغلاق
+                        {lang === 'ar' ? 'إغلاق' : 'Close'}
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                     </button>
                 </div>
