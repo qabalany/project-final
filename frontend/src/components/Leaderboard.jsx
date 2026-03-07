@@ -9,10 +9,10 @@ const Leaderboard = ({ users }) => {
             <div className="flex justify-between items-center mb-2.5">
                 <h2 className="font-cairo font-extrabold text-[#1b0444] dark:text-gray-100 text-[23px] leading-9">{t('home.leaderboardTitle')}</h2>
                 <div className="flex items-center gap-2">
-                    <button className="text-[#1ea7ff] text-[17px] font-medium font-cairo hover:opacity-80 transition-opacity">
+                    <button className="text-blue-700 dark:text-blue-400 text-[17px] font-medium font-cairo hover:opacity-80 transition-opacity">
                         {t('home.leaderboardMore')}
                     </button>
-                    <button className="text-[#858597] dark:text-gray-400 text-2xl leading-none hover:text-[#232360] dark:hover:text-gray-100 font-bold" aria-label="خيارات إضافية">⋮</button>
+                    <button className="text-gray-600 dark:text-gray-400 text-2xl leading-none hover:text-[#232360] dark:hover:text-gray-100 font-bold" aria-label="خيارات إضافية">⋮</button>
                 </div>
             </div>
 

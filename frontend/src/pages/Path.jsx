@@ -21,11 +21,11 @@ const Path = () => {
             {/* Page Header */}
             <div className="mb-8">
                 <h1 className="text-2xl font-extrabold text-[#1b0444] dark:text-gray-100 mb-1">{t('path.title')}</h1>
-                <p className="text-[#858597] dark:text-gray-400 text-sm">{t('path.subtitle')}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('path.subtitle')}</p>
             </div>
 
             {/* Progress Summary */}
-            <div className="bg-gradient-to-br from-[#2994f9] to-[#31d4ed] rounded-2xl p-6 text-white mb-8 shadow-[0_8px_24px_rgba(41,148,249,0.25)]">
+            <div className="bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] rounded-2xl p-6 text-white mb-8 shadow-[0_8px_24px_rgba(21,103,196,0.25)]">
                 <p className="text-white/80 text-sm mb-1">{t('path.greeting')} {user?.name || (dir === 'rtl' ? 'متعلم' : 'Learner')}!</p>
                 <h2 className="text-xl font-extrabold mb-3">{t('path.progressIntro')}</h2>
                 <div className="flex items-center gap-3">
@@ -42,7 +42,7 @@ const Path = () => {
                     <div
                         key={step.id}
                     className={`flex items-center gap-4 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-none px-5 py-4 transition-all duration-200
-                            ${step.done ? 'opacity-70' : ''}
+                            ${step.done ? 'opacity-70 dark:opacity-100' : ''}
                             ${step.cta ? 'border-2 border-[#2994f9]' : 'border border-[#f0f0f8] dark:border-gray-700'}
                         `}
                     >
@@ -51,7 +51,7 @@ const Path = () => {
                             ${step.done
                                 ? 'bg-[#e8f5e9] text-green-600'
                                 : step.cta
-                                    ? 'bg-[#2994f9] text-white'
+                                    ? 'bg-[#1567c4] text-white'
                                     : 'bg-[#f4f3fd] text-[#b0b0c3]'}
                         `}>
                             {step.done ? (
@@ -73,7 +73,7 @@ const Path = () => {
                         {step.cta && (
                             <button
                                 onClick={() => navigate('/avatar-session')}
-                                className="shrink-0 px-4 py-1.5 rounded-xl bg-[#1a7de0] text-white text-xs font-bold shadow-sm hover:bg-[#1567c4] transition"
+                                className="shrink-0 px-4 py-1.5 rounded-xl bg-[#1567c4] text-white text-xs font-bold shadow-sm hover:bg-[#1057b0] transition"
                             >
                                 {t('path.startBtn')}
                             </button>

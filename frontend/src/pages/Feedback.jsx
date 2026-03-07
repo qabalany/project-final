@@ -79,7 +79,7 @@ const Feedback = () => {
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 12 2 2 4-4" /><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /></svg>
                         </div>
                         <h2 className="text-2xl font-bold text-[#1b0444] dark:text-gray-100 mb-4">{t('survey.successTitle')}</h2>
-                        <p className="text-[#858597] dark:text-gray-400">{t('survey.successMsg')}</p>
+                        <p className="text-gray-600 dark:text-gray-400">{t('survey.successMsg')}</p>
                     </div>
                 </div>
             </div>
@@ -96,20 +96,20 @@ const Feedback = () => {
 
                 {/* Center: Progress Bar */}
                 <div className="flex flex-col items-center justify-center w-full max-w-[200px] mx-auto">
-                    <span className="text-sm font-bold text-[#858597] dark:text-gray-400 mb-2">{t('survey.stepLabel')} {step} {t('survey.stepOf')}</span>
+                    <span className="text-sm font-bold text-gray-600 dark:text-gray-300 mb-2">{t('survey.stepLabel')} {step} {t('survey.stepOf')}</span>
                     <div className="w-full h-2 bg-white dark:bg-gray-700 rounded-full overflow-hidden shadow-sm border border-[#e5e7eb] dark:border-gray-600">
                         <div className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] transition-all duration-500 ease-out" style={{ width: `${(step / 7) * 100}%` }}></div>
                     </div>
                 </div>
 
                 <div className="flex items-center justify-end w-1/3 gap-2">
-                    <button onClick={toggleDark} className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 hover:text-[#2994f9] transition-colors duration-200" aria-label="Toggle dark mode">
+                    <button onClick={toggleDark} className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#e0e0e8] dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-[#1567c4] transition-colors duration-200" aria-label="Toggle dark mode">
                         {isDark ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>}
                     </button>
-                    <button onClick={toggle} className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1.5 hover:bg-[#2994f9] hover:text-white transition-colors duration-200">
+                    <button onClick={toggle} className="text-sm font-medium text-[#1567c4] border border-[#1567c4] rounded-lg px-3 py-1.5 hover:bg-[#1567c4] hover:text-white transition-colors duration-200">
                         {lang === 'ar' ? 'English' : 'عربي'}
                     </button>
-                    <button className="flex items-center gap-2 bg-transparent border-none text-[#858597] dark:text-gray-400 text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
+                    <button className="flex items-center gap-2 bg-transparent border-none text-gray-600 dark:text-gray-400 text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
                         {t('survey.close')}
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                     </button>
@@ -118,7 +118,7 @@ const Feedback = () => {
 
             <main className="w-full max-w-[600px] mx-auto flex flex-col items-center mt-6">
                 <h1 className="text-[2rem] font-extrabold text-[#1b0444] dark:text-gray-100 mb-2 text-center tracking-wide">{t('survey.shareOpinion')}</h1>
-                <p className="text-[#858597] dark:text-gray-400 mb-8 text-center text-lg">{t('survey.shareDesc')}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-8 text-center text-lg">{t('survey.shareDesc')}</p>
 
                 <div className="bg-white dark:bg-gray-800 p-5 sm:px-6 sm:py-5 rounded-[30px] shadow-[0_8px_20px_rgba(184,184,210,0.27)] dark:shadow-none w-full border border-[#f3f4f8] dark:border-gray-700 relative">
                     {step === 1 && (
@@ -213,7 +213,7 @@ const Feedback = () => {
                                 {RECOMMEND_VALUES.map((val, i) => (
                                     <button
                                         key={val}
-                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.recommendation === val ? 'bg-[#31d4ed]/10 dark:bg-blue-900/30 border-2 border-[#31d4ed] text-[#1b0444] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f3f4f8] dark:bg-gray-700 border-2 border-transparent text-[#858597] dark:text-gray-300 font-semibold hover:bg-[#eef2f6] dark:hover:bg-gray-600 hover:border-[#31d4ed]/50 hover:-translate-y-[2px]'}`}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.recommendation === val ? 'bg-[#31d4ed]/10 dark:bg-blue-900/30 border-2 border-[#31d4ed] text-[#1b0444] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f3f4f8] dark:bg-gray-700 border-2 border-transparent text-gray-700 dark:text-gray-300 font-semibold hover:bg-[#eef2f6] dark:hover:bg-gray-600 hover:border-[#31d4ed]/50 hover:-translate-y-[2px]'}`}
                                         onClick={() => handleChange('recommendation', val)}
                                     >
                                         {(t('survey.step6.options') || [])[i] || val}
@@ -237,11 +237,11 @@ const Feedback = () => {
 
                     <div className="flex gap-4 mt-3 pt-3 border-t border-gray-100 dark:border-gray-600 relative z-10">
                         {step > 1 && (
-                            <button className="bg-[#f3f4f8] dark:bg-gray-700 text-[#858597] dark:text-gray-300 border-none px-6 py-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#e2e4e9] dark:hover:bg-gray-600" onClick={handlePrev}>{t('survey.prev')}</button>
+                            <button className="bg-[#f3f4f8] dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-none px-6 py-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#e2e4e9] dark:hover:bg-gray-600" onClick={handlePrev}>{t('survey.prev')}</button>
                         )}
                         {step < 7 ? (
                             <button
-                                className="flex-1 bg-[#2994f9] text-white border-none p-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#2482DB] hover:-translate-y-[2px] shadow-[0_4px_15px_rgba(41,148,249,0.2)] hover:shadow-[0_8px_20px_rgba(41,148,249,0.3)] disabled:bg-[#d1d5db] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                                className="flex-1 bg-[#1567c4] text-white border-none p-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#1057b0] hover:-translate-y-[2px] shadow-[0_4px_15px_rgba(21,103,196,0.2)] hover:shadow-[0_8px_20px_rgba(21,103,196,0.3)] disabled:bg-[#d1d5db] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                                 onClick={handleNext}
                                 disabled={
                                     (step === 2 && !formData.easeOfUse) ||
@@ -254,7 +254,7 @@ const Feedback = () => {
                                 {t('survey.next')}
                             </button>
                         ) : (
-                            <button className="flex-1 bg-[#2994f9] text-white border-none p-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#31d4ed] hover:-translate-y-[2px] shadow-[0_4px_15px_rgba(41,148,249,0.2)] hover:shadow-[0_8px_20px_rgba(49,212,237,0.3)] disabled:bg-[#d1d5db] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" onClick={handleSubmit} disabled={isSubmitting}>
+                            <button className="flex-1 bg-[#1567c4] text-white border-none p-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#1057b0] hover:-translate-y-[2px] shadow-[0_4px_15px_rgba(21,103,196,0.2)] hover:shadow-[0_8px_20px_rgba(21,103,196,0.3)] disabled:bg-[#d1d5db] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" onClick={handleSubmit} disabled={isSubmitting}>
                                 {isSubmitting ? t('survey.submitting') : t('survey.submit')}
                             </button>
                         )}

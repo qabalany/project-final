@@ -40,7 +40,7 @@ const AppFeedbackPage = () => {
             {/* Page Header */}
             <div className="mb-8">
                 <h1 className="text-2xl font-extrabold text-[#1b0444] dark:text-gray-100 mb-1">{t('appFeedback.title')}</h1>
-                <p className="text-[#858597] dark:text-gray-400 text-sm">{t('appFeedback.subtitle')}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('appFeedback.subtitle')}</p>
             </div>
 
             <div className="max-w-xl">
@@ -101,7 +101,7 @@ const AppFeedbackPage = () => {
                                                 : `[${chip}] ${prev.message.replace(/^\[.*?\]\s*/, '')}`,
                                         }))
                                     }
-                                    className="px-4 py-1.5 rounded-full border border-[#e0e0f0] dark:border-gray-600 text-sm font-semibold text-[#858597] dark:text-gray-400 hover:border-[#2994f9] hover:text-[#2994f9] hover:bg-[#f0f8ff] dark:hover:bg-gray-600 transition"
+                                    className="px-4 py-1.5 rounded-full border border-[#e0e0f0] dark:border-gray-600 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:border-[#1567c4] hover:text-[#1567c4] hover:bg-[#f0f8ff] dark:hover:bg-gray-600 transition"
                                 >
                                     {chip}
                                 </button>
@@ -129,7 +129,7 @@ const AppFeedbackPage = () => {
                     <button
                         type="submit"
                         disabled={status === 'loading' || !form.message.trim()}
-                        className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-[#2994f9] text-white font-cairo font-bold text-sm shadow-sm hover:bg-[#1a7de0] hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-[#1567c4] text-white font-cairo font-bold text-sm shadow-sm hover:bg-[#1057b0] hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {status === 'loading' ? (
                             <>

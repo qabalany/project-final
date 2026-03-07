@@ -147,7 +147,7 @@ const AdminDashboard = () => {
 
     if (loading) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen font-cairo text-[#858597] gap-4" dir={dir}>
+            <div className="flex flex-col items-center justify-center h-screen font-cairo text-gray-600 gap-4" dir={dir}>
                 <div className="w-10 h-10 border-[3px] border-[#f0f0f5] border-t-[#2994f9] rounded-full animate-spin"></div>
                 <p>{t('admin.loading')}</p>
             </div>
@@ -207,7 +207,7 @@ const AdminDashboard = () => {
                 <div className="flex items-center gap-2 mb-6 bg-white dark:bg-gray-800 rounded-2xl p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-none border border-black/5 dark:border-gray-700 w-fit">
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'feedback'
-                            ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
+                            ? 'bg-gradient-to-r from-[#1567c4] to-[#0d6ed1] text-white shadow-md'
                             : 'text-gray-600 dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('feedback')}
@@ -219,7 +219,7 @@ const AdminDashboard = () => {
                     </button>
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'sessions'
-                            ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
+                            ? 'bg-gradient-to-r from-[#1567c4] to-[#0d6ed1] text-white shadow-md'
                             : 'text-gray-600 dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('sessions')}
@@ -231,7 +231,7 @@ const AdminDashboard = () => {
                     </button>
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'app-feedback'
-                            ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
+                            ? 'bg-gradient-to-r from-[#1567c4] to-[#0d6ed1] text-white shadow-md'
                             : 'text-gray-600 dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('app-feedback')}
@@ -253,13 +253,13 @@ const AdminDashboard = () => {
                             <div className="col-span-full bg-white dark:bg-gray-800 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] dark:shadow-none py-16 px-8 text-center flex flex-col items-center">
                                 <div className="mb-4"><IconInbox /></div>
                                 <h3 className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-2">{t('admin.emptyMessagesTitle')}</h3>
-                                <p className="text-[#858597] dark:text-gray-400 text-[0.9rem]">{t('admin.emptyMessagesDesc')}</p>
+                                <p className="text-gray-600 dark:text-gray-400 text-[0.9rem]">{t('admin.emptyMessagesDesc')}</p>
                             </div>
                         ) : (
                             appFeedbacks.map((item) => (
                                 <div key={item._id} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
                                             {item.name?.charAt(0) || '؟'}
                                         </div>
                                         <div className="flex flex-col overflow-hidden">
@@ -357,7 +357,7 @@ const AdminDashboard = () => {
                             onClick={() => setShowCharts(!showCharts)}
                             className="flex items-center gap-2 px-5 py-3 w-full bg-white dark:bg-gray-800 border border-[#e8eaf3] dark:border-gray-600 rounded-2xl shadow-sm text-[#4a4a68] dark:text-gray-300 font-cairo font-bold text-[0.95rem] hover:bg-[#f8f9fc] dark:hover:bg-gray-700 hover:border-[#2994f9]/50 hover:text-[#2994f9] transition-all duration-200"
                         >
-                            <span className={`w-8 h-8 rounded-full flex flex-shrink-0 items-center justify-center transition-colors duration-200 ${showCharts ? 'bg-[#2994f9]/10 text-[#2994f9]' : 'bg-[#f0f0f5] text-[#858597]'}`}>
+                            <span className={`w-8 h-8 rounded-full flex flex-shrink-0 items-center justify-center transition-colors duration-200 ${showCharts ? 'bg-[#2994f9]/10 text-[#2994f9]' : 'bg-[#f0f0f5] text-gray-500'}`}>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <line x1="18" y1="20" x2="18" y2="10" />
                                     <line x1="12" y1="20" x2="12" y2="4" />
@@ -367,7 +367,7 @@ const AdminDashboard = () => {
                             <span className="flex-1 text-right">
                                 {showCharts ? t('admin.toggleChartsHide') : t('admin.toggleChartsShow')}
                             </span>
-                            <svg className={`w-5 h-5 text-[#858597] transition-transform duration-300 ${showCharts ? 'rotate-180' : 'rotate-0'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <svg className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${showCharts ? 'rotate-180' : 'rotate-0'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="6 9 12 15 18 9" />
                             </svg>
                         </button>
@@ -390,7 +390,7 @@ const AdminDashboard = () => {
                         <div className="bg-white dark:bg-gray-800 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.05)] dark:shadow-none py-16 px-8 text-center flex flex-col items-center">
                             <div className="mb-4"><IconInbox /></div>
                             <h3 className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-2">{hasActiveFilters ? t('admin.emptyFilterTitle') : t('admin.emptyFeedbackTitle')}</h3>
-                            <p className="text-[#858597] dark:text-gray-400 text-[0.9rem]">
+                            <p className="text-gray-600 dark:text-gray-400 text-[0.9rem]">
                                 {hasActiveFilters ? t('admin.emptyFilterDesc') : t('admin.emptyFeedbackDesc')}
                             </p>
                         </div>
@@ -399,7 +399,7 @@ const AdminDashboard = () => {
                             {filteredFeedbacks.map((item) => (
                                 <div key={item._id} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/5 dark:border-gray-700 flex flex-col transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1">
                                     <div className="flex items-center gap-3 mb-5">
-                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] text-white flex items-center justify-center text-[1.2rem] font-extrabold shrink-0 border-2 border-white shadow-sm">
                                             {item.name?.charAt(0) || '؟'}
                                         </div>
                                         <div className="flex flex-col overflow-hidden">
@@ -450,16 +450,16 @@ export default AdminDashboard;
 function getPillClass(value) {
     if (!value) return '';
     if (value.includes('ممتاز') || value.includes('سهل جداً')) return 'bg-[#ecfdf5] text-[#059669]';
-    if (value.includes('جيد') || value.includes('سهل لحد')) return 'bg-[#eef4ff] text-[#2994f9]';
+    if (value.includes('جيد') || value.includes('سهل لحد')) return 'bg-[#eef4ff] text-[#1567c4]';
     if (value.includes('محايد') || value.includes('مقبول')) return 'bg-[#fffbeb] text-[#b45309]';
     if (value.includes('صعب') || value.includes('سيئ')) return 'bg-[#fff5f5] text-[#dc2626]';
-    return 'bg-[#eef4ff] text-[#2994f9]';
+    return 'bg-[#eef4ff] text-[#1567c4]';
 }
 
 function getRecommendContent(value) {
-    if (!value) return { class: 'bg-white border-[#e0e0e8] text-[#858597]', text: '—', emoji: '' };
+    if (!value) return { class: 'bg-white border-[#e0e0e8] text-gray-600', text: '—', emoji: '' };
     if (value.includes('بالتأكيد')) return { class: 'bg-[#ecfdf5] text-[#059669]', text: 'بالتأكيد', emoji: '🤩' };
     if (value.includes('ربما')) return { class: 'bg-[#fffbeb] text-[#b45309]', text: 'ربما', emoji: '🤔' };
     if (value.includes('لا')) return { class: 'bg-[#fff5f5] text-[#dc2626]', text: 'لا أعتقد', emoji: '😞' };
-    return { class: 'bg-[#eef4ff] text-[#2994f9]', text: value, emoji: 'ℹ️' };
+    return { class: 'bg-[#eef4ff] text-[#1567c4]', text: value, emoji: 'ℹ️' };
 }

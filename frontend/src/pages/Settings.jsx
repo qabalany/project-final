@@ -32,7 +32,7 @@ const Settings = () => {
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-[#2994f9] text-white py-2.5 px-6 rounded-xl flex items-center gap-2 font-bold text-sm shadow-[0_4px_12px_rgba(41,148,249,0.3)] hover:shadow-[0_6px_16px_rgba(41,148,249,0.4)] hover:-translate-y-[1px] transition-all duration-200 disabled:opacity-70 disabled:transform-none"
+                    className="bg-[#1567c4] text-white py-2.5 px-6 rounded-xl flex items-center gap-2 font-bold text-sm shadow-[0_4px_12px_rgba(21,103,196,0.3)] hover:shadow-[0_6px_16px_rgba(21,103,196,0.4)] hover:-translate-y-[1px] transition-all duration-200 disabled:opacity-70 disabled:transform-none"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                     <span>{t('common.save')}</span>
@@ -53,7 +53,7 @@ const Settings = () => {
                             Screenshot shows Email on LEFT, Name on RIGHT. 
                             So Name goes first in the DOM, Email second. */}
                         <div className="flex flex-col gap-2.5">
-                            <label className="text-[#858597] dark:text-gray-400 font-semibold text-[13px] text-right" htmlFor="settings-name">{t('settings.nameLabel')}</label>
+                            <label className="text-gray-600 dark:text-gray-400 font-semibold text-[13px] text-right" htmlFor="settings-name">{t('settings.nameLabel')}</label>
                             <input
                                 id="settings-name"
                                 type="text"
@@ -64,7 +64,7 @@ const Settings = () => {
                         </div>
 
                         <div className="flex flex-col gap-2.5">
-                            <label className="text-[#858597] dark:text-gray-400 font-semibold text-[13px] text-right" htmlFor="settings-email">{t('settings.emailLabel')}</label>
+                            <label className="text-gray-600 dark:text-gray-400 font-semibold text-[13px] text-right" htmlFor="settings-email">{t('settings.emailLabel')}</label>
                             <input
                                 id="settings-email"
                                 type="email"
@@ -76,7 +76,7 @@ const Settings = () => {
                     </div>
 
                     <div className="flex flex-col gap-2.5 mt-1">
-                        <label className="text-[#858597] dark:text-gray-400 font-semibold text-[13px] text-right" htmlFor="settings-profession">{t('settings.professionLabel')}</label>
+                        <label className="text-gray-600 dark:text-gray-400 font-semibold text-[13px] text-right" htmlFor="settings-profession">{t('settings.professionLabel')}</label>
                         <input
                             id="settings-profession"
                             type="text"
@@ -98,7 +98,7 @@ const Settings = () => {
                         {/* Right Column: Mother Tongue */}
                         <div className="w-full p-5 border border-[#e5e7eb]/80 dark:border-gray-600 rounded-2xl flex items-center justify-between bg-[#fafbfc] dark:bg-gray-700">
                             <div className="flex flex-col items-start gap-1">
-                                <span className="text-[#858597] dark:text-gray-400 text-[13px] font-semibold">{t('settings.motherTongueLabel')}</span>
+                                <span className="text-gray-600 dark:text-gray-400 text-[13px] font-semibold">{t('settings.motherTongueLabel')}</span>
                                 <span className="text-[#1b0444] dark:text-gray-100 font-extrabold text-[15px]">{motherTongue}</span>
                             </div>
                             <div className="bg-[#eff6ff] text-[#2994f9] p-2.5 rounded-full">
@@ -109,7 +109,7 @@ const Settings = () => {
                         {/* Left Column: Target Language */}
                         <div className="w-full p-5 border border-[#e5e7eb]/80 dark:border-gray-600 rounded-2xl flex items-center justify-between bg-[#fafbfc] dark:bg-gray-700">
                             <div className="flex flex-col items-start gap-1">
-                                <span className="text-[#858597] dark:text-gray-400 text-[13px] font-semibold">{t('settings.targetLangLabel')}</span>
+                                <span className="text-gray-600 dark:text-gray-400 text-[13px] font-semibold">{t('settings.targetLangLabel')}</span>
                                 <span className="text-[#1b0444] dark:text-gray-100 font-extrabold text-[15px]">{targetLanguage}</span>
                             </div>
                             <div className="bg-[#f5f3ff] text-[#5442f5] p-2.5 rounded-full">
@@ -138,7 +138,7 @@ const Settings = () => {
 
                             <div className="flex flex-col items-center gap-1">
                                 <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-[19px]">Ula</span>
-                                <span className="text-[#858597] dark:text-gray-400 text-[13.5px] font-medium">{t('settings.ulaAccent')}</span>
+                                <span className="text-gray-600 dark:text-gray-400 text-[13.5px] font-medium">{t('settings.ulaAccent')}</span>
                             </div>
 
                             {/* Toggled Checkmark state */}
@@ -159,7 +159,7 @@ const Settings = () => {
 
                             <div className="flex flex-col items-center gap-1">
                                 <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-[19px]">Tuwaiq</span>
-                                <span className="text-[#858597] dark:text-gray-400 text-[13.5px] font-medium">{t('settings.tuwaiqAccent')}</span>
+                                <span className="text-gray-600 dark:text-gray-400 text-[13.5px] font-medium">{t('settings.tuwaiqAccent')}</span>
                             </div>
 
                             {/* Toggled Checkmark state */}

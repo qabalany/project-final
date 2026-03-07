@@ -157,7 +157,7 @@ const Login = () => {
                                 <div className="flex flex-col items-center text-center gap-5 max-w-[395px]">
                                     <img src={slide.img} alt={slide.title} className="w-[250px] h-[250px] xl:w-[363px] xl:h-[363px] object-contain" />
                                     <h2 className="font-bold text-[#1b0444] dark:text-gray-100 text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir={dir}>{slide.title}</h2>
-                                    <p className="font-normal text-[#858597] dark:text-gray-400 text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
+                                    <p className="font-normal text-gray-600 dark:text-gray-400 text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
                                 </div>
                             </div>
                         ))}
@@ -274,7 +274,7 @@ const Login = () => {
                     <div className="flex flex-col items-center gap-4 w-full">
                         <button
                             type="submit"
-                            className="w-full h-12 flex items-center justify-center rounded bg-gradient-to-br from-[#2994f9] to-[#31d4ed] cursor-pointer transition-all duration-300 ease-in-out hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white border-none"
+                            className="w-full h-12 flex items-center justify-center rounded bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] cursor-pointer transition-all duration-300 ease-in-out hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white border-none"
                             disabled={loading}
                             aria-live="polite"
                         >
@@ -325,9 +325,9 @@ const Login = () => {
                             disabled={loading}
                             aria-label={t('login.demoBtn')}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#2994f9] to-[#31d4ed] opacity-0 transition-opacity duration-250 ease pointer-events-none group-hover:opacity-100"></div>
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] opacity-0 transition-opacity duration-250 ease pointer-events-none group-hover:opacity-100"></div>
                             <span className="text-[17px] leading-none relative z-10 transition-all duration-250 ease group-hover:brightness-[10]" aria-hidden="true">🧪</span>
-                            <span className="font-sans font-bold text-[15px] dir-rtl relative z-10 bg-gradient-to-br from-[#2994f9] to-[#31d4ed] bg-clip-text text-transparent transition-all duration-250 ease group-hover:text-white group-hover:bg-none">
+                            <span className="font-sans font-bold text-[15px] dir-rtl relative z-10 bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] bg-clip-text text-transparent transition-all duration-250 ease group-hover:text-white group-hover:bg-none">
                                 {loading ? t('login.demoLoading') : t('login.demoBtn')}
                             </span>
                         </button>

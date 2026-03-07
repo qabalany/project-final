@@ -42,7 +42,7 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                     {onBack && (
                         <button
                             onClick={onBack}
-                            className="bg-transparent border-none flex items-center gap-2 text-[#858597] dark:text-gray-400 hover:text-[#2994f9] font-sans font-medium text-[15px] cursor-pointer transition-colors"
+                            className="bg-transparent border-none flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-[#2994f9] font-sans font-medium text-[15px] cursor-pointer transition-colors"
                             aria-label={t('onboardingHeader.backLabel')}
                         >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rotate-180">
@@ -84,7 +84,7 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                     {/* Dark mode toggle */}
                     <button
                         onClick={toggleDark}
-                        className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 hover:border-[#2994f9] hover:text-[#2994f9] transition-colors duration-200"
+                        className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#e0e0e8] dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-[#2994f9] hover:text-[#2994f9] transition-colors duration-200"
                         aria-label="Toggle dark mode"
                     >
                         {isDark ? (
@@ -104,7 +104,7 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                     {/* Language toggle */}
                     <button
                         onClick={toggle}
-                        className="text-sm font-medium text-[#2994f9] border border-[#2994f9] rounded-lg px-3 py-1.5 hover:bg-[#2994f9] hover:text-white transition-colors duration-200"
+                        className="text-sm font-medium text-[#1567c4] border border-[#1567c4] rounded-lg px-3 py-1.5 hover:bg-[#1567c4] hover:text-white transition-colors duration-200"
                     >
                         {lang === 'ar' ? 'English' : 'عربي'}
                     </button>
@@ -112,7 +112,7 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                     {/* Skip button — only shown during onboarding */}
                     {showSkip && (
                         <button
-                            className="bg-transparent border-none text-[#858597] dark:text-gray-400 hover:text-[#2994f9] font-sans font-bold text-[15px] cursor-pointer transition-colors px-2 py-2 hidden sm:block"
+                            className="bg-transparent border-none text-gray-600 dark:text-gray-400 hover:text-[#2994f9] font-sans font-bold text-[15px] cursor-pointer transition-colors px-2 py-2 hidden sm:block"
                             onClick={() => setShowModal(true)}
                             aria-expanded={showModal}
                             aria-haspopup="dialog"
@@ -147,20 +147,20 @@ const OnboardingHeader = ({ currentStep = 1, totalSteps = 4, onBack, showProgres
                         </div>
 
                         <h3 id="modal-title" className="text-xl font-bold text-[#1b0444] dark:text-gray-100 mb-3">{t('onboardingHeader.skipTitle')}</h3>
-                        <p className="text-[#858597] dark:text-gray-400 text-[15px] leading-relaxed mb-8">
+                        <p className="text-gray-600 dark:text-gray-400 text-[15px] leading-relaxed mb-8">
                             {t('onboardingHeader.skipWarning')}
                         </p>
 
                         {/* Modal Actions */}
                         <div className="flex gap-3 w-full">
                             <button
-                                className="flex-1 h-12 rounded-xl bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white font-bold text-[15px] border-none cursor-pointer transition-transform hover:-translate-y-0.5 shadow-[0_8px_16px_rgba(41,148,249,0.2)]"
+                                className="flex-1 h-12 rounded-xl bg-gradient-to-r from-[#1567c4] to-[#0d6ed1] text-white font-bold text-[15px] border-none cursor-pointer transition-transform hover:-translate-y-0.5 shadow-[0_8px_16px_rgba(21,103,196,0.2)]"
                                 onClick={() => setShowModal(false)}
                             >
                                 {t('onboardingHeader.continueBtn')}
                             </button>
                             <button
-                                className="flex-1 h-12 rounded-xl bg-[#f3f4f8] dark:bg-gray-700 text-[#858597] dark:text-gray-300 font-bold text-[15px] border-none cursor-pointer transition-colors hover:bg-[#e2e4ec] dark:hover:bg-gray-600 hover:text-[#1b0444] dark:hover:text-gray-100"
+                                className="flex-1 h-12 rounded-xl bg-[#f3f4f8] dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold text-[15px] border-none cursor-pointer transition-colors hover:bg-[#e2e4ec] dark:hover:bg-gray-600 hover:text-[#1b0444] dark:hover:text-gray-100"
                                 onClick={handleSkip}
                             >
                                 {t('onboardingHeader.confirmSkip')}

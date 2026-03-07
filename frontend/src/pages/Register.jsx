@@ -108,7 +108,7 @@ const Register = () => {
                                 <div className="flex flex-col items-center text-center gap-5 max-w-[395px]">
                                     <img src={slide.img} alt={slide.title} className="w-[250px] h-[250px] xl:w-[363px] xl:h-[363px] object-contain" />
                                     <h2 className="font-bold text-[#1b0444] dark:text-gray-100 text-[24px] xl:text-[31px] leading-snug xl:leading-[42.7px] m-0" dir={dir}>{slide.title}</h2>
-                                    <p className="font-normal text-[#858597] dark:text-gray-400 text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
+                                    <p className="font-normal text-gray-600 dark:text-gray-400 text-[18px] xl:text-[22px] leading-normal m-0" dir={dir}>{slide.desc}</p>
                                 </div>
                             </div>
                         ))}
@@ -132,7 +132,7 @@ const Register = () => {
             <section className="flex-1 flex flex-col items-start justify-center p-5 sm:p-[40px_20px] lg:p-[40px_60px] w-full max-w-[450px] lg:max-w-[512px] mx-auto gap-[35px]">
                 <div className="flex flex-col gap-[2px]">
                     <h1 className="font-bold text-[#1b0444] dark:text-gray-100 text-[34px] leading-normal m-0">{t('register.title')}</h1>
-                    <p className="text-[#858597] dark:text-gray-400 font-normal text-[15px] m-0">{t('register.subtitle')}</p>
+                    <p className="text-gray-600 dark:text-gray-400 font-normal text-[15px] m-0">{t('register.subtitle')}</p>
                 </div>
 
                 {/* Global errors (like "Email already in use") appear here */}
@@ -146,7 +146,7 @@ const Register = () => {
 
                         {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="emailInput" className="font-normal text-[#858597] dark:text-gray-400 text-[14px] leading-normal">
+                            <label htmlFor="emailInput" className="font-normal text-gray-600 dark:text-gray-300 text-[14px] leading-normal">
                                 {t('register.emailLabel')}
                             </label>
                             <div className={`w-full h-[50px] flex items-center bg-white dark:bg-gray-800 rounded-[12px] border transition-colors duration-300 box-border focus-within:border-[#2994f9] ${errors.email ? 'border-[#ff4444]' : 'border-[#b8b8d2] dark:border-gray-600'}`}>
@@ -168,7 +168,7 @@ const Register = () => {
 
                         {/* Password */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="passwordInput" className="font-normal text-[#858597] dark:text-gray-400 text-[14px] leading-normal">
+                            <label htmlFor="passwordInput" className="font-normal text-gray-600 dark:text-gray-300 text-[14px] leading-normal">
                                 {t('register.passwordLabel')}
                             </label>
                             <div className={`w-full h-[50px] flex items-center bg-white dark:bg-gray-800 rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2] dark:border-gray-600'}`}>
@@ -205,7 +205,7 @@ const Register = () => {
                     <div className="flex flex-col items-center gap-4 w-full">
                         <button
                             type="submit"
-                            className="w-full h-12 flex items-center justify-center rounded bg-gradient-to-br from-[#2994f9] to-[#31d4ed] cursor-pointer transition-all duration-300 ease-in-out hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white border-none"
+                            className="w-full h-12 flex items-center justify-center rounded bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] cursor-pointer transition-all duration-300 ease-in-out hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white border-none"
                             disabled={loading}
                             aria-live="polite"
                         >
@@ -239,7 +239,7 @@ const Register = () => {
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
                                 </div>
-                                <span className="font-normal text-[#858597] dark:text-gray-400 text-[15px] leading-[1.4]">
+                                <span className="font-normal text-gray-600 dark:text-gray-400 text-[15px] leading-[1.4]">
                                     {t('register.terms')}
                                 </span>
                             </label>
@@ -247,7 +247,7 @@ const Register = () => {
                         {errors.terms && <span id="termsError" className="text-[12px] text-[#ff4444] min-h-[18px] self-start" dir="rtl" role="alert">{errors.terms}</span>}
 
                         <div className="flex items-center gap-[3px] mt-2">
-                            <span className="font-medium text-[#858597] dark:text-gray-400 text-[15px]">{t('register.haveAccount')}</span>
+                            <span className="font-medium text-gray-600 dark:text-gray-400 text-[15px]">{t('register.haveAccount')}</span>
                             <Link to="/login" className="font-medium text-[15px] bg-gradient-to-br from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent no-underline transition-opacity duration-300 hover:opacity-80">
                                 {t('register.signIn')}
                             </Link>
@@ -256,7 +256,7 @@ const Register = () => {
                         {/* Social Login */}
                         <div className="flex items-center gap-4 w-full mt-2">
                             <div className="flex-1 h-[1px] bg-[#1b0444] opacity-25" />
-                            <span className="opacity-50 font-normal text-[#1b0444] dark:text-gray-400 text-[14px] whitespace-nowrap">
+                            <span className="font-normal text-gray-600 dark:text-gray-400 text-[14px] whitespace-nowrap">
                                 {t('register.orWith')}
                             </span>
                             <div className="flex-1 h-[1px] bg-[#1b0444] dark:bg-gray-600 opacity-25" />

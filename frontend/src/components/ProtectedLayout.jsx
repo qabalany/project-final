@@ -25,7 +25,7 @@ const ProtectedLayout = () => {
             {/* Skip to main content (Accessibility) */}
             <a
                 href="#main-content"
-                className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-5 focus:py-3 focus:bg-[#2994f9] focus:text-white focus:rounded-xl focus:font-bold focus:shadow-lg"
+                className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-5 focus:py-3 focus:bg-[#1567c4] focus:text-white focus:rounded-xl focus:font-bold focus:shadow-lg"
             >
                 {t('sidebar.skipToMain')}
             </a>

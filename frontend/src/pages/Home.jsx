@@ -69,7 +69,7 @@ const Home = () => {
                         </div>
                         <div className="flex flex-col items-start">
                             <span className="font-bold text-[#7c3aed] dark:text-purple-400 text-[15px] leading-tight">{t('home.dashboardDemoBtn')}</span>
-                            <span className="text-[13px] text-[#858597] dark:text-gray-400">{t('home.dashboardDemoDesc')}</span>
+                            <span className="text-[13px] text-gray-600 dark:text-gray-400">{t('home.dashboardDemoDesc')}</span>
                         </div>
                     </div>
                     <svg className="text-[#7c3aed]/50 group-hover:text-[#7c3aed] group-hover:translate-x-1 transition-all duration-200" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

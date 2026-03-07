@@ -13,7 +13,7 @@ const COLORS = {
     success: '#059669',
     warning: '#f59e0b',
     danger: '#dc2626',
-    muted: '#858597',
+    muted: '#4b5563',
     dark: '#1b0444',
 };
 

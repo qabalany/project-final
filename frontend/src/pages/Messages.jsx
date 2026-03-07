@@ -8,7 +8,7 @@ const Messages = () => {
             {/* Page Header */}
             <div className="mb-8">
                 <h1 className="text-2xl font-extrabold text-[#1b0444] dark:text-gray-100 mb-1">{t('messages.title')}</h1>
-                <p className="text-[#858597] dark:text-gray-400 text-sm">{t('messages.subtitle')}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('messages.subtitle')}</p>
             </div>
 
             {/* Empty State */}
@@ -18,8 +18,8 @@ const Messages = () => {
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
                 </div>
-                <h3 className="text-lg font-bold text-[#1b0444] dark:text-gray-100 mb-2">{t('messages.emptyTitle')}</h3>
-                <p className="text-[#858597] dark:text-gray-400 text-sm max-w-xs">{t('messages.emptyDesc')}</p>
+                <h2 className="text-lg font-bold text-[#1b0444] dark:text-gray-100 mb-2">{t('messages.emptyTitle')}</h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm max-w-xs">{t('messages.emptyDesc')}</p>
             </div>
         </div>
     );

@@ -78,11 +78,11 @@ const Avatar = () => {
                                             <div className="flex items-center justify-between w-full">
                                                 <div className="font-bold text-[#1b0444] text-[20px] sm:text-[23px] text-right shrink-0">{avatar.name}</div>
                                                 <div className="flex items-center gap-1 shrink-0">
-                                                    <span className="font-normal text-[#858597] text-[12px]">{t(`avatar.${avatar.id}.accent`)}</span>
+                                                    <span className="font-normal text-gray-600 text-[12px]">{t(`avatar.${avatar.id}.accent`)}</span>
                                                     <img src={avatar.flagIcon} alt="" className="w-3 h-[9px]" />
                                                 </div>
                                             </div>
-                                            <p className="font-normal text-[#858597] text-[13px] leading-[18.2px] text-right m-0 whitespace-pre-line w-full">{t(`avatar.${avatar.id}.desc`)}</p>
+                                            <p className="font-normal text-gray-600 text-[13px] leading-[18.2px] text-right m-0 whitespace-pre-line w-full">{t(`avatar.${avatar.id}.desc`)}</p>
                                         </div>
                                     </div>
                                 </button>

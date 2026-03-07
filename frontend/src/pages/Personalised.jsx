@@ -70,13 +70,13 @@ const Personalised = () => {
                                 />
                             </div>
                             <div className="flex justify-start px-2">
-                                <span id="char-count" className="font-medium text-[#858597] dark:text-gray-400 text-[14px]">{profession.length} / {maxChars} {t('personalised.charCount')}</span>
+                                <span id="char-count" className="font-medium text-gray-600 dark:text-gray-400 text-[14px]">{profession.length} / {maxChars} {t('personalised.charCount')}</span>
                             </div>
                             <button
                                 type="button"
                                 className={`w-full h-14 flex items-center justify-center rounded-[14px] mt-[10px] transition-all duration-300 ${!profession.trim()
                                     ? 'bg-[#f3f4f8] text-[#b8b8d2] cursor-not-allowed'
-                                    : 'bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white shadow-[0_8px_20px_rgba(41,148,249,0.25)] hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(41,148,249,0.35)] active:translate-y-0 cursor-pointer'
+                                    : 'bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] text-white shadow-[0_8px_20px_rgba(21,103,196,0.25)] hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(21,103,196,0.35)] active:translate-y-0 cursor-pointer'
                                     } outline-none focus-visible:ring-4 focus-visible:ring-[#1b0444] focus-visible:ring-offset-2`}
                                 onClick={handleSubmit}
                                 disabled={!profession.trim()}

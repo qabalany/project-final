@@ -14,7 +14,7 @@ const COLORS = {
     success: '#059669',
     warning: '#f59e0b',
     danger: '#dc2626',
-    muted: '#858597',
+    muted: '#4b5563',
     dark: '#1b0444',
 };
 // Colors for each avatar type
@@ -71,7 +71,7 @@ const StatCard = ({ icon, value, label, color }) => (
                 {icon}
             </div>
         </div>
-        <span className="text-[0.9rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{label}</span>
+        <span className="text-[0.9rem] text-gray-600 dark:text-gray-400 font-semibold mt-1">{label}</span>
     </div>
 );
 
@@ -159,7 +159,7 @@ const SessionAnalytics = () => {
         return (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <div className="w-10 h-10 border-[3px] border-[#f0f0f5] border-t-[#2994f9] rounded-full animate-spin"></div>
-                <p className="text-[#858597] font-cairo">{t('analytics.loading')}</p>
+                <p className="text-gray-600 font-cairo">{t('analytics.loading')}</p>
             </div>
         );
     }
@@ -180,7 +180,7 @@ const SessionAnalytics = () => {
                     ) : (
                         <button
                             onClick={fetchData}
-                            className="mt-1 px-5 py-2 rounded-xl bg-[#2994f9] text-white font-bold text-sm hover:bg-[#1a7de0] transition"
+                            className="mt-1 px-5 py-2 rounded-xl bg-[#1567c4] text-white font-bold text-sm hover:bg-[#1057b0] transition"
                         >
                             إعادة المحاولة
                         </button>
@@ -203,7 +203,7 @@ const SessionAnalytics = () => {
 
     // If no summary data came back (e.g. no sessions yet), show nothing
     if (!summary) return (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-10 text-center text-[#858597] dark:text-gray-400 font-cairo shadow-sm border border-black/5 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-10 text-center text-gray-600 dark:text-gray-400 font-cairo shadow-sm border border-black/5 dark:border-gray-700">
             {t('analytics.noData')}
         </div>
     );
@@ -243,7 +243,7 @@ const SessionAnalytics = () => {
                             </LineChart>
                         </ResponsiveContainer>
                     ) : (
-                        <p className="text-center text-[#858597] py-10">{t('analytics.noData')}</p>
+                        <p className="text-center text-gray-600 py-10">{t('analytics.noData')}</p>
                     )}
                 </div>
 
@@ -304,12 +304,12 @@ const SessionAnalytics = () => {
                     <table className="w-full text-sm font-cairo">
                         <thead>
                             <tr className="border-b border-[#f0f0f5] dark:border-gray-700">
-                                <th className="py-3 px-3 text-right font-bold text-[#858597] dark:text-gray-400">{t('analytics.colUser')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colSessions')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colMinutes')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colLevel')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colAvatar')}</th>
-                                <th className="py-3 px-3 text-center font-bold text-[#858597] dark:text-gray-400">{t('analytics.colLastSession')}</th>
+                                <th className="py-3 px-3 text-right font-bold text-gray-600 dark:text-gray-400">{t('analytics.colUser')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-gray-600 dark:text-gray-400">{t('analytics.colSessions')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-gray-600 dark:text-gray-400">{t('analytics.colMinutes')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-gray-600 dark:text-gray-400">{t('analytics.colLevel')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-gray-600 dark:text-gray-400">{t('analytics.colAvatar')}</th>
+                                <th className="py-3 px-3 text-center font-bold text-gray-600 dark:text-gray-400">{t('analytics.colLastSession')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -317,7 +317,7 @@ const SessionAnalytics = () => {
                                 <tr key={i} className="border-b border-[#f8f8fb] dark:border-gray-700 hover:bg-[#fafaff] dark:hover:bg-gray-700/50 transition-colors">
                                     <td className="py-3 px-3 font-bold text-[#1b0444] dark:text-gray-100">
                                         <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2994f9] to-[#31d4ed] text-white flex items-center justify-center text-xs font-extrabold shrink-0">
+                                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] text-white flex items-center justify-center text-xs font-extrabold shrink-0">
                                                 {user.userName?.charAt(0) || '؟'}
                                             </div>
                                             {user.userName}
@@ -339,7 +339,7 @@ const SessionAnalytics = () => {
                                             {user.favoriteAvatar === 'tuwaiq' ? 'Tuwaiq' : 'Ula'}
                                         </span>
                                     </td>
-                                    <td className="py-3 px-3 text-center text-[#858597] text-xs">{user.lastSession ? formatDate(user.lastSession) : '—'}</td>
+                                    <td className="py-3 px-3 text-center text-gray-600 text-xs">{user.lastSession ? formatDate(user.lastSession) : '—'}</td>
                                 </tr>
                             ))}
                         </tbody>
