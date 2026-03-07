@@ -11,9 +11,9 @@ const FeatureList = ({ cards }) => {
                     animate-[slideUpFade_0.4s_ease-out_both]`}
                     style={{ animationDelay: `${i * 100}ms` }}
                 >
-                    <h3 className="w-full max-w-[261px] font-cairo font-extrabold text-[#ffffff] text-lg sm:text-[23px] leading-tight sm:leading-9 text-right line-clamp-2">
+                    <h2 className="w-full max-w-[261px] font-cairo font-extrabold text-[#ffffff] text-lg sm:text-[23px] leading-tight sm:leading-9 text-right line-clamp-2">
                         {card.title}
-                    </h3>
+                    </h2>
                     <p className="w-full max-w-[298px] font-cairo font-normal text-[#ffffff] text-sm sm:text-[17px] leading-normal sm:leading-[25px] text-right line-clamp-3 opacity-90">
                         {card.desc}
                     </p>

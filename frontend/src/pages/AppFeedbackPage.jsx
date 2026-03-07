@@ -31,7 +31,7 @@ const AppFeedbackPage = () => {
             setForm((prev) => ({ ...prev, message: '' }));
         } catch (err) {
             setStatus('error');
-            setErrorMsg(err?.response?.data?.message || 'حدث خطأ، حاول مرة أخرى.');
+            setErrorMsg(err?.response?.data?.message || t('common.error'));
         }
     };
 

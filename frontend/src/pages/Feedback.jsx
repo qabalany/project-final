@@ -4,10 +4,16 @@ import feedbackService from '../api/feedback.service';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 
+// Arabic DB values — kept stable so analytics mappings in FeedbackCharts stay correct
+const EASE_VALUES     = ['سهل جداً', 'سهل لحد ما', 'محايد', 'صعب'];
+const QUALITY_VALUES  = ['ممتازة', 'جيدة جداً', 'مقبولة', 'سيئة'];
+const USEFUL_VALUES   = ['نعم، مفيد جداً', 'نعم، نوعاً ما', 'لا، لم استفد كثيراً'];
+const RECOMMEND_VALUES = ['بالتأكيد 🤩', 'ربما 🤔', 'لا اعتقد 😕'];
+
 const Feedback = () => {
     const navigate = useNavigate();
     const { isDark, toggleDark } = useTheme();
-    const { toggle, lang, dir } = useLanguage();
+    const { toggle, lang, dir, t } = useLanguage();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -72,8 +78,8 @@ const Feedback = () => {
                         <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-br from-[#31d4ed]/20 to-[#2994f9]/20 flex items-center justify-center mb-6 text-[#2994f9]">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 12 2 2 4-4" /><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /></svg>
                         </div>
-                        <h2 className="text-2xl font-bold text-[#1b0444] dark:text-gray-100 mb-4">شكراً على مشاركتك!</h2>
-                        <p className="text-[#858597] dark:text-gray-400">تم تسجيل تقييمك بنجاح. سنقوم بتحويلك للصفحة الرئيسية الآن...</p>
+                        <h2 className="text-2xl font-bold text-[#1b0444] dark:text-gray-100 mb-4">{t('survey.successTitle')}</h2>
+                        <p className="text-[#858597] dark:text-gray-400">{t('survey.successMsg')}</p>
                     </div>
                 </div>
             </div>
@@ -90,7 +96,7 @@ const Feedback = () => {
 
                 {/* Center: Progress Bar */}
                 <div className="flex flex-col items-center justify-center w-full max-w-[200px] mx-auto">
-                    <span className="text-sm font-bold text-[#858597] dark:text-gray-400 mb-2">الخطوة {step} من 7</span>
+                    <span className="text-sm font-bold text-[#858597] dark:text-gray-400 mb-2">{t('survey.stepLabel')} {step} {t('survey.stepOf')}</span>
                     <div className="w-full h-2 bg-white dark:bg-gray-700 rounded-full overflow-hidden shadow-sm border border-[#e5e7eb] dark:border-gray-600">
                         <div className="h-full bg-gradient-to-r from-[#2994f9] to-[#31d4ed] transition-all duration-500 ease-out" style={{ width: `${(step / 7) * 100}%` }}></div>
                     </div>
@@ -104,24 +110,24 @@ const Feedback = () => {
                         {lang === 'ar' ? 'English' : 'عربي'}
                     </button>
                     <button className="flex items-center gap-2 bg-transparent border-none text-[#858597] dark:text-gray-400 text-[15px] font-bold cursor-pointer transition-colors hover:text-red-500" onClick={() => navigate('/')}>
-                        {lang === 'ar' ? 'إغلاق' : 'Close'}
+                        {t('survey.close')}
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                     </button>
                 </div>
             </header>
 
             <main className="w-full max-w-[600px] mx-auto flex flex-col items-center mt-6">
-                <h1 className="text-[2rem] font-extrabold text-[#1b0444] dark:text-gray-100 mb-2 text-center tracking-wide">شاركنا رأيك</h1>
-                <p className="text-[#858597] dark:text-gray-400 mb-8 text-center text-lg">نحن مهتمون بمعرفة تجربتك لكي نطور من المنصة بشكل مستمر.</p>
+                <h1 className="text-[2rem] font-extrabold text-[#1b0444] dark:text-gray-100 mb-2 text-center tracking-wide">{t('survey.shareOpinion')}</h1>
+                <p className="text-[#858597] dark:text-gray-400 mb-8 text-center text-lg">{t('survey.shareDesc')}</p>
 
                 <div className="bg-white dark:bg-gray-800 p-5 sm:px-6 sm:py-5 rounded-[30px] shadow-[0_8px_20px_rgba(184,184,210,0.27)] dark:shadow-none w-full border border-[#f3f4f8] dark:border-gray-700 relative">
                     {step === 1 && (
                         <div>
-                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">1. لنتعرف عليك، ما هو الاسم؟</h3>
+                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">{t('survey.step1.question')}</h3>
                             <input
                                 type="text"
                                 className="w-full p-4 border-2 border-[#d0c4eb] dark:border-gray-600 rounded-xl text-base outline-none transition-all duration-300 focus:border-[#31D4ED] focus:shadow-[0_0_0_4px_rgba(49,212,237,0.15)] bg-white dark:bg-gray-700 text-[#0a0f1c] dark:text-gray-100 dark:placeholder-gray-400"
-                                placeholder="أدخل اسمك هنا..."
+                                placeholder={t('survey.step1.placeholder')}
                                 value={formData.name}
                                 onChange={(e) => handleChange('name', e.target.value)}
                             />
@@ -130,15 +136,15 @@ const Feedback = () => {
 
                     {step === 2 && (
                         <div>
-                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">2. ما مدى سهولة استخدام الواجهة؟</h3>
+                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">{t('survey.step2.question')}</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {['سهل جداً', 'سهل لحد ما', 'محايد', 'صعب'].map(opt => (
+                                {EASE_VALUES.map((val, i) => (
                                     <button
-                                        key={opt}
-                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.easeOfUse === opt ? 'bg-[#f0f9ff] dark:bg-blue-900/30 border-2 border-[#31D4ED] text-[#0a0f1c] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] dark:bg-gray-700 border-2 border-[#d0c4eb] dark:border-gray-600 text-[#4b5563] dark:text-gray-300 font-semibold hover:bg-[#f8fcff] dark:hover:bg-gray-600 hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
-                                        onClick={() => handleChange('easeOfUse', opt)}
+                                        key={val}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.easeOfUse === val ? 'bg-[#f0f9ff] dark:bg-blue-900/30 border-2 border-[#31D4ED] text-[#0a0f1c] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] dark:bg-gray-700 border-2 border-[#d0c4eb] dark:border-gray-600 text-[#4b5563] dark:text-gray-300 font-semibold hover:bg-[#f8fcff] dark:hover:bg-gray-600 hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
+                                        onClick={() => handleChange('easeOfUse', val)}
                                     >
-                                        {opt}
+                                        {(t('survey.step2.options') || [])[i] || val}
                                     </button>
                                 ))}
                             </div>
@@ -147,7 +153,7 @@ const Feedback = () => {
 
                     {step === 3 && (
                         <div>
-                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">3. تقييمك لجودة وتصميم الموقع بشكل عام؟</h3>
+                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">{t('survey.step3.question')}</h3>
                             <div className="w-full text-center" dir="ltr">
                                 <div className="flex justify-center gap-2 flex-row-reverse">
                                     {[5, 4, 3, 2, 1].map(star => (
@@ -159,8 +165,8 @@ const Feedback = () => {
                                     ))}
                                 </div>
                                 <div className="flex justify-between w-[250px] mx-auto mt-2 text-[#6b7280] text-sm font-semibold" dir="rtl">
-                                    <span>ممتاز</span>
-                                    <span>سيء جداً</span>
+                                    <span>{t('survey.step3.best')}</span>
+                                    <span>{t('survey.step3.worst')}</span>
                                 </div>
                             </div>
                         </div>
@@ -168,15 +174,15 @@ const Feedback = () => {
 
                     {step === 4 && (
                         <div>
-                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">4. كيف تصف جودة جلسة المحادثة مع المدرب (السرعة والأداء)؟</h3>
+                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">{t('survey.step4.question')}</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {['ممتازة', 'جيدة جداً', 'مقبولة', 'سيئة'].map(opt => (
+                                {QUALITY_VALUES.map((val, i) => (
                                     <button
-                                        key={opt}
-                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.sessionQuality === opt ? 'bg-[#f0f9ff] dark:bg-blue-900/30 border-2 border-[#31D4ED] text-[#0a0f1c] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] dark:bg-gray-700 border-2 border-[#d0c4eb] dark:border-gray-600 text-[#4b5563] dark:text-gray-300 font-semibold hover:bg-[#f8fcff] dark:hover:bg-gray-600 hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
-                                        onClick={() => handleChange('sessionQuality', opt)}
+                                        key={val}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.sessionQuality === val ? 'bg-[#f0f9ff] dark:bg-blue-900/30 border-2 border-[#31D4ED] text-[#0a0f1c] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] dark:bg-gray-700 border-2 border-[#d0c4eb] dark:border-gray-600 text-[#4b5563] dark:text-gray-300 font-semibold hover:bg-[#f8fcff] dark:hover:bg-gray-600 hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
+                                        onClick={() => handleChange('sessionQuality', val)}
                                     >
-                                        {opt}
+                                        {(t('survey.step4.options') || [])[i] || val}
                                     </button>
                                 ))}
                             </div>
@@ -185,15 +191,15 @@ const Feedback = () => {
 
                     {step === 5 && (
                         <div>
-                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">5. هل شعرت بالاستفادة من التقييم والمراجعة بعد الجلسة؟</h3>
+                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">{t('survey.step5.question')}</h3>
                             <div className="grid grid-cols-1 gap-3">
-                                {['نعم، مفيد جداً', 'نعم، نوعاً ما', 'لا، لم استفد كثيراً'].map(opt => (
+                                {USEFUL_VALUES.map((val, i) => (
                                     <button
-                                        key={opt}
-                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.usefulness === opt ? 'bg-[#f0f9ff] dark:bg-blue-900/30 border-2 border-[#31D4ED] text-[#0a0f1c] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] dark:bg-gray-700 border-2 border-[#d0c4eb] dark:border-gray-600 text-[#4b5563] dark:text-gray-300 font-semibold hover:bg-[#f8fcff] dark:hover:bg-gray-600 hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
-                                        onClick={() => handleChange('usefulness', opt)}
+                                        key={val}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.usefulness === val ? 'bg-[#f0f9ff] dark:bg-blue-900/30 border-2 border-[#31D4ED] text-[#0a0f1c] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f8f6fb] dark:bg-gray-700 border-2 border-[#d0c4eb] dark:border-gray-600 text-[#4b5563] dark:text-gray-300 font-semibold hover:bg-[#f8fcff] dark:hover:bg-gray-600 hover:border-[#89e5f5] hover:-translate-y-[2px] hover:shadow-[0_4px_12px_rgba(49,212,237,0.08)]'}`}
+                                        onClick={() => handleChange('usefulness', val)}
                                     >
-                                        {opt}
+                                        {(t('survey.step5.options') || [])[i] || val}
                                     </button>
                                 ))}
                             </div>
@@ -202,15 +208,15 @@ const Feedback = () => {
 
                     {step === 6 && (
                         <div>
-                            <h3 className="text-xl text-[#1b0444] dark:text-gray-100 mb-3 font-bold">6. هل ستقترح المنصة لأصدقائك لتعلم الإنجليزية؟</h3>
+                            <h3 className="text-xl text-[#1b0444] dark:text-gray-100 mb-3 font-bold">{t('survey.step6.question')}</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {['بالتأكيد 🤩', 'ربما 🤔', 'لا اعتقد 😕'].map(opt => (
+                                {RECOMMEND_VALUES.map((val, i) => (
                                     <button
-                                        key={opt}
-                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.recommendation === opt ? 'bg-[#31d4ed]/10 dark:bg-blue-900/30 border-2 border-[#31d4ed] text-[#1b0444] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f3f4f8] dark:bg-gray-700 border-2 border-transparent text-[#858597] dark:text-gray-300 font-semibold hover:bg-[#eef2f6] dark:hover:bg-gray-600 hover:border-[#31d4ed]/50 hover:-translate-y-[2px]'}`}
-                                        onClick={() => handleChange('recommendation', opt)}
+                                        key={val}
+                                        className={`flex items-center justify-start px-3 py-3 min-h-[48px] rounded-xl text-sm transition-all duration-200 text-right ${formData.recommendation === val ? 'bg-[#31d4ed]/10 dark:bg-blue-900/30 border-2 border-[#31d4ed] text-[#1b0444] dark:text-gray-100 font-bold shadow-[0_4px_12px_rgba(49,212,237,0.15)]' : 'bg-[#f3f4f8] dark:bg-gray-700 border-2 border-transparent text-[#858597] dark:text-gray-300 font-semibold hover:bg-[#eef2f6] dark:hover:bg-gray-600 hover:border-[#31d4ed]/50 hover:-translate-y-[2px]'}`}
+                                        onClick={() => handleChange('recommendation', val)}
                                     >
-                                        {opt}
+                                        {(t('survey.step6.options') || [])[i] || val}
                                     </button>
                                 ))}
                             </div>
@@ -219,10 +225,10 @@ const Feedback = () => {
 
                     {step === 7 && (
                         <div>
-                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">7. هل لديك أي ملاحظات إضافية لتطوير المنصة؟</h3>
+                            <h3 className="text-xl text-[#0a0f1c] dark:text-gray-100 mb-3 font-bold">{t('survey.step7.question')}</h3>
                             <textarea
                                 className="w-full h-[100px] p-4 border-2 border-[#d0c4eb] dark:border-gray-600 rounded-xl text-base outline-none transition-all duration-300 focus:border-[#31D4ED] focus:shadow-[0_0_0_4px_rgba(49,212,237,0.15)] resize-y bg-white dark:bg-gray-700 text-[#0a0f1c] dark:text-gray-100 dark:placeholder-gray-400"
-                                placeholder="اكتب ملاحظاتك هنا (اختياري)..."
+                                placeholder={t('survey.step7.placeholder')}
                                 value={formData.additionalComments}
                                 onChange={(e) => handleChange('additionalComments', e.target.value)}
                             />
@@ -231,7 +237,7 @@ const Feedback = () => {
 
                     <div className="flex gap-4 mt-3 pt-3 border-t border-gray-100 dark:border-gray-600 relative z-10">
                         {step > 1 && (
-                            <button className="bg-[#f3f4f8] dark:bg-gray-700 text-[#858597] dark:text-gray-300 border-none px-6 py-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#e2e4e9] dark:hover:bg-gray-600" onClick={handlePrev}>السابق</button>
+                            <button className="bg-[#f3f4f8] dark:bg-gray-700 text-[#858597] dark:text-gray-300 border-none px-6 py-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#e2e4e9] dark:hover:bg-gray-600" onClick={handlePrev}>{t('survey.prev')}</button>
                         )}
                         {step < 7 ? (
                             <button
@@ -245,11 +251,11 @@ const Feedback = () => {
                                     (step === 6 && !formData.recommendation)
                                 }
                             >
-                                التالي
+                                {t('survey.next')}
                             </button>
                         ) : (
                             <button className="flex-1 bg-[#2994f9] text-white border-none p-4 rounded-xl text-[1.1rem] font-bold cursor-pointer transition-all duration-300 hover:bg-[#31d4ed] hover:-translate-y-[2px] shadow-[0_4px_15px_rgba(41,148,249,0.2)] hover:shadow-[0_8px_20px_rgba(49,212,237,0.3)] disabled:bg-[#d1d5db] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" onClick={handleSubmit} disabled={isSubmitting}>
-                                {isSubmitting ? 'جاري الإرسال...' : 'إرسال التقييم'}
+                                {isSubmitting ? t('survey.submitting') : t('survey.submit')}
                             </button>
                         )}
                     </div>

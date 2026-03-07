@@ -171,7 +171,7 @@ const AdminDashboard = () => {
                 <div className="flex items-center gap-4">
                     <button
                         onClick={toggle}
-                        className="px-3 py-1.5 rounded-xl border-[1.5px] border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 font-cairo text-sm font-bold hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
+                        className="px-3 py-1.5 rounded-xl border-[1.5px] border-[#e0e0e8] dark:border-gray-600 text-gray-600 dark:text-gray-300 font-cairo text-sm font-bold hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
                         title="Switch language"
                     >
                         {lang === 'ar' ? 'EN' : 'ع'}
@@ -179,7 +179,7 @@ const AdminDashboard = () => {
                     <button
                         onClick={toggleDark}
                         aria-label={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
-                        className="p-2 rounded-xl border-[1.5px] border-[#e0e0e8] dark:border-gray-600 text-[#858597] dark:text-gray-300 hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
+                        className="p-2 rounded-xl border-[1.5px] border-[#e0e0e8] dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-[#2994f9] hover:text-[#2994f9] transition-all duration-200"
                         title={isDark ? t('sidebar.darkModeOff') : t('sidebar.darkModeOn')}
                     >
                         {isDark ? (
@@ -193,7 +193,7 @@ const AdminDashboard = () => {
                         <span>{user?.name || 'Admin'}</span>
                     </div>
                     <button
-                        className="flex items-center gap-1.5 px-4 md:px-5 py-2 bg-transparent border-[1.5px] border-[#e0e0e8] rounded-xl text-[#858597] font-cairo text-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-[#fff0f0] hover:border-[#f5a5a5] hover:text-[#d94444]"
+                        className="flex items-center gap-1.5 px-4 md:px-5 py-2 bg-transparent border-[1.5px] border-[#e0e0e8] rounded-xl text-gray-600 font-cairo text-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-[#fff0f0] hover:border-[#f5a5a5] hover:text-[#d94444]"
                         onClick={handleLogout}
                     >
                         <IconLogout />
@@ -208,7 +208,7 @@ const AdminDashboard = () => {
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'feedback'
                             ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
-                            : 'text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
+                            : 'text-gray-600 dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('feedback')}
                     >
@@ -220,7 +220,7 @@ const AdminDashboard = () => {
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'sessions'
                             ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
-                            : 'text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
+                            : 'text-gray-600 dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('sessions')}
                     >
@@ -232,7 +232,7 @@ const AdminDashboard = () => {
                     <button
                         className={`px-5 py-2.5 rounded-xl font-cairo text-sm font-bold transition-all duration-200 ${activeTab === 'app-feedback'
                             ? 'bg-gradient-to-r from-[#2994f9] to-[#31d4ed] text-white shadow-md'
-                            : 'text-[#858597] dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
+                            : 'text-gray-600 dark:text-gray-400 hover:bg-[#f4f3fd] dark:hover:bg-gray-700 hover:text-[#1b0444] dark:hover:text-gray-100'
                             }`}
                         onClick={() => setActiveTab('app-feedback')}
                     >
@@ -264,7 +264,7 @@ const AdminDashboard = () => {
                                         </div>
                                         <div className="flex flex-col overflow-hidden">
                                             <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-[1rem] truncate">{item.name}</span>
-                                            <span className="text-[0.75rem] text-[#858597] dark:text-gray-400">{formatDate(item.createdAt)}</span>
+                                            <span className="text-[0.75rem] text-gray-600 dark:text-gray-400">{formatDate(item.createdAt)}</span>
                                         </div>
                                     </div>
                                     <div className="bg-[#f8f9fc] dark:bg-gray-700 rounded-xl p-4 border border-[#e8eaf3] dark:border-gray-600 flex-grow">
@@ -287,21 +287,21 @@ const AdminDashboard = () => {
                                 <span className="text-[2.2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{totalFeedbacks}</span>
                                 <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#eef4ff] dark:bg-blue-900/30 shrink-0"><IconChart /></div>
                             </div>
-                            <span className="text-[0.95rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{t('admin.statTotal')}</span>
+                            <span className="text-[0.95rem] text-gray-600 dark:text-gray-400 font-semibold mt-1">{t('admin.statTotal')}</span>
                         </div>
                         <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 border border-black/5 dark:border-gray-700">
                             <div className="flex items-center gap-10 mb-2">
                                 <span className="text-[2.2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{avgDesignRating}</span>
                                 <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#fff9e6] dark:bg-yellow-900/30 shrink-0"><IconStar /></div>
                             </div>
-                            <span className="text-[0.95rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{t('admin.statAvgDesign')}</span>
+                            <span className="text-[0.95rem] text-gray-600 dark:text-gray-400 font-semibold mt-1">{t('admin.statAvgDesign')}</span>
                         </div>
                         <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 border border-black/5 dark:border-gray-700">
                             <div className="flex items-center gap-10 mb-2">
                                 <span className="text-[2.2rem] font-extrabold text-[#1b0444] dark:text-gray-100 leading-none">{recommendPercent}%</span>
                                 <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#e8fff0] dark:bg-green-900/30 shrink-0"><IconHeart /></div>
                             </div>
-                            <span className="text-[0.95rem] text-[#858597] dark:text-gray-400 font-semibold mt-1">{t('admin.statRecommend')}</span>
+                            <span className="text-[0.95rem] text-gray-600 dark:text-gray-400 font-semibold mt-1">{t('admin.statRecommend')}</span>
                         </div>
                     </div>
 
@@ -322,7 +322,7 @@ const AdminDashboard = () => {
                                     onChange={(e) => setSearchName(e.target.value)}
                                 />
                             </div>
-                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRating} onChange={(e) => setFilterRating(e.target.value)}>
+                            <select aria-label={t('admin.filterRatingAll')} className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRating} onChange={(e) => setFilterRating(e.target.value)}>
                                 <option value="">{t('admin.filterRatingAll')}</option>
                                 <option value="5">{t('admin.filterRatingStars')[0]}</option>
                                 <option value="4">{t('admin.filterRatingStars')[1]}</option>
@@ -330,13 +330,13 @@ const AdminDashboard = () => {
                                 <option value="2">{t('admin.filterRatingStars')[3]}</option>
                                 <option value="1">{t('admin.filterRatingStars')[4]}</option>
                             </select>
-                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRecommend} onChange={(e) => setFilterRecommend(e.target.value)}>
+                            <select aria-label={t('admin.filterRecommendAll')} className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterRecommend} onChange={(e) => setFilterRecommend(e.target.value)}>
                                 <option value="">{t('admin.filterRecommendAll')}</option>
                                 <option value="بالتأكيد">{t('admin.filterRecommendOptions')[0]}</option>
                                 <option value="ربما">{t('admin.filterRecommendOptions')[1]}</option>
                                 <option value="لا">{t('admin.filterRecommendOptions')[2]}</option>
                             </select>
-                            <select className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterEase} onChange={(e) => setFilterEase(e.target.value)}>
+                            <select aria-label={t('admin.filterEaseAll')} className="w-full md:w-auto min-w-[130px] py-2 px-3 border-[1.5px] border-[#e8e8f0] dark:border-gray-600 rounded-xl font-cairo text-[0.82rem] text-[#1b0444] dark:text-gray-100 bg-[#fafaff] dark:bg-gray-700 cursor-pointer transition-all duration-200 outline-none focus:border-[#2994f9] focus:ring-[3px] focus:ring-[#2994f9]/10" value={filterEase} onChange={(e) => setFilterEase(e.target.value)}>
                                 <option value="">{t('admin.filterEaseAll')}</option>
                                 <option value="سهل جداً">{t('admin.filterEaseOptions')[0]}</option>
                                 <option value="سهل لحد ما">{t('admin.filterEaseOptions')[1]}</option>
@@ -404,31 +404,31 @@ const AdminDashboard = () => {
                                         </div>
                                         <div className="flex flex-col overflow-hidden">
                                             <span className="font-extrabold text-[#1b0444] dark:text-gray-100 text-[1rem] truncate">{item.name}</span>
-                                            <span className="text-[0.75rem] text-[#858597] dark:text-gray-400">{formatDate(item.createdAt)}</span>
+                                            <span className="text-[0.75rem] text-gray-600 dark:text-gray-400">{formatDate(item.createdAt)}</span>
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-4 mb-5 flex-grow">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[0.8rem] text-[#858597] dark:text-gray-400 font-bold">{t('admin.cardDesignLabel')}</span>
+                                            <span className="text-[0.8rem] text-gray-600 dark:text-gray-400 font-bold">{t('admin.cardDesignLabel')}</span>
                                             {renderStars(item.websiteDesign)}
                                         </div>
                                         <div className="flex flex-wrap gap-2">
-                                            <span className="px-3 py-1 bg-[#ecfdf5] text-[#059669] text-[0.7rem] font-bold rounded-full border border-[#d1fae5]">{item.easeOfUse || 'سهل جداً'}</span>
-                                            <span className="px-3 py-1 bg-[#eef4ff] text-[#2994f9] text-[0.7rem] font-bold rounded-full border border-[#dceaff]">{item.sessionQuality || 'ممتازة'}</span>
+                                            <span className="px-3 py-1 bg-[#ecfdf5] text-green-800 text-[0.7rem] font-bold rounded-full border border-[#d1fae5]">{item.easeOfUse || 'سهل جداً'}</span>
+                                            <span className="px-3 py-1 bg-[#eef4ff] text-blue-700 text-[0.7rem] font-bold rounded-full border border-[#dceaff]">{item.sessionQuality || 'ممتازة'}</span>
                                             <div className="flex items-center gap-1.5 px-3 py-1 bg-white border border-[#e0e0e8]/60 rounded-full text-[0.72rem] font-bold text-[#059669] shadow-sm">
                                                 <span>{getRecommendContent(item.recommendation).emoji}</span>
                                                 <span>{getRecommendContent(item.recommendation).text}</span>
                                             </div>
                                         </div>
                                         <div className="flex flex-col gap-1.5">
-                                            <span className="text-[0.8rem] text-[#858597] dark:text-gray-400 font-bold">{t('admin.cardUsefulnessLabel')}</span>
+                                            <span className="text-[0.8rem] text-gray-600 dark:text-gray-400 font-bold">{t('admin.cardUsefulnessLabel')}</span>
                                             <p className="text-[0.85rem] font-bold text-[#1b0444] dark:text-gray-100 leading-relaxed bg-[#f8f9fc] dark:bg-gray-700 p-2.5 rounded-xl">
                                                 "{item.usefulness || 'نعم، مفيد جداً'}"
                                             </p>
                                         </div>
                                     </div>
                                     <div className="pt-4 border-t border-[#f0f0f5] dark:border-gray-700">
-                                        <span className="text-[0.8rem] text-[#858597] dark:text-gray-400 font-bold block mb-2">{t('admin.cardNotesLabel')}</span>
+                                        <span className="text-[0.8rem] text-gray-600 dark:text-gray-400 font-bold block mb-2">{t('admin.cardNotesLabel')}</span>
                                         <div className="bg-[#fff9f9]/50 dark:bg-gray-700/50 rounded-xl p-3 border border-[#fff0f0] dark:border-gray-600">
                                             <p className="text-[0.85rem] text-[#4a4a68] dark:text-gray-300 leading-relaxed italic line-clamp-4">
                                                 {item.additionalComments ? `"${item.additionalComments}"` : t('admin.cardNoNotes')}

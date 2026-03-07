@@ -65,15 +65,15 @@ const Path = () => {
 
                         {/* Text */}
                         <div className="flex-1">
-                            <p className={`text-sm font-bold ${step.done ? 'text-[#858597] dark:text-gray-500' : 'text-[#1b0444] dark:text-gray-100'}`}>{step.label}</p>
-                            <p className="text-xs text-[#b0b0c3] dark:text-gray-500 mt-0.5">{step.sublabel}</p>
+                            <p className={`text-sm font-bold ${step.done ? 'text-gray-500 dark:text-gray-400' : 'text-[#1b0444] dark:text-gray-100'}`}>{step.label}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{step.sublabel}</p>
                         </div>
 
                         {/* CTA Button */}
                         {step.cta && (
                             <button
                                 onClick={() => navigate('/avatar-session')}
-                                className="shrink-0 px-4 py-1.5 rounded-xl bg-[#2994f9] text-white text-xs font-bold shadow-sm hover:bg-[#1a7de0] transition"
+                                className="shrink-0 px-4 py-1.5 rounded-xl bg-[#1a7de0] text-white text-xs font-bold shadow-sm hover:bg-[#1567c4] transition"
                             >
                                 {t('path.startBtn')}
                             </button>

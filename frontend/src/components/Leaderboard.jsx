@@ -17,7 +17,7 @@ const Leaderboard = ({ users }) => {
             </div>
 
             {/* Table Headers */}
-            <div className="flex items-center justify-between w-full px-1 sm:px-3 py-2 text-[#858597] dark:text-gray-400 font-medium text-xs sm:text-sm font-cairo border-b border-[#f4f3fd] dark:border-gray-700">
+            <div className="flex items-center justify-between w-full px-1 sm:px-3 py-2 text-gray-600 dark:text-gray-400 font-medium text-xs sm:text-sm font-cairo border-b border-[#f4f3fd] dark:border-gray-700">
                 <span className="w-[100px] sm:w-[145px] text-right">{t('home.colName')}</span>
                 <span className="w-[50px] sm:w-[64px] text-center">{t('home.colLevel')}</span>
                 <span className="flex-1 text-center">{t('home.colPoints')}</span>
@@ -35,8 +35,8 @@ const Leaderboard = ({ users }) => {
                         <img className="w-[24px] h-[24px] sm:w-[30px] sm:h-[30px] rounded-full object-cover shrink-0" src={person.avatar} alt={person.name} />
                         <span className="truncate">{person.name}</span>
                     </div>
-                    <span className="w-[50px] sm:w-[64px] text-center font-cairo font-medium text-[#768396] dark:text-gray-400 text-sm sm:text-base">{person.level}</span>
-                    <span className="flex-1 text-center font-cairo font-medium text-[#768396] dark:text-gray-400 text-sm sm:text-base">{person.points}</span>
+                    <span className="w-[50px] sm:w-[64px] text-center font-cairo font-medium text-gray-600 dark:text-gray-400 text-sm sm:text-base">{person.level}</span>
+                    <span className="flex-1 text-center font-cairo font-medium text-gray-600 dark:text-gray-400 text-sm sm:text-base">{person.points}</span>
                     <div className="flex-none flex items-center justify-end font-cairo font-semibold text-[#232360] text-base">
                         <img src="https://c.animaapp.com/SW9wcD58/img/vector-4.svg" alt="Friends" className="w-1 h-[14px] sm:h-[18px]" />
                     </div>

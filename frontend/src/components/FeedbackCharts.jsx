@@ -39,7 +39,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const SectionTitle = ({ icon, title }) => (
     <div className="flex items-center gap-2 mb-4">
         <span className="text-[#2994f9]">{icon}</span>
-        <h3 className="text-base font-extrabold text-[#1b0444] dark:text-gray-100 font-cairo m-0">{title}</h3>
+        <h2 className="text-base font-extrabold text-[#1b0444] dark:text-gray-100 font-cairo m-0">{title}</h2>
     </div>
 );
 

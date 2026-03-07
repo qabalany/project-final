@@ -33,18 +33,18 @@ const CourseCard = ({ course, index }) => {
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-0">
                     <span className="font-cairo font-bold text-[#1b0444] dark:text-gray-100 text-2xl leading-none">{course.completed}</span>
                     <span className="font-cairo font-semibold text-[#1b0444] dark:text-gray-100 text-[10px] leading-tight">{t('home.courseCompletedLabel')}</span>
-                    <span className="font-cairo font-normal text-[#858597] dark:text-gray-400 text-[10px] leading-tight">/{course.total} {t('home.courseTotalLabel')}</span>
+                    <span className="font-cairo font-normal text-gray-600 dark:text-gray-400 text-[10px] leading-tight">/{course.total} {t('home.courseTotalLabel')}</span>
                 </div>
             </div>
 
             <div className="flex items-center gap-7">
                 <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-gradient-to-br from-[#31d4ed] to-[#2994f9]" aria-hidden="true"></span>
-                    <span className="font-cairo font-light text-[#858597] dark:text-gray-400 text-[13px]">{t('home.courseCompletedLegend')}</span>
+                    <span className="font-cairo font-light text-gray-600 dark:text-gray-400 text-[13px]">{t('home.courseCompletedLegend')}</span>
                 </div>
                 <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-[#f4f3fd] dark:bg-gray-600" aria-hidden="true"></span>
-                    <span className="font-cairo font-light text-[#858597] dark:text-gray-400 text-[13px]">{t('home.courseUnitLegend')}</span>
+                    <span className="font-cairo font-light text-gray-600 dark:text-gray-400 text-[13px]">{t('home.courseUnitLegend')}</span>
                 </div>
             </div>
         </div>

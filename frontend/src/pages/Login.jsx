@@ -199,7 +199,7 @@ const Login = () => {
                         {/* --- EMAIL INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
                             {/* LIGHTHOUSE ACCESSIBILITY: htmlFor literally binds this text to the input with id="emailInput" */}
-                            <label htmlFor="emailInput" className="font-normal text-[#858597] dark:text-gray-400 text-[14px] leading-normal">
+                            <label htmlFor="emailInput" className="font-normal text-gray-600 dark:text-gray-300 text-[14px] leading-normal">
                                 {t('login.emailLabel')}
                             </label>
 
@@ -226,7 +226,7 @@ const Login = () => {
 
                         {/* --- PASSWORD INPUT --- */}
                         <div className="flex flex-col gap-[6px] w-full">
-                            <label htmlFor="passwordInput" className="font-normal text-[#858597] dark:text-gray-400 text-[14px] leading-normal">
+                            <label htmlFor="passwordInput" className="font-normal text-gray-600 dark:text-gray-300 text-[14px] leading-normal">
                                 {t('login.passwordLabel')}
                             </label>
                             <div className={`w-full h-[50px] flex items-center bg-white dark:bg-gray-800 rounded-[12px] border transition-colors duration-300 box-border pl-2 focus-within:border-[#2994f9] ${errors.password ? 'border-[#ff4444]' : 'border-[#b8b8d2] dark:border-gray-600'}`}>
@@ -264,7 +264,7 @@ const Login = () => {
                         </div>
 
                         <div className="flex justify-start">
-                            <Link to="/forgot-password" className="font-normal text-[#858597] text-[15px] no-underline transition-colors duration-300 hover:text-[#2994f9]">
+                            <Link to="/forgot-password" className="font-normal text-gray-600 dark:text-gray-300 text-[15px] no-underline transition-colors duration-300 hover:text-[#2994f9]">
                                 {t('login.forgotPassword')}
                             </Link>
                         </div>
@@ -284,7 +284,7 @@ const Login = () => {
                         </button>
 
                         <div className="flex items-center gap-[3px]">
-                            <span className="font-medium text-[#858597] dark:text-gray-400 text-[15px]">{t('login.noAccount')}</span>
+                            <span className="font-medium text-gray-600 dark:text-gray-300 text-[15px]">{t('login.noAccount')}</span>
                             <Link to="/register" className="font-medium text-[15px] bg-gradient-to-br from-[#31d4ed] to-[#2994f9] bg-clip-text text-transparent no-underline transition-opacity duration-300 hover:opacity-80">
                                 {t('login.createAccount')}
                             </Link>
@@ -294,7 +294,7 @@ const Login = () => {
                     {/* Social Login */}
                     <div className="flex items-center gap-4 w-full">
                         <div className="flex-1 h-[1px] bg-[#1b0444] dark:bg-gray-600 opacity-25" />
-                        <span className="opacity-50 font-normal text-[#1b0444] dark:text-gray-400 text-[14px] whitespace-nowrap">
+                        <span className="font-normal text-gray-600 dark:text-gray-400 text-[14px] whitespace-nowrap">
                             {t('login.orWith')}
                         </span>
                         <div className="flex-1 h-[1px] bg-[#1b0444] dark:bg-gray-600 opacity-25" />
