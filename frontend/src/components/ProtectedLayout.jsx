@@ -32,9 +32,8 @@ const ProtectedLayout = () => {
             {/* Mobile Header (Hamburger Menu) */}
             <div className="lg:hidden fixed top-0 left-0 w-full h-[70px] bg-white dark:bg-gray-800 flex items-center justify-between px-6 z-30 shadow-sm">
                 <button
-                    aria-label="فتح القائمة"
+                    aria-label={isMobileMenuOpen ? t('sidebar.closeMenu') : t('sidebar.openMenu')}
                     aria-expanded={isMobileMenuOpen}
-                    aria-controls="sidebar-nav"
                     className="flex flex-col gap-[5px] cursor-pointer p-2 -mr-2"
                     onClick={() => setIsMobileMenuOpen(true)}
                 >
