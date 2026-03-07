@@ -26,6 +26,8 @@ const Register = () => {
     // useCallback prevents this slide timer from being destroyed and recreated every re-render
     const startAutoAdvance = useCallback(() => {
         if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
+        // Respect prefers-reduced-motion — skip auto-advance for users who opted out of motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         autoAdvanceRef.current = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % totalSlides);
         }, 5000);
@@ -161,6 +163,7 @@ const Register = () => {
                                     dir="ltr"
                                     aria-invalid={errors.email ? 'true' : 'false'}
                                     aria-describedby={errors.email ? "emailError" : undefined}
+                                    autocomplete="email"
                                 />
                             </div>
                             {errors.email && <span id="emailError" className="text-[12px] text-[#ff4444] min-h-[18px]" dir="rtl" role="alert">{errors.email}</span>}
@@ -183,6 +186,7 @@ const Register = () => {
                                     dir="ltr"
                                     aria-invalid={errors.password ? 'true' : 'false'}
                                     aria-describedby={errors.password ? "passwordError" : undefined}
+                                    autocomplete="new-password"
                                 />
                                 <button
                                     type="button"
@@ -207,9 +211,8 @@ const Register = () => {
                             type="submit"
                             className="w-full h-12 flex items-center justify-center rounded bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] cursor-pointer transition-all duration-300 ease-in-out hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white border-none"
                             disabled={loading}
-                            aria-live="polite"
                         >
-                            <span className="font-sans font-bold text-[15px]">
+                            <span className="font-sans font-bold text-[15px]" aria-live="polite">
                                 {loading ? t('register.submitting') : t('register.submitBtn')}
                             </span>
                         </button>

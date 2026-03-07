@@ -72,7 +72,7 @@ const Home = () => {
                             <span className="text-[13px] text-gray-600 dark:text-gray-400">{t('home.dashboardDemoDesc')}</span>
                         </div>
                     </div>
-                    <svg className="text-[#7c3aed]/50 group-hover:text-[#7c3aed] group-hover:translate-x-1 transition-all duration-200" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="text-[#7c3aed]/50 group-hover:text-[#7c3aed] group-hover:translate-x-1 transition-all duration-200" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <polyline points="9 18 15 12 9 6"/>
                     </svg>
                 </button>

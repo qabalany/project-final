@@ -75,7 +75,7 @@ const SessionReview = () => {
 
     if (loading) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 text-[#1b0444] dark:text-gray-100 p-5 text-center font-sans tracking-tight" dir={dir}>
+            <div role="status" aria-label="جاري التحليل" className="flex flex-col items-center justify-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 text-[#1b0444] dark:text-gray-100 p-5 text-center font-sans tracking-tight" dir={dir}>
                 <div className="w-20 text-center flex items-center justify-center gap-2">
                     <div className="w-4 h-4 bg-[#31d4ed] rounded-full animate-bounce"></div>
                     <div className="w-4 h-4 bg-[#31d4ed] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -89,8 +89,8 @@ const SessionReview = () => {
 
     if (error) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 text-[#1b0444] dark:text-gray-100 p-5 text-center font-sans tracking-tight" dir={dir}>
-                <div className="text-6xl mb-6">⚠️</div>
+            <div role="alert" className="flex flex-col items-center justify-center min-h-screen bg-[#f3f4f8] dark:bg-gray-900 text-[#1b0444] dark:text-gray-100 p-5 text-center font-sans tracking-tight" dir={dir}>
+                <div className="text-6xl mb-6" aria-hidden="true">⚠️</div>
                 <h2 className="text-2xl text-red-500 mb-4 font-bold">عذراً!</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md leading-relaxed tracking-wide">{error}</p>
                 <button className="bg-[#1567c4] text-white border-none rounded-2xl px-8 py-4 text-lg font-bold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(21,103,196,0.3)] hover:bg-[#1057b0] hover:-translate-y-1" onClick={() => navigate('/')}>

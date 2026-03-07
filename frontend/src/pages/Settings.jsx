@@ -34,7 +34,7 @@ const Settings = () => {
                     disabled={isSaving}
                     className="bg-[#1567c4] text-white py-2.5 px-6 rounded-xl flex items-center gap-2 font-bold text-sm shadow-[0_4px_12px_rgba(21,103,196,0.3)] hover:shadow-[0_6px_16px_rgba(21,103,196,0.4)] hover:-translate-y-[1px] transition-all duration-200 disabled:opacity-70 disabled:transform-none"
                 >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                     <span>{t('common.save')}</span>
                 </button>
             </div>
@@ -45,7 +45,7 @@ const Settings = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-none border border-[#f4f5f9] dark:border-gray-700 flex flex-col gap-6">
                     <div className="flex items-center justify-end gap-2 mb-2">
                         <h2 className="text-[17px] font-bold text-[#1b0444] dark:text-gray-100 m-0">{t('settings.profileSection')}</h2>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
@@ -91,7 +91,7 @@ const Settings = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-none border border-[#f4f5f9] dark:border-gray-700 flex flex-col gap-6">
                     <div className="flex items-center justify-end gap-2 mb-2">
                         <h2 className="text-[17px] font-bold text-[#1b0444] dark:text-gray-100 m-0">{t('settings.prefsSection')}</h2>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -102,7 +102,7 @@ const Settings = () => {
                                 <span className="text-[#1b0444] dark:text-gray-100 font-extrabold text-[15px]">{motherTongue}</span>
                             </div>
                             <div className="bg-[#eff6ff] text-[#2994f9] p-2.5 rounded-full">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                             </div>
                         </div>
 
@@ -113,7 +113,7 @@ const Settings = () => {
                                 <span className="text-[#1b0444] dark:text-gray-100 font-extrabold text-[15px]">{targetLanguage}</span>
                             </div>
                             <div className="bg-[#f5f3ff] text-[#5442f5] p-2.5 rounded-full">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ const Settings = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-none border border-[#f4f5f9] dark:border-gray-700 flex flex-col gap-6">
                     <div className="flex items-center justify-end gap-2 mb-2">
                         <h2 className="text-[17px] font-bold text-[#1b0444] dark:text-gray-100 m-0">{t('settings.avatarSection')}</h2>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2994f9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

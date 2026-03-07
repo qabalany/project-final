@@ -29,7 +29,14 @@ const Path = () => {
                 <p className="text-white/80 text-sm mb-1">{t('path.greeting')} {user?.name || (dir === 'rtl' ? 'متعلم' : 'Learner')}!</p>
                 <h2 className="text-xl font-extrabold mb-3">{t('path.progressIntro')}</h2>
                 <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-white/30 rounded-full h-2.5 overflow-hidden">
+                    <div
+                        className="flex-1 bg-white/30 rounded-full h-2.5 overflow-hidden"
+                        role="progressbar"
+                        aria-valuenow={3}
+                        aria-valuemin={0}
+                        aria-valuemax={6}
+                        aria-label="3 / 6"
+                    >
                         <div className="bg-white h-full rounded-full transition-all duration-500" style={{ width: '50%' }}></div>
                     </div>
                     <span className="text-sm font-bold whitespace-nowrap">3 / 6 {t('path.progressLabel')}</span>

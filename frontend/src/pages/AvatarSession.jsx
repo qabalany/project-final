@@ -335,9 +335,12 @@ const AvatarSession = () => {
                     <span className="hidden sm:inline">{t('avatarSession.endSession')}</span>
                 </button>
 
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-sm border transition-colors ${isClosing ? 'bg-red-500/20 border-red-500/50' : timeLeft <= 30 ? 'bg-orange-500/20 border-orange-500/50' : 'bg-white/5 border-white/10'}`}>
-                    <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isClosing ? 'bg-red-500' : timeLeft <= 30 ? 'bg-orange-500' : 'bg-emerald-500'}`}></div>
-                    <span className={`text-sm font-medium tabular-nums tracking-wider ${isClosing ? 'text-red-400' : timeLeft <= 30 ? 'text-orange-400' : 'text-white/90'}`}>{formatTime(timeLeft)}</span>
+                <div
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-sm border transition-colors ${isClosing ? 'bg-red-500/20 border-red-500/50' : timeLeft <= 30 ? 'bg-orange-500/20 border-orange-500/50' : 'bg-white/5 border-white/10'}`}
+                    aria-label={`${t('avatarSession.timeRemaining') || 'الوقت المتبقي'}: ${formatTime(timeLeft)}`}
+                >
+                    <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isClosing ? 'bg-red-500' : timeLeft <= 30 ? 'bg-orange-500' : 'bg-emerald-500'}`} aria-hidden="true"></div>
+                    <span className={`text-sm font-medium tabular-nums tracking-wider ${isClosing ? 'text-red-400' : timeLeft <= 30 ? 'text-orange-400' : 'text-white/90'}`} aria-hidden="true">{formatTime(timeLeft)}</span>
                 </div>
             </div>
 
@@ -400,7 +403,10 @@ const AvatarSession = () => {
                     )}
 
                     {transcripts.length > 0 && (
-                        <div className="absolute top-16 sm:top-20 right-4 sm:right-6 md:auto md:left-6 md:right-auto md:w-[380px] max-h-[200px] md:max-h-[280px] bg-[#1b0444]/85 backdrop-blur-xl border border-[#31d4ed]/20 rounded-2xl overflow-hidden z-25 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                        <div
+                            aria-live="polite"
+                            aria-label={t('avatarSession.conversation')}
+                            className="absolute top-16 sm:top-20 right-4 sm:right-6 md:auto md:left-6 md:right-auto md:w-[380px] max-h-[200px] md:max-h-[280px] bg-[#1b0444]/85 backdrop-blur-xl border border-[#31d4ed]/20 rounded-2xl overflow-hidden z-25 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                             <div className="px-5 py-4 border-b border-white/10 text-[14px] font-semibold text-white/60 uppercase tracking-wide bg-[#0a0f1c]/50">
                                 <span>{t('avatarSession.conversation')}</span>
                             </div>
@@ -426,21 +432,22 @@ const AvatarSession = () => {
                         <button
                             onClick={toggleMic}
                             className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all ${!isMicrophoneEnabled ? 'bg-red-500/20 text-red-500 border border-red-500/30' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                            title={!isMicrophoneEnabled ? 'Unmute' : 'Mute'}
+                            aria-label={!isMicrophoneEnabled ? t('avatarSession.unmute') : t('avatarSession.mute')}
+                            aria-pressed={isMicrophoneEnabled}
                         >
                             {!isMicrophoneEnabled ? (
-                                <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                                <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
                             ) : (
-                                <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                                <svg width="20" height="20" sm:width="22" sm:height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
                             )}
                         </button>
 
                         <button
                             onClick={() => handleEndCall()}
                             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.5)] border-none shrink-0"
-                            title="End Call"
+                            aria-label={t('avatarSession.endSession')}
                         >
-                            <svg width="22" height="22" sm:width="24" sm:height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
+                            <svg width="22" height="22" sm:width="24" sm:height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
                         </button>
                     </div>
                 </div>

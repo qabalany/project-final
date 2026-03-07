@@ -37,6 +37,9 @@ const Login = () => {
         // Clear any existing timer before starting a new one to prevent double-speed sliding
         if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
 
+        // Respect prefers-reduced-motion — skip auto-advance for users who opted out of motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
         // Set a timer to change the slide every 5000ms (5 seconds)
         autoAdvanceRef.current = setInterval(() => {
             // (prev + 1) % totalSlides ensures it loops back to 0 after hitting 2
@@ -218,6 +221,7 @@ const Login = () => {
                                     aria-invalid={errors.email ? 'true' : 'false'}
                                     // LIGHTHOUSE ACCESSIBILITY: Tells the screen reader to also read the text inside id="emailError"
                                     aria-describedby={errors.email ? "emailError" : undefined}
+                                    autocomplete="email"
                                 />
                             </div>
                             {/* This is the span targeted by aria-describedby above */}
@@ -242,6 +246,7 @@ const Login = () => {
                                     dir="ltr"
                                     aria-invalid={errors.password ? 'true' : 'false'}
                                     aria-describedby={errors.password ? "passwordError" : undefined}
+                                    autocomplete="current-password"
                                 />
 
                                 {/* LIGHTHOUSE ACCESSIBILITY: Screen readers would just say "button" without this aria-label because there is no text inside it! */}
@@ -264,7 +269,7 @@ const Login = () => {
                         </div>
 
                         <div className="flex justify-start">
-                            <Link to="/forgot-password" className="font-normal text-gray-600 dark:text-gray-300 text-[15px] no-underline transition-colors duration-300 hover:text-[#2994f9]">
+                            <Link to="/forgot-password" className="font-normal text-gray-600 dark:text-gray-300 text-[15px] no-underline transition-colors duration-300 hover:text-[#1567c4]">
                                 {t('login.forgotPassword')}
                             </Link>
                         </div>
@@ -276,9 +281,8 @@ const Login = () => {
                             type="submit"
                             className="w-full h-12 flex items-center justify-center rounded bg-gradient-to-br from-[#1567c4] to-[#0d6ed1] cursor-pointer transition-all duration-300 ease-in-out hover:opacity-90 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white border-none"
                             disabled={loading}
-                            aria-live="polite"
                         >
-                            <span className="font-sans font-bold text-[15px]">
+                            <span className="font-sans font-bold text-[15px]" aria-live="polite">
                                 {loading ? t('login.submitting') : t('login.submitBtn')}
                             </span>
                         </button>

@@ -38,6 +38,7 @@ const Sidebar = ({ activePage, isOpen, onClose }) => {
 
             {/* Sidebar Container */}
             <aside
+                id="sidebar-nav"
                 className={`
                     fixed lg:static top-0 right-0 h-full
                     w-[274px] bg-white dark:bg-gray-800 lg:rounded-l-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.3)]

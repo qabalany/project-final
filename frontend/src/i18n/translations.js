@@ -290,8 +290,9 @@ const translations = {
             backHome: 'العودة للرئيسية',
             conversation: 'المحادثة',
             you: 'أنت',
-            outroMsg: '🎬 الجلسة تنتهي — {name} يُنهي المحادثة...',
-        },
+            outroMsg: '🎬 الجلسة تنتهي — {name} يُنهي المحادثة...',            mute: 'كتم الميكروفون',
+            unmute: 'تفعيل الميكروفون',
+            timeRemaining: 'الوقت المتبقي',        },
         survey: {
             stepLabel: 'الخطوة',
             stepOf: 'من 7',
@@ -605,8 +606,9 @@ const translations = {
             backHome: 'Back to Home',
             conversation: 'Conversation',
             you: 'You',
-            outroMsg: '🎬 Session ending — {name} is wrapping up...',
-        },
+            outroMsg: '🎬 Session ending — {name} is wrapping up...',            mute: 'Mute microphone',
+            unmute: 'Unmute microphone',
+            timeRemaining: 'Time remaining',        },
         survey: {
             stepLabel: 'Step',
             stepOf: 'of 7',

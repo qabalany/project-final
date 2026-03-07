@@ -46,8 +46,8 @@ const AppFeedbackPage = () => {
             <div className="max-w-xl">
                 {/* Success Banner */}
                 {status === 'success' && (
-                    <div className="flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 rounded-xl px-5 py-4 mb-6 text-sm font-semibold">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <div role="status" className="flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 rounded-xl px-5 py-4 mb-6 text-sm font-semibold">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                         {t('appFeedback.successMsg')}
@@ -56,8 +56,8 @@ const AppFeedbackPage = () => {
 
                 {/* Error Banner */}
                 {status === 'error' && (
-                    <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-600 rounded-xl px-5 py-4 mb-6 text-sm font-semibold">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <div role="alert" className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-600 rounded-xl px-5 py-4 mb-6 text-sm font-semibold">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="8" x2="12" y2="12"></line>
                             <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -93,6 +93,7 @@ const AppFeedbackPage = () => {
                                 <button
                                     key={chip}
                                     type="button"
+                                    aria-pressed={form.message.startsWith(`[${chip}]`)}
                                     onClick={() =>
                                         setForm((prev) => ({
                                             ...prev,
@@ -101,7 +102,7 @@ const AppFeedbackPage = () => {
                                                 : `[${chip}] ${prev.message.replace(/^\[.*?\]\s*/, '')}`,
                                         }))
                                     }
-                                    className="px-4 py-1.5 rounded-full border border-[#e0e0f0] dark:border-gray-600 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:border-[#1567c4] hover:text-[#1567c4] hover:bg-[#f0f8ff] dark:hover:bg-gray-600 transition"
+                                    className="px-4 py-1.5 rounded-full border border-[#e0e0f0] dark:border-gray-600 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:border-[#1567c4] hover:text-[#1567c4] hover:bg-[#f0f8ff] dark:hover:bg-gray-600 aria-pressed:border-[#1567c4] aria-pressed:text-[#1567c4] aria-pressed:bg-[#f0f8ff] transition"
                                 >
                                     {chip}
                                 </button>
