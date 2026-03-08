@@ -37,16 +37,14 @@ export const createSession = async (req, res) => {
 
         // 2. Pass the messy user input through OpenAI to get a clean English title
         const cleanProfession = await extractProfession(profession.trim());
-        console.log(`🎯 Clean profession: "${cleanProfession}"`);
+
 
         // 3. Create the customized prompt and upload it to LiveAvatar
-        console.log(`🎭 Creating context for ${avatarConfig.name} in ${cleanProfession}...`);
         const context = await createLiveAvatarContext(avatarConfig.name, cleanProfession);
         const contextId = context.context_id || context.id;
-        console.log('📋 Context ID:', contextId);
 
         // 4. Request a Session Token from LiveAvatar using the new Context ID
-        console.log(`🔑 Requesting session token from LiveAvatar...`);
+
         const tokenPayload = {
             mode: 'FULL',
             avatar_id: avatarConfig.avatar_id,
@@ -107,7 +105,6 @@ export const startSession = async (req, res) => {
             return res.status(400).json({ error: 'Session token is required.' });
         }
 
-        console.log('▶️ Starting session streaming engine...');
         const startRes = await fetch(`${LIVEAVATAR_API}/sessions/start`, {
             method: 'POST',
             headers: {
@@ -123,7 +120,7 @@ export const startSession = async (req, res) => {
         }
 
         const data = await startRes.json();
-        console.log('✅ Session started successfully!', data.data || data);
+
 
         // LiveAvatar API response wrapper
         const responseData = data.data || data;
@@ -146,8 +143,6 @@ export const stopSession = async (req, res) => {
             return res.status(400).json({ error: 'Session token is required to stop the stream.' });
         }
 
-        console.log('⏹️ Telling LiveAvatar to terminate the stream...');
-
         // 2. Send the stop command to the LiveAvatar servers
         const stopRes = await fetch(`${LIVEAVATAR_API}/sessions/stop`, {
             method: 'POST',
@@ -164,7 +159,6 @@ export const stopSession = async (req, res) => {
         }
 
         const data = await stopRes.json();
-        console.log('✅ Session successfully stopped and video stream terminated.');
 
         // 3. Log the history to our database for analytics later
         // We use a try/catch here because even if the database logging fails, 
@@ -177,7 +171,6 @@ export const stopSession = async (req, res) => {
                     durationInSeconds: durationInSeconds || 0,
                     liveAvatarSessionId: "frontend_controlled", // Usually, the frontend parses the actual ID and sends it
                 });
-                console.log('📊 Session successfully logged to MongoDB:', sessionDoc._id);
             }
         } catch (logErr) {
             console.error('⚠️ Warning: Failed to log session history to MongoDB (non-fatal):', logErr.message);
@@ -205,8 +198,6 @@ export const sendOutro = async (req, res) => {
         const outroText = text || "Great job today! Our session is ending now. You did really well, and I can see real progress in your English. Keep practicing every day. See you next time!";
 
         // Step 1: Interrupt current avatar speech
-        // If the avatar is mid-sentence, this tells the LiveAvatar API to immediately stop audio playback.
-        console.log('🛑 Interrupting avatar...');
         try {
             const interruptRes = await fetch(`${LIVEAVATAR_API}/sessions/interrupt`, {
                 method: 'POST',
@@ -217,14 +208,11 @@ export const sendOutro = async (req, res) => {
                 },
             });
             const interruptData = await interruptRes.text();
-            console.log('Interrupt response:', interruptRes.status, interruptData);
         } catch (e) {
             // Non-fatal error; proceeding to talk command regardless
-            console.log('Interrupt not available, continuing...');
         }
 
         // Step 2: Send talk command to make avatar speak the outro
-        console.log('📢 Sending outro talk...');
         const talkRes = await fetch(`${LIVEAVATAR_API}/sessions/talk`, {
             method: 'POST',
             headers: {
@@ -236,11 +224,9 @@ export const sendOutro = async (req, res) => {
         });
 
         const talkData = await talkRes.text();
-        console.log('Talk response:', talkRes.status, talkData);
 
         // Fallback: If /sessions/talk fails, try /sessions/speak (accomodating LiveAvatar API version differences)
         if (!talkRes.ok) {
-            console.log('📢 Trying alternative talk endpoint...');
             const altRes = await fetch(`${LIVEAVATAR_API}/sessions/speak`, {
                 method: 'POST',
                 headers: {
@@ -251,7 +237,6 @@ export const sendOutro = async (req, res) => {
                 body: JSON.stringify({ text: outroText }),
             });
             const altData = await altRes.text();
-            console.log('Alt talk response:', altRes.status, altData);
         }
 
         res.json({ success: true, message: 'Outro sent' });
@@ -293,7 +278,6 @@ You MUST respond ONLY in valid JSON format matching this exact structure:
   ]
 }`;
 
-        console.log('🤖 Analyzing session with GPT...');
         const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -324,7 +308,6 @@ You MUST respond ONLY in valid JSON format matching this exact structure:
 
         // 3. Parse the JSON result returned by OpenAI
         const analysisResult = JSON.parse(analysisString);
-        console.log('✅ Session analysis complete:', analysisResult.level);
 
         // 4. Update the most recent session document for this user with their graded CEFR level
         if (userId && analysisResult.level) {
@@ -335,7 +318,6 @@ You MUST respond ONLY in valid JSON format matching this exact structure:
                     { cefrLevel: analysisResult.level },
                     { sort: { createdAt: -1 } }
                 );
-                console.log('📊 Session CEFR level updated:', analysisResult.level);
             } catch (updateErr) {
                 console.error('⚠️ Failed to update session CEFR (non-blocking):', updateErr.message);
             }

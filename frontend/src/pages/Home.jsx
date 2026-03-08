@@ -10,6 +10,8 @@ import WeeklyChart from '../components/WeeklyChart';
 import Leaderboard from '../components/Leaderboard';
 
 const DEMO_EMAIL = 'test@logah.mvp';
+const DEMO_ADMIN_EMAIL = import.meta.env.VITE_DEMO_ADMIN_EMAIL || 'admin@logah.ai';
+const DEMO_ADMIN_PASSWORD = import.meta.env.VITE_DEMO_ADMIN_PASSWORD || 'AdminLogah2030!';
 
 const Home = () => {
     const { user, login } = useAuth();
@@ -20,7 +22,7 @@ const Home = () => {
 
     const handleDashboardDemo = async () => {
         try {
-            const userData = await loginService({ email: 'admin@logah.ai', password: 'AdminLogah2030!' });
+            const userData = await loginService({ email: DEMO_ADMIN_EMAIL, password: DEMO_ADMIN_PASSWORD });
             login(userData);
             navigate('/admin/dashboard');
         } catch {

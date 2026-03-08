@@ -38,7 +38,6 @@ const Feedback = () => {
         setIsSubmitting(true);
         try {
             await feedbackService.submitFeedback(formData);
-            console.log('Feedback saved successfully:', formData);
             setSubmitted(true);
             setTimeout(() => {
                 navigate('/', { replace: true });

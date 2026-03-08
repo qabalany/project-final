@@ -82,7 +82,6 @@ const AvatarSession = () => {
 
     // Trigger outro via DataChannel
     const triggerOutro = useCallback(async (room) => {
-        console.log('🎬 Triggering outro...');
         setIsOutro(true);
         setIsClosing(true);
 
@@ -110,7 +109,6 @@ const AvatarSession = () => {
                 session_id: sid,
             }));
             room.localParticipant.publishData(interruptCmd, { reliable: true, topic: 'agent-control' });
-            console.log('🛑 Interrupt command sent');
         } catch (e) { }
 
         // Wait a moment for pipeline to clear
@@ -125,7 +123,7 @@ const AvatarSession = () => {
             }));
             room.localParticipant.publishData(speakCmd, { reliable: true, topic: 'agent-control' });
             outroSpeakSentRef.current = true;
-            console.log('✅ Sent speak_text command via DataChannel');
+
         } catch (e) {
             outroSpeakSentRef.current = true;
         }
@@ -178,7 +176,6 @@ const AvatarSession = () => {
 
                 // Listen for Tracks
                 room.on(RoomEvent.TrackSubscribed, (track, publication, participant) => {
-                    console.log(`📺 Track subscribed: ${track.kind} from ${participant.identity}`);
 
                     if (track.kind === Track.Kind.Video && videoRef.current) {
                         track.attach(videoRef.current);
@@ -265,7 +262,7 @@ const AvatarSession = () => {
 
                 // Connect to LiveKit
                 await room.connect(livekitUrl, livekitToken);
-                console.log('✅ Connected to LiveKit room!');
+
 
                 // Enable Mic
                 await room.localParticipant.setMicrophoneEnabled(true);

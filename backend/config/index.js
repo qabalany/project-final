@@ -7,7 +7,7 @@ dotenv.config();
 const config = {
     port: process.env.PORT || 8080,
     mongoUri: process.env.MONGO_URI,
-    jwtSecret: process.env.JWT_SECRET || 'fallback_secret',
+    jwtSecret: process.env.JWT_SECRET || (() => { console.warn('⚠️ JWT_SECRET not set — using fallback (dev only)'); return 'dev_fallback_secret_change_me'; })(),
     googleClientId: process.env.GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID',
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
     googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:8080/api/users/google/callback',
